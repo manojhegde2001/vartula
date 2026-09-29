@@ -1,0 +1,59 @@
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
+# Vartula
+
+Vartula is a multi-tool website (Next.js App Router, TypeScript, Tailwind v4, shadcn/ui on Base UI).
+Every tool runs fully client-side; nothing is uploaded to a server.
+
+## Rules
+
+- **Every tool lives in `src/tools/<slug>/`.** Nothing tool-specific goes anywhere else
+  except its one-line entries in `src/tools/registry.ts` and `src/tools/components.tsx`.
+- `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, category, icon }`).
+  The home page, `/tools/[slug]`, `sitemap.ts`, `robots.ts` and per-tool metadata all read from it.
+  Keep it free of React and browser imports.
+- Pure logic (no React, no DOM rendering) goes in the tool's `engine/` folder and gets Vitest tests.
+- Heavy, rarely used code (exporters, encoders, syntax highlighting) must be loaded with dynamic `import()`
+  so the initial tool bundle stays small.
+- Run `npm run build`, `npm run lint` and `npm test` before committing.
+
+## Structure
+
+```
+src/
+  app/                    routes: home, /tools/[slug], sitemap.ts, robots.ts, OG images
+  components/             site chrome (header, footer, tool grid, theme) and components/ui (shadcn)
+  lib/                    site config and shared utilities
+  tools/
+    registry.ts           tool metadata — the source of truth
+    components.tsx        slug -> server component that renders the tool page
+    svg-animator/
+      tool-page.tsx       server component: editor + SEO copy + FAQ
+      engine/             pure TS animation engine (parse, frame state, easing, exporters)
+      components/         client React UI for the editor
+      export/             browser-only video/GIF/PNG rendering (lazy-loaded)
+e2e/                      Playwright smoke tests
+```
+
+## Adding a tool
+
+1. Create `src/tools/<slug>/tool-page.tsx` (plus `engine/`, `components/` as needed).
+2. Add an entry to `tools` in `src/tools/registry.ts` (add an icon to `src/components/tool-icon.tsx` if new).
+3. Map the slug in `src/tools/components.tsx`.
+4. The home grid, route, sitemap, robots and metadata pick it up automatically.
+
+## Commands
+
+- `npm run dev` — dev server on http://localhost:3000
+- `npm run build` — production build
+- `npm test` — Vitest unit and snapshot tests
+- `npm run test:e2e` — Playwright smoke tests (builds and starts the app)
+- `npm run lint`, `npm run typecheck`
