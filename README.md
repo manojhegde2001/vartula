@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vartula
 
-## Getting Started
+A collection of free design tools that run entirely in the browser. The first tool is the
+**SVG Animator**: upload an SVG, tune a line-drawing animation, and export it as CSS, SMIL,
+React, vanilla JavaScript, GSAP, MP4, WebM, GIF or a PNG sequence.
 
-First, run the development server:
+## Run locally
+
+Requires Node.js 20.9 or newer.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev          # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build        # production build
+npm start            # serve the production build
+npm test             # Vitest unit and snapshot tests
+npm run test:e2e     # Playwright tests (builds and starts the app on port 3100)
+npm run lint
+npm run typecheck
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before the first e2e run, install the browser once: `npx playwright install chromium`.
 
-## Learn More
+Set `NEXT_PUBLIC_SITE_URL` (for example `https://vartula.app`) so canonical URLs, the sitemap
+and Open Graph images point at your domain.
 
-To learn more about Next.js, take a look at the following resources:
+## How the SVG Animator works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`src/tools/svg-animator/engine/` is a pure TypeScript animation engine and the single source
+of truth:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `parseSvg(markup)` returns the viewBox, size and every drawable element with its length.
+- `getFrameState(config, model, timeMs)` returns each element's `stroke-dasharray`,
+  `stroke-dashoffset` and `fill-opacity` at that moment.
+- `totalDuration(config, model)` returns the length of one pass.
 
-## Deploy on Vercel
+The live preview applies `getFrameState` in a `requestAnimationFrame` loop. Code exporters
+render a keyframe plan derived from the same functions (tests check that plan against
+`getFrameState`). Video, GIF and PNG export rasterize `getFrameState` frames with
+`renderFrame`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [AGENTS.md](AGENTS.md) for the project structure and conventions.

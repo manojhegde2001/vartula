@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80" width="240" height="160">
+  <title>E2E logo</title>
+  <rect x="8" y="8" width="104" height="64" rx="12" fill="#e0e7ff" stroke="#4f46e5" stroke-width="3"/>
+  <path d="M24 56 L44 24 L64 56 Z" fill="#c7d2fe" stroke="#4338ca" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="88" cy="40" r="14" fill="#a5b4fc" stroke="#312e81" stroke-width="3"/>
+</svg>

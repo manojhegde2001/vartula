@@ -1,7 +1,7 @@
 "use client";
 
-import { useId } from "react";
-import { RotateCcw } from "lucide-react";
+import { useId, useState } from "react";
+import { Check, Link2, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DIRECTIONS, easingLabel, easingNames, isSafeColor } from "../engine";
 import type { AnimationType, Direction, EasingName } from "../engine";
+import { encodeShareHash } from "../lib/share";
 import { useAnimatorStore, type ChannelName } from "../store";
 import { cn } from "@/lib/utils";
 
@@ -221,15 +222,34 @@ function BackgroundField() {
   );
 }
 
+function ShareButton() {
+  const [copied, setCopied] = useState(false);
+  const share = async () => {
+    const { config, source } = useAnimatorStore.getState();
+    const url = `${window.location.origin}${window.location.pathname}#${encodeShareHash(config, source?.sampleId)}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+  return (
+    <Button variant="ghost" size="sm" onClick={share} title="Copy a link to these settings">
+      {copied ? <Check /> : <Link2 />} {copied ? "Copied" : "Copy link"}
+    </Button>
+  );
+}
+
 export function Controls() {
   const resetConfig = useAnimatorStore((s) => s.resetConfig);
   return (
     <div className="space-y-6 rounded-xl border bg-card p-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <h2 className="font-semibold">Settings</h2>
-        <Button variant="ghost" size="sm" onClick={resetConfig}>
-          <RotateCcw /> Reset
-        </Button>
+        <div className="flex gap-1">
+          <ShareButton />
+          <Button variant="ghost" size="sm" onClick={resetConfig}>
+            <RotateCcw /> Reset
+          </Button>
+        </div>
       </div>
       <TypeToggle />
       <Tabs defaultValue="stroke">

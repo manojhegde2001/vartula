@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTool, toolPath, tools } from "@/tools/registry";
+import { JsonLd } from "@/components/json-ld";
+import { toolJsonLd, toolMetadata } from "@/lib/seo";
+import { getTool, tools } from "@/tools/registry";
 import { toolComponents } from "@/tools/components";
 
 export const dynamicParams = false;
@@ -11,12 +13,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/tools/[slug]">): Promise<Metadata> {
   const tool = getTool((await params).slug);
-  if (!tool) return {};
-  return {
-    title: tool.name,
-    description: tool.description,
-    alternates: { canonical: toolPath(tool.slug) },
-  };
+  return tool ? toolMetadata(tool) : {};
 }
 
 export default async function ToolPage({ params }: PageProps<"/tools/[slug]">) {
@@ -27,6 +24,7 @@ export default async function ToolPage({ params }: PageProps<"/tools/[slug]">) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <JsonLd data={toolJsonLd(tool)} />
       <header className="mb-6 space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">{tool.name}</h1>
         <p className="max-w-3xl text-muted-foreground">{tool.description}</p>

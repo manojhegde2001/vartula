@@ -23,6 +23,8 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 - Pure logic (no React, no DOM rendering) goes in the tool's `engine/` folder and gets Vitest tests.
 - Heavy, rarely used code (exporters, encoders, syntax highlighting) must be loaded with dynamic `import()`
   so the initial tool bundle stays small.
+- SVG Animator: the engine is the single source of truth. The preview, code exporters and
+  video export must all derive values from `getFrameState` / `buildPlan`; never re-implement timing.
 - Run `npm run build`, `npm run lint` and `npm test` before committing.
 
 ## Structure
@@ -36,11 +38,16 @@ src/
     registry.ts           tool metadata — the source of truth
     components.tsx        slug -> server component that renders the tool page
     svg-animator/
-      tool-page.tsx       server component: editor + SEO copy + FAQ
-      engine/             pure TS animation engine (parse, frame state, easing, exporters)
+      tool-page.tsx       server component: editor + SEO copy + FAQ (+ FAQPage JSON-LD)
+      content.ts          FAQ and how-to copy
+      samples.ts          built-in sample SVGs
+      store.ts            Zustand store (config + loaded SVG)
+      engine/             pure TS animation engine: parseSvg, getFrameState, totalDuration, easing
+        exporters/        toCss, toSmil, toReact, toVanillaJs, toGsap (all render plan.ts)
+      lib/                browser helpers: DOMPurify sanitizing, Shiki highlighting, share hash
       components/         client React UI for the editor
-      export/             browser-only video/GIF/PNG rendering (lazy-loaded)
-e2e/                      Playwright smoke tests
+      export/             browser-only renderFrame + MP4/WebM/GIF/PNG encoders (lazy-loaded)
+e2e/                      Playwright smoke and integration tests
 ```
 
 ## Adding a tool

@@ -1,8 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { ClipboardPaste, FileUp, TriangleAlert, X } from "lucide-react";
+import { ClipboardPaste, FileUp, Shapes, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { MAX_SVG_BYTES } from "../lib/sanitize";
+import { samples } from "../samples";
 import { useAnimatorStore } from "../store";
 import { cn } from "@/lib/utils";
 
@@ -81,7 +83,25 @@ export function SourcePanel() {
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap justify-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
+              <Shapes /> Samples
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {samples.map((s) => (
+                <DropdownMenuItem
+                  key={s.id}
+                  onClick={() => {
+                    setFileError(null);
+                    loadMarkup(s.markup, s.name, s.id);
+                  }}
+                >
+                  {s.name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button variant="outline" size="sm" onClick={() => inputRef.current?.click()}>
             <FileUp /> Upload SVG
           </Button>

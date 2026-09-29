@@ -1,10 +1,22 @@
 import { ChevronDown } from "lucide-react";
+import { JsonLd } from "@/components/json-ld";
 import { SvgAnimatorEditor } from "./components/editor";
 import { faq, howToSteps } from "./content";
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
 
 export default function SvgAnimatorToolPage() {
   return (
     <>
+      <JsonLd data={faqJsonLd} />
       <SvgAnimatorEditor />
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2">

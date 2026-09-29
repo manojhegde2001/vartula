@@ -10,6 +10,8 @@ export interface SvgSource {
   markup: string;
   model: SvgModel;
   name: string;
+  /** Set when the SVG is a built-in sample (so share links can reference it). */
+  sampleId: string | null;
 }
 
 interface AnimatorState {
@@ -25,7 +27,7 @@ interface AnimatorState {
   setConfig: (config: AnimatorConfig) => void;
   resetConfig: () => void;
   /** Sanitize, parse and load SVG markup. Returns false and sets `error` on failure. */
-  loadMarkup: (raw: string, name: string) => boolean;
+  loadMarkup: (raw: string, name: string, sampleId?: string) => boolean;
   clearError: () => void;
 }
 
@@ -42,10 +44,14 @@ export const useAnimatorStore = create<AnimatorState>()((set) => ({
   setConfig: (config) => set({ config }),
   resetConfig: () => set({ config: defaultConfig }),
 
-  loadMarkup: (raw, name) => {
+  loadMarkup: (raw, name, sampleId) => {
     try {
       const { markup, model } = loadSvg(raw);
-      set((s) => ({ source: { markup, model, name }, error: null, sourceVersion: s.sourceVersion + 1 }));
+      set((s) => ({
+        source: { markup, model, name, sampleId: sampleId ?? null },
+        error: null,
+        sourceVersion: s.sourceVersion + 1,
+      }));
       return true;
     } catch (err) {
       const message =
