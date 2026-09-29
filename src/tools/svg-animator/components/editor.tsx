@@ -5,6 +5,7 @@ import { defaultSample } from "../samples";
 import { useAnimatorStore } from "../store";
 import { CodeExport } from "./code-export";
 import { Controls } from "./controls";
+import { MediaExportButton } from "./media-export-button";
 import { Preview } from "./preview";
 import { SourcePanel } from "./source-panel";
 
@@ -23,6 +24,9 @@ export function SvgAnimatorEditor() {
         <div className="min-w-0 space-y-4">
           <SourcePanel />
           <Preview />
+          <div className="flex justify-end">
+            <MediaExportButton />
+          </div>
         </div>
         <Controls />
       </div>
