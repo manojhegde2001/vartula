@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ClipboardPaste, FileUp, Shapes, TriangleAlert, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -39,6 +39,18 @@ export function SourcePanel() {
     if (file.size > MAX_SVG_BYTES) return setFileError("That SVG is larger than 5 MB.");
     loadMarkup(await file.text(), file.name.replace(/\.svg$/i, ""));
   };
+
+  // A file picked before hydration never fired React's onChange; load it now.
+  // (The async read also lands after the editor's default sample, so it wins.)
+  useEffect(() => {
+    const pending = inputRef.current?.files?.[0];
+    if (!pending) return;
+    queueMicrotask(() => {
+      void readFile(pending);
+      if (inputRef.current) inputRef.current.value = "";
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount
+  }, []);
 
   const shownError = fileError ?? error;
 

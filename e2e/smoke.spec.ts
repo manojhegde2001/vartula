@@ -52,3 +52,19 @@ test("upload an SVG, then export CSS and MP4", async ({ page }) => {
   expect(mp4Bytes.subarray(4, 8).toString("latin1")).toBe("ftyp");
   await expect(dialog.getByTestId("export-done")).toContainText("logo.mp4");
 });
+
+test("a file chosen before the page finishes loading is still used", async ({ page }) => {
+  // Hold back the JavaScript so the file input changes before React hydrates.
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => (release = resolve));
+  await page.route(/\/_next\/static\/chunks\/[^?]*\.js(\?.*)?$/, async (route) => {
+    await gate;
+    await route.continue();
+  });
+  await page.goto("/tools/svg-animator", { waitUntil: "commit" });
+  await page.getByTestId("file-input").waitFor({ state: "attached" });
+  await page.getByTestId("file-input").setInputFiles(fixture);
+  release();
+  await expect(page.getByText("3 shapes")).toBeVisible();
+  await expect(page.getByText(/Editing\s*logo/)).toBeVisible();
+});
