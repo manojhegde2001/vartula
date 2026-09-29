@@ -6,11 +6,14 @@ export { pathLength, parsePathData } from "./geometry";
 export {
   getFrameState,
   totalDuration,
+  loopDuration,
   channelSpan,
   channelTime,
   elementProgress,
   elementWindow,
   dashLength,
+  hiddenDashOffset,
+  HIDDEN_OFFSET_RATIO,
   DASH_PAD_RATIO,
 } from "./timeline";
 export { applyFrame } from "./apply";

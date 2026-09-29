@@ -22,11 +22,28 @@ const round = (n: number, places: number) => {
   const r = Math.round(n * 10 ** places) / 10 ** places;
   return r === 0 ? 0 : r; // normalize -0
 };
+/** 6 significant digits: stable output that stays precise for tiny and huge shapes alike. */
+const sig = (n: number) => {
+  const r = Number(n.toPrecision(6));
+  return r === 0 ? 0 : r;
+};
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+/**
+ * Extra offset for the fully hidden state. A dash ending exactly at the path start
+ * still paints a dot with round or square linecaps, so "hidden" pushes the dash
+ * slightly past it, into the gap (which the dash pad leaves room for).
+ */
+export const HIDDEN_OFFSET_RATIO = 0.005;
 
 /** Length of one dash (and one gap) for an element of the given length. */
 export function dashLength(length: number): number {
-  return length > 0 ? round(length * (1 + DASH_PAD_RATIO), 3) : 0;
+  return length > 0 ? sig(length * (1 + DASH_PAD_RATIO)) : 0;
+}
+
+/** stroke-dashoffset at which an element's stroke is completely hidden (progress 0). */
+export function hiddenDashOffset(length: number): number {
+  return sig(dashLength(length) * (1 + HIDDEN_OFFSET_RATIO));
 }
 
 /** Duration of one channel's sequence, or 0 when disabled / empty. */
@@ -42,6 +59,21 @@ export function channelSpan(channel: ChannelConfig, count: number): number {
 export function totalDuration(config: AnimatorConfig, model: SvgModel): number {
   const n = model.elements.length;
   return Math.max(channelSpan(config.stroke, n), channelSpan(config.fill, n));
+}
+
+/**
+ * Time until the animation looks the same again: the whole transition, one cycle
+ * for a looping animation, or two cycles when a looping channel alternates.
+ * The preview scrubber and video export cover exactly this range.
+ */
+export function loopDuration(config: AnimatorConfig, model: SvgModel): number {
+  const cycle = totalDuration(config, model);
+  if (config.type === "transition") return cycle;
+  const n = model.elements.length;
+  const alternates = [config.stroke, config.fill].some(
+    (c) => channelSpan(c, n) > 0 && (c.direction === "alternate" || c.direction === "alternate-reverse"),
+  );
+  return alternates ? cycle * 2 : cycle;
 }
 
 /** Start/end of element `index` within the (un-mirrored) cycle. */
@@ -100,7 +132,7 @@ export function getFrameState(config: AnimatorConfig, model: SvgModel, timeMs: n
     if (config.stroke.enabled && el.length > 0) {
       const dash = dashLength(el.length);
       strokeDasharray = `${dash} ${dash}`;
-      strokeDashoffset = round(dash * (1 - elementProgress(config.stroke, i, ts)), 3);
+      strokeDashoffset = sig(hiddenDashOffset(el.length) * (1 - elementProgress(config.stroke, i, ts)));
     }
     const fillOpacity = config.fill.enabled
       ? round(el.fillOpacity * elementProgress(config.fill, i, tf), 4)

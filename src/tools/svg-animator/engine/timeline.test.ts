@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { defaultConfig, normalizeConfig } from "./config";
 import { parseSvg } from "./parse";
-import { dashLength, getFrameState, totalDuration } from "./timeline";
+import { dashLength, getFrameState, hiddenDashOffset, loopDuration, totalDuration } from "./timeline";
 import type { AnimatorConfig, ChannelConfig, SvgModel } from "./types";
 
 const channel = (over: Partial<ChannelConfig> = {}): ChannelConfig => ({
@@ -32,8 +32,8 @@ const model = (lengths: number[]): SvgModel => ({
 /** Fraction of each element's stroke that is drawn. */
 const drawn = (cfg: AnimatorConfig, m: SvgModel, t: number) =>
   getFrameState(cfg, m, t).map((f, i) => {
-    const dash = dashLength(m.elements[i].length);
-    return f.strokeDasharray === "none" ? 1 : Number((1 - f.strokeDashoffset / dash).toFixed(3));
+    const hidden = hiddenDashOffset(m.elements[i].length);
+    return f.strokeDasharray === "none" ? 1 : Number((1 - f.strokeDashoffset / hidden).toFixed(3));
   });
 
 describe("totalDuration", () => {
@@ -60,8 +60,10 @@ describe("getFrameState", () => {
     const [start] = getFrameState(config(), m, 0);
     const dash = dashLength(100);
     expect(dash).toBe(101);
-    expect(start).toEqual({ strokeDasharray: "101 101", strokeDashoffset: 101, fillOpacity: 1 });
-    expect(getFrameState(config(), m, 500)[0].strokeDashoffset).toBe(50.5);
+    // Hidden = dash + 0.5%, so a round linecap cannot leave a dot at the path start.
+    expect(hiddenDashOffset(100)).toBe(101.505);
+    expect(start).toEqual({ strokeDasharray: "101 101", strokeDashoffset: 101.505, fillOpacity: 1 });
+    expect(getFrameState(config(), m, 500)[0].strokeDashoffset).toBeCloseTo(50.75, 2);
     expect(getFrameState(config(), m, 1000)[0].strokeDashoffset).toBe(0);
   });
 
@@ -179,7 +181,7 @@ describe("getFrameState", () => {
     for (let t = 0; t <= 1000; t += 50) {
       const [f] = getFrameState(cfg, m, t);
       expect(f.strokeDashoffset).toBeGreaterThanOrEqual(0);
-      expect(f.strokeDashoffset).toBeLessThanOrEqual(dashLength(100));
+      expect(f.strokeDashoffset).toBeLessThanOrEqual(hiddenDashOffset(100));
       expect(f.fillOpacity).toBeLessThanOrEqual(1);
       expect(f.fillOpacity).toBeGreaterThanOrEqual(0);
     }
@@ -209,5 +211,29 @@ describe("normalizeConfig", () => {
     expect(cfg.stroke.direction).toBe("normal");
     expect(cfg.background).toBe(defaultConfig.background);
     expect(normalizeConfig({ background: "rgba(0, 0, 0, 0.5)" }).background).toBe("rgba(0, 0, 0, 0.5)");
+  });
+});
+
+describe("loopDuration", () => {
+  it("covers one cycle, or two when a looping channel alternates", () => {
+    const m = model([10, 10]);
+    const base = config({ stroke: channel({ stagger: 500 }) });
+    expect(loopDuration(base, m)).toBe(1500);
+    expect(loopDuration({ ...base, type: "animation" }, m)).toBe(1500);
+    const alt = { ...base, type: "animation" as const, stroke: channel({ stagger: 500, direction: "alternate" as const }) };
+    expect(loopDuration(alt, m)).toBe(3000);
+    // Transitions never alternate.
+    expect(loopDuration({ ...alt, type: "transition" }, m)).toBe(1500);
+  });
+});
+
+describe("dash geometry", () => {
+  it.each([0.01, 1, 7.3, 100, 12345.678])("hides the whole stroke, caps included, for length %f", (length) => {
+    const dash = dashLength(length);
+    const hidden = hiddenDashOffset(length);
+    // Path start sits strictly inside the gap (no zero-length dash to paint a cap)...
+    expect(hidden).toBeGreaterThan(dash);
+    // ...and so does the path end (the next dash never wraps into view).
+    expect(hidden + length).toBeLessThan(2 * dash);
   });
 });
