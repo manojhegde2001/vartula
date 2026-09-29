@@ -1,0 +1,457 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`exporters (looping) > toCss minified 1`] = `".vartula-svg .vt-0{stroke-dasharray:80.8 80.8;stroke-dashoffset:81.204;fill-opacity:0;animation:vt-0-stroke 2800ms linear infinite both,vt-0-fill 2800ms linear infinite both}@keyframes vt-0-stroke{0%{stroke-dashoffset:81.204;animation-timing-function:linear(0,0.185,0.3489,0.4929,0.6182,0.726,0.8174,0.8936,0.9558,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)}28.5714%{stroke-dashoffset:0}50%{stroke-dashoffset:0}71.4286%{stroke-dashoffset:0;animation-timing-function:linear(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0442,0.1064,0.1826,0.274,0.3818,0.5071,0.6511,0.815,1)}100%{stroke-dashoffset:81.204}}@keyframes vt-0-fill{0%{fill-opacity:0}21.4286%{fill-opacity:0;animation-timing-function:linear}35.7143%{fill-opacity:0.5}50%{fill-opacity:0.5}50.001%{fill-opacity:0}71.4286%{fill-opacity:0;animation-timing-function:linear}85.7143%{fill-opacity:0.5}100%{fill-opacity:0.5}}.vartula-svg .vt-1{stroke-dasharray:95.1903 95.1903;stroke-dashoffset:95.6663;fill-opacity:0;animation:vt-1-stroke 2800ms linear infinite both,vt-1-fill 2800ms linear infinite both}@keyframes vt-1-stroke{0%{stroke-dashoffset:95.6663}7.1429%{stroke-dashoffset:95.6663;animation-timing-function:linear(0,0.185,0.3489,0.4929,0.6182,0.726,0.8174,0.8936,0.9558,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)}35.7143%{stroke-dashoffset:0}50%{stroke-dashoffset:0}64.2857%{stroke-dashoffset:0;animation-timing-function:linear(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0442,0.1064,0.1826,0.274,0.3818,0.5071,0.6511,0.815,1)}92.8571%{stroke-dashoffset:95.6663}100%{stroke-dashoffset:95.6663}}@keyframes vt-1-fill{0%{fill-opacity:0}21.4286%{fill-opacity:0;animation-timing-function:linear}35.7143%{fill-opacity:0.6}50%{fill-opacity:0.6}50.001%{fill-opacity:0}71.4286%{fill-opacity:0;animation-timing-function:linear}85.7143%{fill-opacity:0.6}100%{fill-opacity:0.6}}.vartula-svg .vt-2{fill-opacity:0;animation:vt-2-fill 2800ms linear infinite both}@keyframes vt-2-fill{0%{fill-opacity:0}21.4286%{fill-opacity:0;animation-timing-function:linear}35.7143%{fill-opacity:1}50%{fill-opacity:1}50.001%{fill-opacity:0}71.4286%{fill-opacity:0;animation-timing-function:linear}85.7143%{fill-opacity:1}100%{fill-opacity:1}}.vartula-svg .vt-3{stroke-dasharray:42.8507 42.8507;stroke-dashoffset:43.065;fill-opacity:0;animation:vt-3-stroke 2800ms linear infinite both,vt-3-fill 2800ms linear infinite both}@keyframes vt-3-stroke{0%{stroke-dashoffset:43.065}21.4286%{stroke-dashoffset:43.065;animation-timing-function:linear(0,0.185,0.3489,0.4929,0.6182,0.726,0.8174,0.8936,0.9558,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)}50%{stroke-dashoffset:0;animation-timing-function:linear(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0442,0.1064,0.1826,0.274,0.3818,0.5071,0.6511,0.815,1)}78.5714%{stroke-dashoffset:43.065}100%{stroke-dashoffset:43.065}}@keyframes vt-3-fill{0%{fill-opacity:0}21.4286%{fill-opacity:0;animation-timing-function:linear}35.7143%{fill-opacity:1}50%{fill-opacity:1}50.001%{fill-opacity:0}71.4286%{fill-opacity:0;animation-timing-function:linear}85.7143%{fill-opacity:1}100%{fill-opacity:1}}"`;
+
+exports[`exporters (looping) > toCss pretty 1`] = `
+"/* Vartula SVG Animator (CSS animation, 2.8s loop)
+   Use with the SVG from the "SVG" tab. */
+
+.vartula-svg .vt-0 {
+  stroke-dasharray: 80.8 80.8;
+  stroke-dashoffset: 81.204;
+  fill-opacity: 0;
+  animation: vt-0-stroke 2800ms linear infinite both,
+    vt-0-fill 2800ms linear infinite both;
+}
+
+@keyframes vt-0-stroke {
+  0% { stroke-dashoffset: 81.204; animation-timing-function: linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1); }
+  28.5714% { stroke-dashoffset: 0; }
+  50% { stroke-dashoffset: 0; }
+  71.4286% { stroke-dashoffset: 0; animation-timing-function: linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1); }
+  100% { stroke-dashoffset: 81.204; }
+}
+
+@keyframes vt-0-fill {
+  0% { fill-opacity: 0; }
+  21.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  35.7143% { fill-opacity: 0.5; }
+  50% { fill-opacity: 0.5; }
+  50.001% { fill-opacity: 0; }
+  71.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  85.7143% { fill-opacity: 0.5; }
+  100% { fill-opacity: 0.5; }
+}
+
+.vartula-svg .vt-1 {
+  stroke-dasharray: 95.1903 95.1903;
+  stroke-dashoffset: 95.6663;
+  fill-opacity: 0;
+  animation: vt-1-stroke 2800ms linear infinite both,
+    vt-1-fill 2800ms linear infinite both;
+}
+
+@keyframes vt-1-stroke {
+  0% { stroke-dashoffset: 95.6663; }
+  7.1429% { stroke-dashoffset: 95.6663; animation-timing-function: linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1); }
+  35.7143% { stroke-dashoffset: 0; }
+  50% { stroke-dashoffset: 0; }
+  64.2857% { stroke-dashoffset: 0; animation-timing-function: linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1); }
+  92.8571% { stroke-dashoffset: 95.6663; }
+  100% { stroke-dashoffset: 95.6663; }
+}
+
+@keyframes vt-1-fill {
+  0% { fill-opacity: 0; }
+  21.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  35.7143% { fill-opacity: 0.6; }
+  50% { fill-opacity: 0.6; }
+  50.001% { fill-opacity: 0; }
+  71.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  85.7143% { fill-opacity: 0.6; }
+  100% { fill-opacity: 0.6; }
+}
+
+.vartula-svg .vt-2 {
+  fill-opacity: 0;
+  animation: vt-2-fill 2800ms linear infinite both;
+}
+
+@keyframes vt-2-fill {
+  0% { fill-opacity: 0; }
+  21.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  35.7143% { fill-opacity: 1; }
+  50% { fill-opacity: 1; }
+  50.001% { fill-opacity: 0; }
+  71.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  85.7143% { fill-opacity: 1; }
+  100% { fill-opacity: 1; }
+}
+
+.vartula-svg .vt-3 {
+  stroke-dasharray: 42.8507 42.8507;
+  stroke-dashoffset: 43.065;
+  fill-opacity: 0;
+  animation: vt-3-stroke 2800ms linear infinite both,
+    vt-3-fill 2800ms linear infinite both;
+}
+
+@keyframes vt-3-stroke {
+  0% { stroke-dashoffset: 43.065; }
+  21.4286% { stroke-dashoffset: 43.065; animation-timing-function: linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1); }
+  50% { stroke-dashoffset: 0; animation-timing-function: linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1); }
+  78.5714% { stroke-dashoffset: 43.065; }
+  100% { stroke-dashoffset: 43.065; }
+}
+
+@keyframes vt-3-fill {
+  0% { fill-opacity: 0; }
+  21.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  35.7143% { fill-opacity: 1; }
+  50% { fill-opacity: 1; }
+  50.001% { fill-opacity: 0; }
+  71.4286% { fill-opacity: 0; animation-timing-function: linear; }
+  85.7143% { fill-opacity: 1; }
+  100% { fill-opacity: 1; }
+}
+"
+`;
+
+exports[`exporters (looping) > toGsap minified 1`] = `"(function () {const svg = document.querySelector(".vartula-svg");if (!svg) return;const el = function (i) { return svg.querySelector(".vt-" + i); };const clamp = function (ease) { return function (p) { return Math.min(1, Math.max(0, ease(p))); }; };const tl = gsap.timeline({ repeat: -1 });tl.set(el(0), { strokeDasharray: "80.8 80.8", strokeDashoffset: 81.204, fillOpacity: 0 }, 0);tl.fromTo(el(0), { strokeDashoffset: 81.204 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0);tl.fromTo(el(0), { strokeDashoffset: 0 }, { strokeDashoffset: 81.204, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 2);tl.fromTo(el(0), { fillOpacity: 0 }, { fillOpacity: 0.5, duration: 0.4, ease: "none", immediateRender: false }, 0.6);tl.set(el(0), { fillOpacity: 0 }, 1.4);tl.fromTo(el(0), { fillOpacity: 0 }, { fillOpacity: 0.5, duration: 0.4, ease: "none", immediateRender: false }, 2);tl.set(el(1), { strokeDasharray: "95.1903 95.1903", strokeDashoffset: 95.6663, fillOpacity: 0 }, 0);tl.fromTo(el(1), { strokeDashoffset: 95.6663 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0.2);tl.fromTo(el(1), { strokeDashoffset: 0 }, { strokeDashoffset: 95.6663, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 1.8);tl.fromTo(el(1), { fillOpacity: 0 }, { fillOpacity: 0.6, duration: 0.4, ease: "none", immediateRender: false }, 0.6);tl.set(el(1), { fillOpacity: 0 }, 1.4);tl.fromTo(el(1), { fillOpacity: 0 }, { fillOpacity: 0.6, duration: 0.4, ease: "none", immediateRender: false }, 2);tl.set(el(2), { fillOpacity: 0 }, 0);tl.fromTo(el(2), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 0.6);tl.set(el(2), { fillOpacity: 0 }, 1.4);tl.fromTo(el(2), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 2);tl.set(el(3), { strokeDasharray: "42.8507 42.8507", strokeDashoffset: 43.065, fillOpacity: 0 }, 0);tl.fromTo(el(3), { strokeDashoffset: 43.065 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0.6);tl.fromTo(el(3), { strokeDashoffset: 0 }, { strokeDashoffset: 43.065, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 1.4);tl.fromTo(el(3), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 0.6);tl.set(el(3), { fillOpacity: 0 }, 1.4);tl.fromTo(el(3), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 2);tl.set({}, {}, 2.8);window.vartulaTimeline = tl;})();"`;
+
+exports[`exporters (looping) > toGsap pretty 1`] = `
+"// Vartula SVG Animator (GSAP 3)
+// Load GSAP first: <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+// Paste the SVG from the "SVG" tab into your page, then run this script.
+(function () {
+  const svg = document.querySelector(".vartula-svg");
+  if (!svg) return;
+  const el = function (i) { return svg.querySelector(".vt-" + i); };
+  const clamp = function (ease) { return function (p) { return Math.min(1, Math.max(0, ease(p))); }; };
+  const tl = gsap.timeline({ repeat: -1 });
+  tl.set(el(0), { strokeDasharray: "80.8 80.8", strokeDashoffset: 81.204, fillOpacity: 0 }, 0);
+  tl.fromTo(el(0), { strokeDashoffset: 81.204 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0);
+  tl.fromTo(el(0), { strokeDashoffset: 0 }, { strokeDashoffset: 81.204, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 2);
+  tl.fromTo(el(0), { fillOpacity: 0 }, { fillOpacity: 0.5, duration: 0.4, ease: "none", immediateRender: false }, 0.6);
+  tl.set(el(0), { fillOpacity: 0 }, 1.4);
+  tl.fromTo(el(0), { fillOpacity: 0 }, { fillOpacity: 0.5, duration: 0.4, ease: "none", immediateRender: false }, 2);
+  tl.set(el(1), { strokeDasharray: "95.1903 95.1903", strokeDashoffset: 95.6663, fillOpacity: 0 }, 0);
+  tl.fromTo(el(1), { strokeDashoffset: 95.6663 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0.2);
+  tl.fromTo(el(1), { strokeDashoffset: 0 }, { strokeDashoffset: 95.6663, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 1.8);
+  tl.fromTo(el(1), { fillOpacity: 0 }, { fillOpacity: 0.6, duration: 0.4, ease: "none", immediateRender: false }, 0.6);
+  tl.set(el(1), { fillOpacity: 0 }, 1.4);
+  tl.fromTo(el(1), { fillOpacity: 0 }, { fillOpacity: 0.6, duration: 0.4, ease: "none", immediateRender: false }, 2);
+  tl.set(el(2), { fillOpacity: 0 }, 0);
+  tl.fromTo(el(2), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 0.6);
+  tl.set(el(2), { fillOpacity: 0 }, 1.4);
+  tl.fromTo(el(2), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 2);
+  tl.set(el(3), { strokeDasharray: "42.8507 42.8507", strokeDashoffset: 43.065, fillOpacity: 0 }, 0);
+  tl.fromTo(el(3), { strokeDashoffset: 43.065 }, { strokeDashoffset: 0, duration: 0.8, ease: clamp(gsap.parseEase("back.out(1.70158)")), immediateRender: false }, 0.6);
+  tl.fromTo(el(3), { strokeDashoffset: 0 }, { strokeDashoffset: 43.065, duration: 0.8, ease: clamp(gsap.parseEase("back.in(1.70158)")), immediateRender: false }, 1.4);
+  tl.fromTo(el(3), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 0.6);
+  tl.set(el(3), { fillOpacity: 0 }, 1.4);
+  tl.fromTo(el(3), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.4, ease: "none", immediateRender: false }, 2);
+  // Pad the timeline to the full loop length.
+  tl.set({}, {}, 2.8);
+  window.vartulaTimeline = tl;
+})();
+"
+`;
+
+exports[`exporters (looping) > toReact minified 1`] = `""use client";import { useEffect, useRef } from "react";const SVG_MARKUP = "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 60\\" fill=\\"none\\" stroke=\\"#333\\" class=\\"vartula-svg\\"><path d=\\"M10 10 H90\\" style=\\"stroke-width: 2\\" class=\\"vt-0\\"/><g fill-opacity=\\"0.6\\"><circle cx=\\"30\\" cy=\\"35\\" r=\\"15\\" fill=\\"#fc0\\" class=\\"vt-1\\"/></g><path d=\\"M50 50\\" class=\\"vt-2\\"/><line x1=\\"60\\" y1=\\"20\\" x2=\\"90\\" y2=\\"50\\" class=\\"vt-3\\"/></svg>";const DURATION = 2800;const LOOP = true;const DASH: (string | null)[] = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];const TRACKS: [number, "strokeDashoffset" | "fillOpacity", [number, number, string?][]][] = [[0, "strokeDashoffset", [[0, 81.204, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.285714, 0], [0.5, 0], [0.714286, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [1, 81.204]]],[0, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.5], [0.5, 0.5], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.5], [1, 0.5]]],[1, "strokeDashoffset", [[0, 95.6663], [0.071429, 95.6663, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.357143, 0], [0.5, 0], [0.642857, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.928571, 95.6663], [1, 95.6663]]],[1, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.6], [0.5, 0.6], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.6], [1, 0.6]]],[2, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]],[3, "strokeDashoffset", [[0, 43.065], [0.214286, 43.065, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.5, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.785714, 43.065], [1, 43.065]]],[3, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]]];export default function AnimatedSvg({ className }: { className?: string }) {const ref = useRef<HTMLDivElement>(null);useEffect(() => {const svg = ref.current?.querySelector("svg");if (!svg) return;DASH.forEach((value, index) => {const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`);if (value && el) el.style.strokeDasharray = value;});if (DURATION <= 0) return;const animations = TRACKS.map(([index, property, stops]) => {const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`)!;const keyframes = stops.map(([offset, value, easing]) => ({ offset, easing: easing ?? "linear", [property]: String(value) }));return el.animate(keyframes, { duration: DURATION, iterations: LOOP ? Infinity : 1, fill: "both" });});return () => animations.forEach((a) => a.cancel());}, []);return <div ref={ref} className={className} dangerouslySetInnerHTML={{ __html: SVG_MARKUP }} />;}"`;
+
+exports[`exporters (looping) > toReact pretty 1`] = `
+"// Vartula SVG Animator (React component, Web Animations API)
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const SVG_MARKUP = "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 60\\" fill=\\"none\\" stroke=\\"#333\\" class=\\"vartula-svg\\">\\n  <path d=\\"M10 10 H90\\" style=\\"stroke-width: 2\\" class=\\"vt-0\\"/>\\n  <g fill-opacity=\\"0.6\\"><circle cx=\\"30\\" cy=\\"35\\" r=\\"15\\" fill=\\"#fc0\\" class=\\"vt-1\\"/></g>\\n  <path d=\\"M50 50\\" class=\\"vt-2\\"/>\\n  <line x1=\\"60\\" y1=\\"20\\" x2=\\"90\\" y2=\\"50\\" class=\\"vt-3\\"/>\\n</svg>";
+const DURATION = 2800;
+const LOOP = true;
+const DASH: (string | null)[] = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];
+// [element index, property, [[offset, value, easing], ...]]
+const TRACKS: [number, "strokeDashoffset" | "fillOpacity", [number, number, string?][]][] = [
+  [0, "strokeDashoffset", [[0, 81.204, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.285714, 0], [0.5, 0], [0.714286, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [1, 81.204]]],
+  [0, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.5], [0.5, 0.5], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.5], [1, 0.5]]],
+  [1, "strokeDashoffset", [[0, 95.6663], [0.071429, 95.6663, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.357143, 0], [0.5, 0], [0.642857, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.928571, 95.6663], [1, 95.6663]]],
+  [1, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.6], [0.5, 0.6], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.6], [1, 0.6]]],
+  [2, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]],
+  [3, "strokeDashoffset", [[0, 43.065], [0.214286, 43.065, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.5, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.785714, 43.065], [1, 43.065]]],
+  [3, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]]
+];
+
+export default function AnimatedSvg({ className }: { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const svg = ref.current?.querySelector("svg");
+    if (!svg) return;
+    DASH.forEach((value, index) => {
+      const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`);
+      if (value && el) el.style.strokeDasharray = value;
+    });
+    if (DURATION <= 0) return;
+    const animations = TRACKS.map(([index, property, stops]) => {
+      const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`)!;
+      const keyframes = stops.map(([offset, value, easing]) => ({ offset, easing: easing ?? "linear", [property]: String(value) }));
+      return el.animate(keyframes, { duration: DURATION, iterations: LOOP ? Infinity : 1, fill: "both" });
+    });
+    return () => animations.forEach((a) => a.cancel());
+  }, []);
+
+  return <div ref={ref} className={className} dangerouslySetInnerHTML={{ __html: SVG_MARKUP }} />;
+}
+"
+`;
+
+exports[`exporters (looping) > toSmil minified 1`] = `"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke="#333" class="vartula-svg"><path d="M10 10 H90" style="stroke-width: 2" class="vt-0" stroke-dasharray="80.8 80.8" stroke-dashoffset="81.204" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.0119;0.02381;0.03571;0.04762;0.05952;0.07143;0.08333;0.09524;0.10714;0.11905;0.13095;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.5;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;0.79762;0.80952;0.82143;0.83333;0.84524;0.85714;0.86905;0.88095;0.89286;0.90476;0.91667;0.92857;0.94048;0.95238;0.96429;0.97619;0.9881;1" values="81.204;66.183;52.8723;41.1765;31.0006;22.2491;14.8271;8.6391;3.5901;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;3.5901;8.6391;14.8271;22.2491;31.0006;41.1765;52.8723;66.183;81.204"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;0.5;0.5;0;0;0.5;0.5"/></path><g fill-opacity="0.6"><circle cx="30" cy="35" r="15" fill="#fc0" class="vt-1" stroke-dasharray="95.1903 95.1903" stroke-dashoffset="95.6663" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.07143;0.08333;0.09524;0.10714;0.11905;0.13095;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.5;0.64286;0.65476;0.66667;0.67857;0.69048;0.70238;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;0.79762;0.80952;0.82143;0.83333;0.84524;0.85714;0.86905;0.88095;0.89286;0.90476;0.91667;0.92857;1" values="95.6663;95.6663;77.9701;62.2888;48.51;36.5217;26.2117;17.4677;10.1777;4.2294;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;4.2294;10.1777;17.4677;26.2117;36.5217;48.51;62.2888;77.9701;95.6663;95.6663"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;0.6;0.6;0;0;0.6;0.6"/></circle></g><path d="M50 50" class="vt-2" fill-opacity="0"><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;1;1;0;0;1;1"/></path><line x1="60" y1="20" x2="90" y2="50" class="vt-3" stroke-dasharray="42.8507 42.8507" stroke-dashoffset="43.065" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.36905;0.38095;0.39286;0.40476;0.41667;0.42857;0.44048;0.45238;0.46429;0.47619;0.4881;0.5;0.5119;0.52381;0.53571;0.54762;0.55952;0.57143;0.58333;0.59524;0.60714;0.61905;0.63095;0.64286;0.65476;0.66667;0.67857;0.69048;0.70238;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;1" values="43.065;43.065;35.0989;28.0398;21.8372;16.4406;11.7994;7.8633;4.5816;1.9039;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1.9039;4.5816;7.8633;11.7994;16.4406;21.8372;28.0398;35.0989;43.065;43.065"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;1;1;0;0;1;1"/></line></svg>"`;
+
+exports[`exporters (looping) > toSmil pretty 1`] = `
+"<!-- Vartula SVG Animator (SMIL, 2.8s loop) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke="#333" class="vartula-svg">
+  <path d="M10 10 H90" style="stroke-width: 2" class="vt-0" stroke-dasharray="80.8 80.8" stroke-dashoffset="81.204" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.0119;0.02381;0.03571;0.04762;0.05952;0.07143;0.08333;0.09524;0.10714;0.11905;0.13095;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.5;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;0.79762;0.80952;0.82143;0.83333;0.84524;0.85714;0.86905;0.88095;0.89286;0.90476;0.91667;0.92857;0.94048;0.95238;0.96429;0.97619;0.9881;1" values="81.204;66.183;52.8723;41.1765;31.0006;22.2491;14.8271;8.6391;3.5901;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;3.5901;8.6391;14.8271;22.2491;31.0006;41.1765;52.8723;66.183;81.204"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;0.5;0.5;0;0;0.5;0.5"/></path>
+  <g fill-opacity="0.6"><circle cx="30" cy="35" r="15" fill="#fc0" class="vt-1" stroke-dasharray="95.1903 95.1903" stroke-dashoffset="95.6663" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.07143;0.08333;0.09524;0.10714;0.11905;0.13095;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.5;0.64286;0.65476;0.66667;0.67857;0.69048;0.70238;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;0.79762;0.80952;0.82143;0.83333;0.84524;0.85714;0.86905;0.88095;0.89286;0.90476;0.91667;0.92857;1" values="95.6663;95.6663;77.9701;62.2888;48.51;36.5217;26.2117;17.4677;10.1777;4.2294;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;4.2294;10.1777;17.4677;26.2117;36.5217;48.51;62.2888;77.9701;95.6663;95.6663"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;0.6;0.6;0;0;0.6;0.6"/></circle></g>
+  <path d="M50 50" class="vt-2" fill-opacity="0"><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;1;1;0;0;1;1"/></path>
+  <line x1="60" y1="20" x2="90" y2="50" class="vt-3" stroke-dasharray="42.8507 42.8507" stroke-dashoffset="43.065" fill-opacity="0"><animate attributeName="stroke-dashoffset" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.36905;0.38095;0.39286;0.40476;0.41667;0.42857;0.44048;0.45238;0.46429;0.47619;0.4881;0.5;0.5119;0.52381;0.53571;0.54762;0.55952;0.57143;0.58333;0.59524;0.60714;0.61905;0.63095;0.64286;0.65476;0.66667;0.67857;0.69048;0.70238;0.71429;0.72619;0.7381;0.75;0.7619;0.77381;0.78571;1" values="43.065;43.065;35.0989;28.0398;21.8372;16.4406;11.7994;7.8633;4.5816;1.9039;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;1.9039;4.5816;7.8633;11.7994;16.4406;21.8372;28.0398;35.0989;43.065;43.065"/><animate attributeName="fill-opacity" dur="2800ms" repeatCount="indefinite" fill="freeze" calcMode="linear" keyTimes="0;0.21429;0.35714;0.5;0.5;0.71429;0.85714;1" values="0;0;1;1;0;0;1;1"/></line>
+</svg>
+"
+`;
+
+exports[`exporters (looping) > toVanillaJs minified 1`] = `"(function () {const svg = document.querySelector(".vartula-svg");if (!svg) return;const duration = 2800;const loop = true;const dash = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];const tracks = [[0, "strokeDashoffset", [[0, 81.204, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.285714, 0], [0.5, 0], [0.714286, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [1, 81.204]]],[0, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.5], [0.5, 0.5], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.5], [1, 0.5]]],[1, "strokeDashoffset", [[0, 95.6663], [0.071429, 95.6663, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.357143, 0], [0.5, 0], [0.642857, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.928571, 95.6663], [1, 95.6663]]],[1, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.6], [0.5, 0.6], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.6], [1, 0.6]]],[2, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]],[3, "strokeDashoffset", [[0, 43.065], [0.214286, 43.065, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.5, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.785714, 43.065], [1, 43.065]]],[3, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]]];dash.forEach(function (value, index) {if (value) svg.querySelector(".vt-" + index).style.strokeDasharray = value;});const animations = duration > 0 ? tracks.map(function (track) {const el = svg.querySelector(".vt-" + track[0]);const keyframes = track[2].map(function (stop) {const frame = { offset: stop[0], easing: stop[2] || "linear" };frame[track[1]] = String(stop[1]);return frame;});return el.animate(keyframes, { duration: duration, iterations: loop ? Infinity : 1, fill: "both" });}) : [];window.vartulaAnimation = {play: function () { animations.forEach(function (a) { a.play(); }); },pause: function () { animations.forEach(function (a) { a.pause(); }); },restart: function () { animations.forEach(function (a) { a.currentTime = 0; a.play(); }); }};})();"`;
+
+exports[`exporters (looping) > toVanillaJs pretty 1`] = `
+"// Vartula SVG Animator (vanilla JavaScript, Web Animations API)
+// 1. Paste the SVG from the "SVG" tab into your page.
+// 2. Run this script after it. Control playback with window.vartulaAnimation.
+(function () {
+  const svg = document.querySelector(".vartula-svg");
+  if (!svg) return;
+  const duration = 2800;
+  const loop = true;
+  const dash = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];
+  // [element index, property, [[offset, value, easing], ...]]
+  const tracks = [
+    [0, "strokeDashoffset", [[0, 81.204, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.285714, 0], [0.5, 0], [0.714286, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [1, 81.204]]],
+    [0, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.5], [0.5, 0.5], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.5], [1, 0.5]]],
+    [1, "strokeDashoffset", [[0, 95.6663], [0.071429, 95.6663, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.357143, 0], [0.5, 0], [0.642857, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.928571, 95.6663], [1, 95.6663]]],
+    [1, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 0.6], [0.5, 0.6], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 0.6], [1, 0.6]]],
+    [2, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]],
+    [3, "strokeDashoffset", [[0, 43.065], [0.214286, 43.065, "linear(0, 0.185, 0.3489, 0.4929, 0.6182, 0.726, 0.8174, 0.8936, 0.9558, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)"], [0.5, 0, "linear(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.0442, 0.1064, 0.1826, 0.274, 0.3818, 0.5071, 0.6511, 0.815, 1)"], [0.785714, 43.065], [1, 43.065]]],
+    [3, "fillOpacity", [[0, 0], [0.214286, 0, "linear"], [0.357143, 1], [0.5, 1], [0.5, 0], [0.714286, 0, "linear"], [0.857143, 1], [1, 1]]]
+  ];
+  dash.forEach(function (value, index) {
+    if (value) svg.querySelector(".vt-" + index).style.strokeDasharray = value;
+  });
+  const animations = duration > 0 ? tracks.map(function (track) {
+    const el = svg.querySelector(".vt-" + track[0]);
+    const keyframes = track[2].map(function (stop) {
+      const frame = { offset: stop[0], easing: stop[2] || "linear" };
+      frame[track[1]] = String(stop[1]);
+      return frame;
+    });
+    return el.animate(keyframes, { duration: duration, iterations: loop ? Infinity : 1, fill: "both" });
+  }) : [];
+  window.vartulaAnimation = {
+    play: function () { animations.forEach(function (a) { a.play(); }); },
+    pause: function () { animations.forEach(function (a) { a.pause(); }); },
+    restart: function () { animations.forEach(function (a) { a.currentTime = 0; a.play(); }); }
+  };
+})();
+"
+`;
+
+exports[`exporters (transition) > toCss minified 1`] = `".vartula-svg{background:#ffffff}.vartula-svg .vt-0{stroke-dasharray:80.8 80.8;stroke-dashoffset:81.204;fill-opacity:0.5;transition:stroke-dashoffset 1200ms linear(0,0.0003,0.0023,0.0078,0.0185,0.0362,0.0625,0.0992,0.1481,0.2109,0.2894,0.3851,0.5,0.6149,0.7106,0.7891,0.8519,0.9008,0.9375,0.9638,0.9815,0.9922,0.9977,0.9997,1) 100ms,fill-opacity 500ms cubic-bezier(0.75,0,0.75,0.9) 350ms}.vartula-svg.active .vt-0{stroke-dashoffset:0;fill-opacity:0}.vartula-svg .vt-1{stroke-dasharray:95.1903 95.1903;stroke-dashoffset:95.6663;fill-opacity:0.6;transition:stroke-dashoffset 1200ms linear(0,0.0003,0.0023,0.0078,0.0185,0.0362,0.0625,0.0992,0.1481,0.2109,0.2894,0.3851,0.5,0.6149,0.7106,0.7891,0.8519,0.9008,0.9375,0.9638,0.9815,0.9922,0.9977,0.9997,1) 250ms,fill-opacity 500ms cubic-bezier(0.75,0,0.75,0.9) 250ms}.vartula-svg.active .vt-1{stroke-dashoffset:0;fill-opacity:0}.vartula-svg .vt-2{fill-opacity:1;transition:fill-opacity 500ms cubic-bezier(0.75,0,0.75,0.9) 150ms}.vartula-svg.active .vt-2{fill-opacity:0}.vartula-svg .vt-3{stroke-dasharray:42.8507 42.8507;stroke-dashoffset:43.065;fill-opacity:1;transition:stroke-dashoffset 1200ms linear(0,0.0003,0.0023,0.0078,0.0185,0.0362,0.0625,0.0992,0.1481,0.2109,0.2894,0.3851,0.5,0.6149,0.7106,0.7891,0.8519,0.9008,0.9375,0.9638,0.9815,0.9922,0.9977,0.9997,1) 550ms,fill-opacity 500ms cubic-bezier(0.75,0,0.75,0.9) 50ms}.vartula-svg.active .vt-3{stroke-dashoffset:0;fill-opacity:0}"`;
+
+exports[`exporters (transition) > toCss pretty 1`] = `
+"/* Vartula SVG Animator (CSS transition, 1.75s)
+   Use with the SVG from the "SVG" tab, then add the "active" class to play:
+   document.querySelector(".vartula-svg").classList.add("active"); */
+
+.vartula-svg {
+  background: #ffffff;
+}
+
+.vartula-svg .vt-0 {
+  stroke-dasharray: 80.8 80.8;
+  stroke-dashoffset: 81.204;
+  fill-opacity: 0.5;
+  transition: stroke-dashoffset 1200ms linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1) 100ms,
+    fill-opacity 500ms cubic-bezier(0.75, 0, 0.75, 0.9) 350ms;
+}
+
+.vartula-svg.active .vt-0 {
+  stroke-dashoffset: 0;
+  fill-opacity: 0;
+}
+
+.vartula-svg .vt-1 {
+  stroke-dasharray: 95.1903 95.1903;
+  stroke-dashoffset: 95.6663;
+  fill-opacity: 0.6;
+  transition: stroke-dashoffset 1200ms linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1) 250ms,
+    fill-opacity 500ms cubic-bezier(0.75, 0, 0.75, 0.9) 250ms;
+}
+
+.vartula-svg.active .vt-1 {
+  stroke-dashoffset: 0;
+  fill-opacity: 0;
+}
+
+.vartula-svg .vt-2 {
+  fill-opacity: 1;
+  transition: fill-opacity 500ms cubic-bezier(0.75, 0, 0.75, 0.9) 150ms;
+}
+
+.vartula-svg.active .vt-2 {
+  fill-opacity: 0;
+}
+
+.vartula-svg .vt-3 {
+  stroke-dasharray: 42.8507 42.8507;
+  stroke-dashoffset: 43.065;
+  fill-opacity: 1;
+  transition: stroke-dashoffset 1200ms linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1) 550ms,
+    fill-opacity 500ms cubic-bezier(0.75, 0, 0.75, 0.9) 50ms;
+}
+
+.vartula-svg.active .vt-3 {
+  stroke-dashoffset: 0;
+  fill-opacity: 0;
+}
+"
+`;
+
+exports[`exporters (transition) > toGsap minified 1`] = `"(function () {const svg = document.querySelector(".vartula-svg");if (!svg) return;const el = function (i) { return svg.querySelector(".vt-" + i); };const bezier = function (x1, y1, x2, y2) {const f = function (t, a, b) { return 3 * a * t * (1 - t) * (1 - t) + 3 * b * t * t * (1 - t) + t * t * t; };return function (x) {let lo = 0, hi = 1, t = x;for (let i = 0; i < 30; i++) { if (f(t, x1, x2) < x) lo = t; else hi = t; t = (lo + hi) / 2; }return f(t, y1, y2);};};const cssEaseReversed = bezier(0.75, 0, 0.75, 0.9);gsap.set(svg, { background: "#ffffff" });const tl = gsap.timeline();tl.set(el(0), { strokeDasharray: "80.8 80.8", strokeDashoffset: 81.204, fillOpacity: 0.5 }, 0);tl.fromTo(el(0), { strokeDashoffset: 81.204 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.1);tl.fromTo(el(0), { fillOpacity: 0.5 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.35);tl.set(el(1), { strokeDasharray: "95.1903 95.1903", strokeDashoffset: 95.6663, fillOpacity: 0.6 }, 0);tl.fromTo(el(1), { strokeDashoffset: 95.6663 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.25);tl.fromTo(el(1), { fillOpacity: 0.6 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.25);tl.set(el(2), { fillOpacity: 1 }, 0);tl.fromTo(el(2), { fillOpacity: 1 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.15);tl.set(el(3), { strokeDasharray: "42.8507 42.8507", strokeDashoffset: 43.065, fillOpacity: 1 }, 0);tl.fromTo(el(3), { strokeDashoffset: 43.065 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.55);tl.fromTo(el(3), { fillOpacity: 1 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.05);tl.set({}, {}, 1.75);window.vartulaTimeline = tl;})();"`;
+
+exports[`exporters (transition) > toGsap pretty 1`] = `
+"// Vartula SVG Animator (GSAP 3)
+// Load GSAP first: <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+// Paste the SVG from the "SVG" tab into your page, then run this script.
+(function () {
+  const svg = document.querySelector(".vartula-svg");
+  if (!svg) return;
+  const el = function (i) { return svg.querySelector(".vt-" + i); };
+  // CSS cubic-bezier timing function
+  const bezier = function (x1, y1, x2, y2) {
+    const f = function (t, a, b) { return 3 * a * t * (1 - t) * (1 - t) + 3 * b * t * t * (1 - t) + t * t * t; };
+    return function (x) {
+      let lo = 0, hi = 1, t = x;
+      for (let i = 0; i < 30; i++) { if (f(t, x1, x2) < x) lo = t; else hi = t; t = (lo + hi) / 2; }
+      return f(t, y1, y2);
+    };
+  };
+  const cssEaseReversed = bezier(0.75, 0, 0.75, 0.9);
+  gsap.set(svg, { background: "#ffffff" });
+  const tl = gsap.timeline();
+  tl.set(el(0), { strokeDasharray: "80.8 80.8", strokeDashoffset: 81.204, fillOpacity: 0.5 }, 0);
+  tl.fromTo(el(0), { strokeDashoffset: 81.204 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.1);
+  tl.fromTo(el(0), { fillOpacity: 0.5 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.35);
+  tl.set(el(1), { strokeDasharray: "95.1903 95.1903", strokeDashoffset: 95.6663, fillOpacity: 0.6 }, 0);
+  tl.fromTo(el(1), { strokeDashoffset: 95.6663 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.25);
+  tl.fromTo(el(1), { fillOpacity: 0.6 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.25);
+  tl.set(el(2), { fillOpacity: 1 }, 0);
+  tl.fromTo(el(2), { fillOpacity: 1 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.15);
+  tl.set(el(3), { strokeDasharray: "42.8507 42.8507", strokeDashoffset: 43.065, fillOpacity: 1 }, 0);
+  tl.fromTo(el(3), { strokeDashoffset: 43.065 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut", immediateRender: false }, 0.55);
+  tl.fromTo(el(3), { fillOpacity: 1 }, { fillOpacity: 0, duration: 0.5, ease: cssEaseReversed, immediateRender: false }, 0.05);
+  // Pad the timeline to the full loop length.
+  tl.set({}, {}, 1.75);
+  window.vartulaTimeline = tl;
+})();
+"
+`;
+
+exports[`exporters (transition) > toReact minified 1`] = `""use client";import { useEffect, useRef } from "react";const SVG_MARKUP = "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 60\\" fill=\\"none\\" stroke=\\"#333\\" class=\\"vartula-svg\\"><path d=\\"M10 10 H90\\" style=\\"stroke-width: 2\\" class=\\"vt-0\\"/><g fill-opacity=\\"0.6\\"><circle cx=\\"30\\" cy=\\"35\\" r=\\"15\\" fill=\\"#fc0\\" class=\\"vt-1\\"/></g><path d=\\"M50 50\\" class=\\"vt-2\\"/><line x1=\\"60\\" y1=\\"20\\" x2=\\"90\\" y2=\\"50\\" class=\\"vt-3\\"/></svg>";const DURATION = 1750;const LOOP = false;const DASH: (string | null)[] = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];const TRACKS: [number, "strokeDashoffset" | "fillOpacity", [number, number, string?][]][] = [[0, "strokeDashoffset", [[0, 81.204], [0.057143, 81.204, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.742857, 0], [1, 0]]],[0, "fillOpacity", [[0, 0.5], [0.2, 0.5, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.485714, 0], [1, 0]]],[1, "strokeDashoffset", [[0, 95.6663], [0.142857, 95.6663, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.828571, 0], [1, 0]]],[1, "fillOpacity", [[0, 0.6], [0.142857, 0.6, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.428571, 0], [1, 0]]],[2, "fillOpacity", [[0, 1], [0.085714, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.371429, 0], [1, 0]]],[3, "strokeDashoffset", [[0, 43.065], [0.314286, 43.065, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [1, 0]]],[3, "fillOpacity", [[0, 1], [0.028571, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.314286, 0], [1, 0]]]];export default function AnimatedSvg({ className }: { className?: string }) {const ref = useRef<HTMLDivElement>(null);useEffect(() => {const svg = ref.current?.querySelector("svg");if (!svg) return;DASH.forEach((value, index) => {const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`);if (value && el) el.style.strokeDasharray = value;});if (DURATION <= 0) return;const animations = TRACKS.map(([index, property, stops]) => {const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`)!;const keyframes = stops.map(([offset, value, easing]) => ({ offset, easing: easing ?? "linear", [property]: String(value) }));return el.animate(keyframes, { duration: DURATION, iterations: LOOP ? Infinity : 1, fill: "both" });});return () => animations.forEach((a) => a.cancel());}, []);return <div ref={ref} className={className} style={{ background: "#ffffff" }} dangerouslySetInnerHTML={{ __html: SVG_MARKUP }} />;}"`;
+
+exports[`exporters (transition) > toReact pretty 1`] = `
+"// Vartula SVG Animator (React component, Web Animations API)
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const SVG_MARKUP = "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 60\\" fill=\\"none\\" stroke=\\"#333\\" class=\\"vartula-svg\\">\\n  <path d=\\"M10 10 H90\\" style=\\"stroke-width: 2\\" class=\\"vt-0\\"/>\\n  <g fill-opacity=\\"0.6\\"><circle cx=\\"30\\" cy=\\"35\\" r=\\"15\\" fill=\\"#fc0\\" class=\\"vt-1\\"/></g>\\n  <path d=\\"M50 50\\" class=\\"vt-2\\"/>\\n  <line x1=\\"60\\" y1=\\"20\\" x2=\\"90\\" y2=\\"50\\" class=\\"vt-3\\"/>\\n</svg>";
+const DURATION = 1750;
+const LOOP = false;
+const DASH: (string | null)[] = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];
+// [element index, property, [[offset, value, easing], ...]]
+const TRACKS: [number, "strokeDashoffset" | "fillOpacity", [number, number, string?][]][] = [
+  [0, "strokeDashoffset", [[0, 81.204], [0.057143, 81.204, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.742857, 0], [1, 0]]],
+  [0, "fillOpacity", [[0, 0.5], [0.2, 0.5, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.485714, 0], [1, 0]]],
+  [1, "strokeDashoffset", [[0, 95.6663], [0.142857, 95.6663, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.828571, 0], [1, 0]]],
+  [1, "fillOpacity", [[0, 0.6], [0.142857, 0.6, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.428571, 0], [1, 0]]],
+  [2, "fillOpacity", [[0, 1], [0.085714, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.371429, 0], [1, 0]]],
+  [3, "strokeDashoffset", [[0, 43.065], [0.314286, 43.065, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [1, 0]]],
+  [3, "fillOpacity", [[0, 1], [0.028571, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.314286, 0], [1, 0]]]
+];
+
+export default function AnimatedSvg({ className }: { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const svg = ref.current?.querySelector("svg");
+    if (!svg) return;
+    DASH.forEach((value, index) => {
+      const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`);
+      if (value && el) el.style.strokeDasharray = value;
+    });
+    if (DURATION <= 0) return;
+    const animations = TRACKS.map(([index, property, stops]) => {
+      const el = svg.querySelector<SVGElement>(\`.vt-\${index}\`)!;
+      const keyframes = stops.map(([offset, value, easing]) => ({ offset, easing: easing ?? "linear", [property]: String(value) }));
+      return el.animate(keyframes, { duration: DURATION, iterations: LOOP ? Infinity : 1, fill: "both" });
+    });
+    return () => animations.forEach((a) => a.cancel());
+  }, []);
+
+  return <div ref={ref} className={className} style={{ background: "#ffffff" }} dangerouslySetInnerHTML={{ __html: SVG_MARKUP }} />;
+}
+"
+`;
+
+exports[`exporters (transition) > toSmil minified 1`] = `"<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke="#333" class="vartula-svg" style="background: #ffffff"><path d="M10 10 H90" style="stroke-width: 2" class="vt-0" stroke-dasharray="80.8 80.8" stroke-dashoffset="81.204" fill-opacity="0.5"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.05714;0.08571;0.11429;0.14286;0.17143;0.2;0.22857;0.25714;0.28571;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;1" values="81.204;81.204;81.1805;81.016;80.5696;79.7002;78.2669;76.1287;73.1447;69.1738;64.075;57.7075;49.9301;40.602;31.2739;23.4965;17.129;12.0302;8.0593;5.0752;2.9371;1.5038;0.6344;0.188;0.0235;0;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.2;0.2119;0.22381;0.23571;0.24762;0.25952;0.27143;0.28333;0.29524;0.30714;0.31905;0.33095;0.34286;0.35476;0.36667;0.37857;0.39048;0.40238;0.41429;0.42619;0.4381;0.45;0.4619;0.47381;0.48571;1" values="0.5;0.5;0.4995;0.498;0.4955;0.4917;0.4867;0.4802;0.4722;0.4624;0.4507;0.4368;0.4204;0.4012;0.3788;0.3528;0.3227;0.2879;0.2484;0.2043;0.1571;0.1103;0.0684;0.0354;0.0128;0;0"/></path><g fill-opacity="0.6"><circle cx="30" cy="35" r="15" fill="#fc0" class="vt-1" stroke-dasharray="95.1903 95.1903" stroke-dashoffset="95.6663" fill-opacity="0.6"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.14286;0.17143;0.2;0.22857;0.25714;0.28571;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;0.77143;0.8;0.82857;1" values="95.6663;95.6663;95.6386;95.4449;94.9189;93.8947;92.2061;89.6872;86.1716;81.4935;75.4867;67.9851;58.8226;47.8332;36.8437;27.6812;20.1796;14.1728;9.4947;5.9791;3.4602;1.7716;0.7474;0.2214;0.0277;0;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.36905;0.38095;0.39286;0.40476;0.41667;0.42857;1" values="0.6;0.6;0.5994;0.5977;0.5946;0.5901;0.584;0.5763;0.5666;0.5549;0.5408;0.5241;0.5045;0.4814;0.4546;0.4234;0.3872;0.3455;0.298;0.2451;0.1886;0.1324;0.0821;0.0425;0.0153;0;0"/></circle></g><path d="M50 50" class="vt-2" fill-opacity="1"><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.08571;0.09762;0.10952;0.12143;0.13333;0.14524;0.15714;0.16905;0.18095;0.19286;0.20476;0.21667;0.22857;0.24048;0.25238;0.26429;0.27619;0.2881;0.3;0.3119;0.32381;0.33571;0.34762;0.35952;0.37143;1" values="1;1;0.999;0.9961;0.991;0.9835;0.9734;0.9605;0.9444;0.9248;0.9014;0.8735;0.8408;0.8024;0.7576;0.7056;0.6453;0.5759;0.4967;0.4085;0.3143;0.2207;0.1369;0.0708;0.0256;0;0"/></path><line x1="60" y1="20" x2="90" y2="50" class="vt-3" stroke-dasharray="42.8507 42.8507" stroke-dashoffset="43.065" fill-opacity="1"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;0.77143;0.8;0.82857;0.85714;0.88571;0.91429;0.94286;0.97143;1" values="43.065;43.065;43.0525;42.9653;42.7286;42.2675;41.5074;40.3734;38.7909;36.685;33.981;30.6041;26.4795;21.5325;16.5855;12.4609;9.084;6.38;4.2741;2.6916;1.5576;0.7975;0.3364;0.0997;0.0125;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.02857;0.04048;0.05238;0.06429;0.07619;0.0881;0.1;0.1119;0.12381;0.13571;0.14762;0.15952;0.17143;0.18333;0.19524;0.20714;0.21905;0.23095;0.24286;0.25476;0.26667;0.27857;0.29048;0.30238;0.31429;1" values="1;1;0.999;0.9961;0.991;0.9835;0.9734;0.9605;0.9444;0.9248;0.9014;0.8735;0.8408;0.8024;0.7576;0.7056;0.6453;0.5759;0.4967;0.4085;0.3143;0.2207;0.1369;0.0708;0.0256;0;0"/></line></svg>"`;
+
+exports[`exporters (transition) > toSmil pretty 1`] = `
+"<!-- Vartula SVG Animator (SMIL, 1.75s) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke="#333" class="vartula-svg" style="background: #ffffff">
+  <path d="M10 10 H90" style="stroke-width: 2" class="vt-0" stroke-dasharray="80.8 80.8" stroke-dashoffset="81.204" fill-opacity="0.5"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.05714;0.08571;0.11429;0.14286;0.17143;0.2;0.22857;0.25714;0.28571;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;1" values="81.204;81.204;81.1805;81.016;80.5696;79.7002;78.2669;76.1287;73.1447;69.1738;64.075;57.7075;49.9301;40.602;31.2739;23.4965;17.129;12.0302;8.0593;5.0752;2.9371;1.5038;0.6344;0.188;0.0235;0;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.2;0.2119;0.22381;0.23571;0.24762;0.25952;0.27143;0.28333;0.29524;0.30714;0.31905;0.33095;0.34286;0.35476;0.36667;0.37857;0.39048;0.40238;0.41429;0.42619;0.4381;0.45;0.4619;0.47381;0.48571;1" values="0.5;0.5;0.4995;0.498;0.4955;0.4917;0.4867;0.4802;0.4722;0.4624;0.4507;0.4368;0.4204;0.4012;0.3788;0.3528;0.3227;0.2879;0.2484;0.2043;0.1571;0.1103;0.0684;0.0354;0.0128;0;0"/></path>
+  <g fill-opacity="0.6"><circle cx="30" cy="35" r="15" fill="#fc0" class="vt-1" stroke-dasharray="95.1903 95.1903" stroke-dashoffset="95.6663" fill-opacity="0.6"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.14286;0.17143;0.2;0.22857;0.25714;0.28571;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;0.77143;0.8;0.82857;1" values="95.6663;95.6663;95.6386;95.4449;94.9189;93.8947;92.2061;89.6872;86.1716;81.4935;75.4867;67.9851;58.8226;47.8332;36.8437;27.6812;20.1796;14.1728;9.4947;5.9791;3.4602;1.7716;0.7474;0.2214;0.0277;0;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.14286;0.15476;0.16667;0.17857;0.19048;0.20238;0.21429;0.22619;0.2381;0.25;0.2619;0.27381;0.28571;0.29762;0.30952;0.32143;0.33333;0.34524;0.35714;0.36905;0.38095;0.39286;0.40476;0.41667;0.42857;1" values="0.6;0.6;0.5994;0.5977;0.5946;0.5901;0.584;0.5763;0.5666;0.5549;0.5408;0.5241;0.5045;0.4814;0.4546;0.4234;0.3872;0.3455;0.298;0.2451;0.1886;0.1324;0.0821;0.0425;0.0153;0;0"/></circle></g>
+  <path d="M50 50" class="vt-2" fill-opacity="1"><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.08571;0.09762;0.10952;0.12143;0.13333;0.14524;0.15714;0.16905;0.18095;0.19286;0.20476;0.21667;0.22857;0.24048;0.25238;0.26429;0.27619;0.2881;0.3;0.3119;0.32381;0.33571;0.34762;0.35952;0.37143;1" values="1;1;0.999;0.9961;0.991;0.9835;0.9734;0.9605;0.9444;0.9248;0.9014;0.8735;0.8408;0.8024;0.7576;0.7056;0.6453;0.5759;0.4967;0.4085;0.3143;0.2207;0.1369;0.0708;0.0256;0;0"/></path>
+  <line x1="60" y1="20" x2="90" y2="50" class="vt-3" stroke-dasharray="42.8507 42.8507" stroke-dashoffset="43.065" fill-opacity="1"><animate attributeName="stroke-dashoffset" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.31429;0.34286;0.37143;0.4;0.42857;0.45714;0.48571;0.51429;0.54286;0.57143;0.6;0.62857;0.65714;0.68571;0.71429;0.74286;0.77143;0.8;0.82857;0.85714;0.88571;0.91429;0.94286;0.97143;1" values="43.065;43.065;43.0525;42.9653;42.7286;42.2675;41.5074;40.3734;38.7909;36.685;33.981;30.6041;26.4795;21.5325;16.5855;12.4609;9.084;6.38;4.2741;2.6916;1.5576;0.7975;0.3364;0.0997;0.0125;0"/><animate attributeName="fill-opacity" dur="1750ms" repeatCount="1" fill="freeze" calcMode="linear" keyTimes="0;0.02857;0.04048;0.05238;0.06429;0.07619;0.0881;0.1;0.1119;0.12381;0.13571;0.14762;0.15952;0.17143;0.18333;0.19524;0.20714;0.21905;0.23095;0.24286;0.25476;0.26667;0.27857;0.29048;0.30238;0.31429;1" values="1;1;0.999;0.9961;0.991;0.9835;0.9734;0.9605;0.9444;0.9248;0.9014;0.8735;0.8408;0.8024;0.7576;0.7056;0.6453;0.5759;0.4967;0.4085;0.3143;0.2207;0.1369;0.0708;0.0256;0;0"/></line>
+</svg>
+"
+`;
+
+exports[`exporters (transition) > toVanillaJs minified 1`] = `"(function () {const svg = document.querySelector(".vartula-svg");if (!svg) return;const duration = 1750;const loop = false;const dash = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];const tracks = [[0, "strokeDashoffset", [[0, 81.204], [0.057143, 81.204, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.742857, 0], [1, 0]]],[0, "fillOpacity", [[0, 0.5], [0.2, 0.5, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.485714, 0], [1, 0]]],[1, "strokeDashoffset", [[0, 95.6663], [0.142857, 95.6663, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.828571, 0], [1, 0]]],[1, "fillOpacity", [[0, 0.6], [0.142857, 0.6, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.428571, 0], [1, 0]]],[2, "fillOpacity", [[0, 1], [0.085714, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.371429, 0], [1, 0]]],[3, "strokeDashoffset", [[0, 43.065], [0.314286, 43.065, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [1, 0]]],[3, "fillOpacity", [[0, 1], [0.028571, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.314286, 0], [1, 0]]]];svg.style.background = "#ffffff";dash.forEach(function (value, index) {if (value) svg.querySelector(".vt-" + index).style.strokeDasharray = value;});const animations = duration > 0 ? tracks.map(function (track) {const el = svg.querySelector(".vt-" + track[0]);const keyframes = track[2].map(function (stop) {const frame = { offset: stop[0], easing: stop[2] || "linear" };frame[track[1]] = String(stop[1]);return frame;});return el.animate(keyframes, { duration: duration, iterations: loop ? Infinity : 1, fill: "both" });}) : [];window.vartulaAnimation = {play: function () { animations.forEach(function (a) { a.play(); }); },pause: function () { animations.forEach(function (a) { a.pause(); }); },restart: function () { animations.forEach(function (a) { a.currentTime = 0; a.play(); }); }};})();"`;
+
+exports[`exporters (transition) > toVanillaJs pretty 1`] = `
+"// Vartula SVG Animator (vanilla JavaScript, Web Animations API)
+// 1. Paste the SVG from the "SVG" tab into your page.
+// 2. Run this script after it. Control playback with window.vartulaAnimation.
+(function () {
+  const svg = document.querySelector(".vartula-svg");
+  if (!svg) return;
+  const duration = 1750;
+  const loop = false;
+  const dash = ["80.8 80.8", "95.1903 95.1903", null, "42.8507 42.8507"];
+  // [element index, property, [[offset, value, easing], ...]]
+  const tracks = [
+    [0, "strokeDashoffset", [[0, 81.204], [0.057143, 81.204, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.742857, 0], [1, 0]]],
+    [0, "fillOpacity", [[0, 0.5], [0.2, 0.5, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.485714, 0], [1, 0]]],
+    [1, "strokeDashoffset", [[0, 95.6663], [0.142857, 95.6663, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [0.828571, 0], [1, 0]]],
+    [1, "fillOpacity", [[0, 0.6], [0.142857, 0.6, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.428571, 0], [1, 0]]],
+    [2, "fillOpacity", [[0, 1], [0.085714, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.371429, 0], [1, 0]]],
+    [3, "strokeDashoffset", [[0, 43.065], [0.314286, 43.065, "linear(0, 0.0003, 0.0023, 0.0078, 0.0185, 0.0362, 0.0625, 0.0992, 0.1481, 0.2109, 0.2894, 0.3851, 0.5, 0.6149, 0.7106, 0.7891, 0.8519, 0.9008, 0.9375, 0.9638, 0.9815, 0.9922, 0.9977, 0.9997, 1)"], [1, 0]]],
+    [3, "fillOpacity", [[0, 1], [0.028571, 1, "cubic-bezier(0.75, 0, 0.75, 0.9)"], [0.314286, 0], [1, 0]]]
+  ];
+  svg.style.background = "#ffffff";
+  dash.forEach(function (value, index) {
+    if (value) svg.querySelector(".vt-" + index).style.strokeDasharray = value;
+  });
+  const animations = duration > 0 ? tracks.map(function (track) {
+    const el = svg.querySelector(".vt-" + track[0]);
+    const keyframes = track[2].map(function (stop) {
+      const frame = { offset: stop[0], easing: stop[2] || "linear" };
+      frame[track[1]] = String(stop[1]);
+      return frame;
+    });
+    return el.animate(keyframes, { duration: duration, iterations: loop ? Infinity : 1, fill: "both" });
+  }) : [];
+  window.vartulaAnimation = {
+    play: function () { animations.forEach(function (a) { a.play(); }); },
+    pause: function () { animations.forEach(function (a) { a.pause(); }); },
+    restart: function () { animations.forEach(function (a) { a.currentTime = 0; a.play(); }); }
+  };
+})();
+"
+`;

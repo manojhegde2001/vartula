@@ -137,3 +137,16 @@
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0;
 }
+
+/* Shiki dual-theme output (rendered with defaultColor: false). */
+.code-output pre.shiki {
+  padding: 1rem;
+  background-color: transparent !important;
+  white-space: pre;
+}
+.code-output .shiki span {
+  color: var(--shiki-light);
+}
+.dark .code-output .shiki span {
+  color: var(--shiki-dark);
+}

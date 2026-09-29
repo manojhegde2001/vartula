@@ -1,5 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { cssEasing, cubicBezier, ease, easingLabel, easingNames, easings, gsapEase, isEasingName } from "./easing";
+import {
+  CSS_EASE_REVERSED,
+  cssEasing,
+  cubicBezier,
+  ease,
+  easingLabel,
+  easingNames,
+  easings,
+  evalEasing,
+  gsapEase,
+  isEasingName,
+  reversedEasingName,
+} from "./easing";
 
 describe("easing", () => {
   it("includes linear, ease and In/Out/InOut for all eight families", () => {
@@ -52,10 +64,10 @@ describe("easing", () => {
   it("produces CSS timing functions", () => {
     expect(cssEasing("linear")).toBe("linear");
     expect(cssEasing("ease")).toBe("ease");
-    const lin = cssEasing("easeInQuad", 4);
+    const lin = cssEasing("easeInQuad", false, 4);
     expect(lin).toBe("linear(0, 0.0625, 0.25, 0.5625, 1)");
     // Overshoot is clamped like the engine does.
-    expect(cssEasing("easeInBack", 10)).not.toMatch(/-/);
+    expect(cssEasing("easeInBack", false, 10)).not.toMatch(/-/);
   });
 
   it("maps to identical GSAP eases", () => {
@@ -70,5 +82,29 @@ describe("easing", () => {
     expect(easingLabel("easeInOutCubic")).toBe("Ease In Out Cubic");
     expect(isEasingName("easeOutCirc")).toBe(true);
     expect(isEasingName("bounce")).toBe(false);
+  });
+});
+
+describe("reversed easings", () => {
+  it.each(easingNames)("%s reverses to r(t) = 1 - e(1 - t)", (name) => {
+    const rev = reversedEasingName(name);
+    for (let i = 0; i <= 20; i++) {
+      const t = i / 20;
+      const expected = 1 - evalEasing(name, 1 - t);
+      expect(evalEasing(name, t, true)).toBeCloseTo(expected, 10);
+      if (rev) expect(evalEasing(rev, t)).toBeCloseTo(expected, 10);
+    }
+  });
+
+  it("reverses CSS ease with the mirrored bezier", () => {
+    expect(reversedEasingName("ease")).toBeNull();
+    expect(cssEasing("ease", true)).toBe(CSS_EASE_REVERSED);
+    const mirrored = cubicBezier(0.75, 0, 0.75, 0.9);
+    for (const t of [0.1, 0.3, 0.5, 0.8]) expect(mirrored(t)).toBeCloseTo(evalEasing("ease", t, true), 5);
+  });
+
+  it("maps In <-> Out in CSS output", () => {
+    expect(cssEasing("easeInQuad", true, 4)).toBe(cssEasing("easeOutQuad", false, 4));
+    expect(cssEasing("easeInOutSine", true)).toBe(cssEasing("easeInOutSine"));
   });
 });

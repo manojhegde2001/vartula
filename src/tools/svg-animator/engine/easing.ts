@@ -99,17 +99,46 @@ export function easingLabel(name: EasingName): string {
 }
 
 const round = (n: number, p = 4) => Number(n.toFixed(p)).toString();
+const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+/** Eased progress with overshoot clamped to [0, 1], as the engine renders it. */
+export function clampedEase(name: EasingName, t: number): number {
+  return clamp01(ease(name, t));
+}
 
 /**
- * CSS timing-function string for an easing. `linear` and `ease` map to the keywords;
- * everything else is sampled into a CSS `linear()` function so exported CSS follows
- * the engine's curve rather than a cubic-bezier approximation. Values are clamped
- * to [0, 1] like the engine clamps overshoot.
+ * The easing of a segment played backwards in time: r(t) = 1 - e(1 - t).
+ * The reverse of easeInX is exactly easeOutX and InOut curves are their own
+ * reverse; `ease` has no named reverse (returns null).
  */
-export function cssEasing(name: EasingName, samples = 24): string {
-  if (name === "linear" || name === "ease") return name;
+export function reversedEasingName(name: EasingName): EasingName | null {
+  if (name === "linear") return "linear";
+  if (name === "ease") return null;
+  if (name.startsWith("easeInOut")) return name;
+  if (name.startsWith("easeIn")) return name.replace(/^easeIn/, "easeOut") as EasingName;
+  return name.replace(/^easeOut/, "easeIn") as EasingName;
+}
+
+/** Clamped eased progress, optionally for the time-reversed curve. */
+export function evalEasing(name: EasingName, t: number, reversed = false): number {
+  return reversed ? 1 - clampedEase(name, 1 - t) : clampedEase(name, t);
+}
+
+/** cubic-bezier(0.25, 0.1, 0.25, 1) played backwards. */
+export const CSS_EASE_REVERSED = "cubic-bezier(0.75, 0, 0.75, 0.9)";
+
+/**
+ * CSS timing-function string for an easing (optionally time-reversed). `linear`
+ * and `ease` map to keywords; everything else is sampled into a CSS `linear()`
+ * function so exported CSS follows the engine's curve exactly rather than a
+ * cubic-bezier approximation, with overshoot clamped like the engine does.
+ */
+export function cssEasing(name: EasingName, reversed = false, samples = 24): string {
+  const effective = reversed ? reversedEasingName(name) : name;
+  if (effective === null) return CSS_EASE_REVERSED;
+  if (effective === "linear" || effective === "ease") return effective;
   const points: string[] = [];
-  for (let i = 0; i <= samples; i++) points.push(round(Math.min(1, Math.max(0, ease(name, i / samples)))));
+  for (let i = 0; i <= samples; i++) points.push(round(clampedEase(effective, i / samples)));
   return `linear(${points.join(", ")})`;
 }
 

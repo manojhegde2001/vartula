@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { defaultSample } from "../samples";
 import { useAnimatorStore } from "../store";
+import { CodeExport } from "./code-export";
 import { Controls } from "./controls";
 import { Preview } from "./preview";
 import { SourcePanel } from "./source-panel";
@@ -17,12 +18,15 @@ export function SvgAnimatorEditor() {
   }, [hasSource, loadMarkup]);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-      <div className="min-w-0 space-y-4">
-        <SourcePanel />
-        <Preview />
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="min-w-0 space-y-4">
+          <SourcePanel />
+          <Preview />
+        </div>
+        <Controls />
       </div>
-      <Controls />
+      <CodeExport />
     </div>
   );
 }
