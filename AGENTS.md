@@ -16,7 +16,10 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 ## Rules
 
 - **Every tool lives in `src/tools/<slug>/`.** Nothing tool-specific goes anywhere else
-  except its one-line entries in `src/tools/registry.ts` and `src/tools/components.tsx`.
+  except its one-line entries in `src/tools/registry.ts`, `src/tools/components.tsx` and `src/tools/content.ts`.
+- Each tool's long-form copy (how-to, features, FAQ) lives in its `content.ts` as a `ToolContent`.
+  The tool page renders it as HTML and `/llms.txt`, `/llms-full.txt` and `/tools/<slug>.md` serve it as Markdown,
+  so edit copy there rather than hard-coding it in JSX.
 - `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, category, icon, updated, seoTitle? }`).
   Bump a tool's `updated` date when it changes meaningfully (it feeds the sitemap and JSON-LD).
   The home page, `/tools/[slug]`, `sitemap.ts`, `robots.ts` and per-tool metadata all read from it.
@@ -34,15 +37,17 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 
 ```
 src/
-  app/                    routes: home, /tools/[slug], sitemap, robots, manifest, icons, 404, OG images
+  app/                    routes: home, /tools/[slug], sitemap, robots, manifest, icons, 404, OG images,
+                          llms.txt, llms-full.txt, markdown/tools/[slug] (served at /tools/<slug>.md)
   components/             site chrome (header, footer, tool grid, theme) and components/ui (shadcn)
   lib/                    site config and shared utilities
   tools/
     registry.ts           tool metadata — the source of truth
     components.tsx        slug -> server component that renders the tool page
+    content.ts            slug -> long-form copy (ToolContent) for Markdown and llms.txt
     svg-animator/
       tool-page.tsx       server component: editor + SEO copy + FAQ (+ FAQPage JSON-LD)
-      content.ts          FAQ and how-to copy
+      content.ts          ToolContent: summary, how-to, export formats, FAQ
       samples.ts          built-in sample SVGs
       store.ts            Zustand store (config + loaded SVG)
       engine/             pure TS animation engine: parseSvg, getFrameState, totalDuration, easing
@@ -57,8 +62,8 @@ e2e/                      Playwright smoke and integration tests
 
 1. Create `src/tools/<slug>/tool-page.tsx` (plus `engine/`, `components/` as needed).
 2. Add an entry to `tools` in `src/tools/registry.ts` (add an icon to `src/components/tool-icon.tsx` if new).
-3. Map the slug in `src/tools/components.tsx`.
-4. The home grid, route, sitemap, robots and metadata pick it up automatically.
+3. Map the slug in `src/tools/components.tsx`, and its `content.ts` in `src/tools/content.ts`.
+4. The home grid, route, sitemap, robots, metadata, llms.txt and Markdown twin pick it up automatically.
 
 ## Commands
 

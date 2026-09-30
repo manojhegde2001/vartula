@@ -27,3 +27,31 @@ test("unknown pages return a 404 with links to the tools", async ({ page }) => {
   expect(robots.length).toBeGreaterThan(0);
   for (const content of robots) expect(content).toContain("noindex");
 });
+
+test("AI agents get llms.txt, llms-full.txt and a Markdown twin of each tool", async ({ page, request }) => {
+  const llms = await request.get("/llms.txt");
+  expect(llms.headers()["content-type"]).toContain("text/plain");
+  expect(await llms.text()).toMatch(/^# Vartula\n/);
+
+  const full = await request.get("/llms-full.txt");
+  expect(await full.text()).toContain("## SVG Animator");
+
+  const md = await request.get("/tools/svg-animator.md");
+  expect(md.status()).toBe(200);
+  expect(md.headers()["content-type"]).toContain("text/markdown");
+  expect(md.headers()["link"]).toMatch(/\/tools\/svg-animator>; rel="canonical"/);
+  expect(await md.text()).toMatch(/^# SVG Animator\n/);
+  expect((await request.get("/tools/no-such-tool.md")).status()).toBe(404);
+
+  await page.goto("/tools/svg-animator");
+  await expect(page.locator('link[rel="alternate"][type="text/markdown"]')).toHaveAttribute("href", /\/tools\/svg-animator\.md$/);
+  await expect(page.getByRole("heading", { name: "Export formats" })).toBeVisible();
+});
+
+test("robots.txt welcomes AI crawlers and points at the sitemap", async ({ request }) => {
+  const robots = await request.get("/robots.txt").then((r) => r.text());
+  expect(robots).toContain("User-Agent: GPTBot");
+  expect(robots).toContain("User-Agent: ClaudeBot");
+  expect(robots).not.toMatch(/Disallow: \/\s*$/m);
+  expect(robots).toMatch(/Sitemap: .+\/sitemap\.xml/);
+});

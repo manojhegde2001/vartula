@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { absoluteUrl, siteConfig } from "@/lib/site";
+import { toolMarkdownPath } from "@/lib/tool-content";
 import { toolPath, type Tool } from "@/tools/registry";
 
 /** Serialize JSON-LD safely for an inline <script> (no "</script>" breakouts). */
@@ -85,7 +86,7 @@ export function toolMetadata(tool: Tool): Metadata {
     title: tool.seoTitle ?? tool.name,
     description: tool.description,
     keywords: tool.keywords,
-    alternates: { canonical: url },
+    alternates: { canonical: url, types: { "text/markdown": toolMarkdownPath(tool.slug) } },
     openGraph: { type: "website", url, title, description: tool.description, siteName: siteConfig.name },
     twitter: { card: "summary_large_image", title, description: tool.description },
   };

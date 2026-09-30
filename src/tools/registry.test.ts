@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getTool, tools } from "./registry";
 import { toolComponents } from "./components";
+import { toolContents } from "./content";
 import { filterTools } from "@/lib/filter-tools";
 import sitemap from "@/app/sitemap";
 
@@ -17,6 +18,15 @@ describe("tool registry", () => {
 
   it("has a component for every tool", () => {
     for (const tool of tools) expect(toolComponents[tool.slug]).toBeTypeOf("function");
+  });
+
+  it("has long-form content for every tool", () => {
+    for (const tool of tools) {
+      const content = toolContents[tool.slug];
+      expect(content, tool.slug).toBeDefined();
+      expect(content.howTo.length).toBeGreaterThan(0);
+      expect(content.faq.length).toBeGreaterThan(0);
+    }
   });
 
   it("has a valid updated date and a title that fits in search results", () => {
