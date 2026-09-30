@@ -18,6 +18,10 @@ export interface Tool {
   icon: ToolIconName;
   /** Search-only synonyms, not displayed. */
   keywords?: string[];
+  /** Keyword-rich <title> (before " | Vartula"); falls back to `name`. Aim for under 60 characters in total. */
+  seoTitle?: string;
+  /** Date the tool last changed meaningfully (YYYY-MM-DD); feeds sitemap lastModified. */
+  updated: string;
 }
 
 export const tools: Tool[] = [
@@ -29,6 +33,8 @@ export const tools: Tool[] = [
     category: "Animation",
     icon: "PenTool",
     keywords: ["svg", "animation", "line drawing", "stroke", "dashoffset", "css", "gif", "mp4", "video"],
+    seoTitle: "SVG Animator — Free Line-Drawing Animation Maker",
+    updated: "2026-09-30",
   },
 ];
 

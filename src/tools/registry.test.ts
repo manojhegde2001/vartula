@@ -19,6 +19,14 @@ describe("tool registry", () => {
     for (const tool of tools) expect(toolComponents[tool.slug]).toBeTypeOf("function");
   });
 
+  it("has a valid updated date and a title that fits in search results", () => {
+    for (const tool of tools) {
+      expect(tool.updated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Number.isNaN(Date.parse(tool.updated))).toBe(false);
+      expect(`${tool.seoTitle ?? tool.name} | Vartula`.length).toBeLessThanOrEqual(60);
+    }
+  });
+
   it("lists every tool in the sitemap", () => {
     const urls = sitemap().map((e) => e.url);
     for (const tool of tools) expect(urls.some((u) => u.endsWith(`/tools/${tool.slug}`))).toBe(true);

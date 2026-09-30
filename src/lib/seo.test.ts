@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getTool } from "@/tools/registry";
-import { serializeJsonLd, toolJsonLd, toolMetadata } from "./seo";
+import { getTool, tools } from "@/tools/registry";
+import { breadcrumbJsonLd, homeJsonLd, serializeJsonLd, toolJsonLd, toolMetadata } from "./seo";
 
 const tool = getTool("svg-animator")!;
 
@@ -12,8 +12,23 @@ describe("seo", () => {
       "@type": "SoftwareApplication",
       name: "SVG Animator",
       offers: { price: "0" },
+      dateModified: tool.updated,
     });
     expect(ld.url).toMatch(/^https?:\/\/.+\/tools\/svg-animator$/);
+  });
+
+  it("describes the site, publisher and every tool on the home page", () => {
+    const graph = homeJsonLd(tools)["@graph"];
+    expect(graph.map((node) => node["@type"])).toEqual(["Organization", "WebSite", "ItemList"]);
+    const list = graph.find((node) => node["@type"] === "ItemList") as { itemListElement: { url: string }[] };
+    expect(list.itemListElement).toHaveLength(tools.length);
+    expect(list.itemListElement[0].url).toMatch(/\/tools\/svg-animator$/);
+  });
+
+  it("builds a Home › Tool breadcrumb", () => {
+    const items = breadcrumbJsonLd(tool).itemListElement;
+    expect(items.map((i) => i.name)).toEqual(["Home", "SVG Animator"]);
+    expect(items.map((i) => i.position)).toEqual([1, 2]);
   });
 
   it("escapes < so JSON-LD cannot close its script tag", () => {
@@ -24,6 +39,7 @@ describe("seo", () => {
 
   it("builds canonical, Open Graph and Twitter metadata", () => {
     const meta = toolMetadata(tool);
+    expect(meta.title).toBe(tool.seoTitle);
     expect(meta.alternates?.canonical).toBe("/tools/svg-animator");
     expect(meta.openGraph).toMatchObject({ url: "/tools/svg-animator", description: tool.description });
     expect(meta.twitter).toMatchObject({ card: "summary_large_image" });

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
@@ -18,8 +18,31 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  openGraph: { type: "website", siteName: siteConfig.name, url: "/" },
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "design",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+      : undefined,
+  },
+  openGraph: { type: "website", siteName: siteConfig.name, url: "/", locale: "en_US" },
   twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  // Matches --background in globals.css (oklch(1 0 0) and oklch(0.145 0 0)).
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

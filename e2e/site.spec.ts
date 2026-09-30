@@ -14,11 +14,12 @@ test("home page search leads to the tool", async ({ page }) => {
 
 test("tool page ships metadata, JSON-LD and an OG image", async ({ page, request }) => {
   await page.goto("/tools/svg-animator");
-  await expect(page).toHaveTitle("SVG Animator | Vartula");
+  await expect(page).toHaveTitle("SVG Animator — Free Line-Drawing Animation Maker | Vartula");
   const types = await page
     .locator('script[type="application/ld+json"]')
     .evaluateAll((els) => els.map((el) => JSON.parse(el.textContent ?? "{}")["@type"]));
-  expect(types).toEqual(expect.arrayContaining(["SoftwareApplication", "FAQPage"]));
+  expect(types).toEqual(expect.arrayContaining(["SoftwareApplication", "FAQPage", "BreadcrumbList"]));
+  await expect(page.getByRole("navigation", { name: "Breadcrumb" })).toContainText("SVG Animator");
 
   const og = await page.locator('meta[property="og:image"]').first().getAttribute("content");
   expect(og).toBeTruthy();

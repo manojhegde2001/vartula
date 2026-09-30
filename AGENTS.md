@@ -17,7 +17,8 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 
 - **Every tool lives in `src/tools/<slug>/`.** Nothing tool-specific goes anywhere else
   except its one-line entries in `src/tools/registry.ts` and `src/tools/components.tsx`.
-- `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, category, icon }`).
+- `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, category, icon, updated, seoTitle? }`).
+  Bump a tool's `updated` date when it changes meaningfully (it feeds the sitemap and JSON-LD).
   The home page, `/tools/[slug]`, `sitemap.ts`, `robots.ts` and per-tool metadata all read from it.
   Keep it free of React and browser imports.
 - Pure logic (no React, no DOM rendering) goes in the tool's `engine/` folder and gets Vitest tests.
@@ -33,7 +34,7 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 
 ```
 src/
-  app/                    routes: home, /tools/[slug], sitemap.ts, robots.ts, OG images
+  app/                    routes: home, /tools/[slug], sitemap, robots, manifest, icons, 404, OG images
   components/             site chrome (header, footer, tool grid, theme) and components/ui (shadcn)
   lib/                    site config and shared utilities
   tools/
