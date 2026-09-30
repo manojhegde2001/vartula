@@ -1,5 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-  <style>.m{stroke:#0a0a0a}@media (prefers-color-scheme:dark){.m{stroke:#fafafa}}</style>
-  <circle class="m" cx="12" cy="12" r="10" fill="none" stroke-width="2"/>
-  <path class="m" d="M7 8l5 9 5-9" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96">
+  <rect width="96" height="96" rx="22" fill="#0c0d12"/>
+  <g transform="translate(48 48) scale(0.78) translate(-48 -48)">
+  <circle cx="48" cy="30" r="24" fill="#ff5d73" fill-opacity="0.9"/>
+  <circle cx="66" cy="48" r="24" fill="#ffc145" fill-opacity="0.9"/>
+  <circle cx="48" cy="66" r="24" fill="#2de2a6" fill-opacity="0.9"/>
+  <circle cx="30" cy="48" r="24" fill="#7b61ff" fill-opacity="0.9"/>
+  <path d="M31 33 L48 63 L65 33" stroke="#ffffff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
 </svg>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -22,20 +23,21 @@ export function ToolGrid({ tools }: { tools: Tool[] }) {
         searchIcon={
           <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
         }
-        cards={Object.fromEntries(tools.map((tool) => [tool.slug, <ToolCard key={tool.slug} tool={tool} />]))}
+        cards={Object.fromEntries(tools.map((tool, i) => [tool.slug, <ToolCard key={tool.slug} tool={tool} index={i} />]))}
       />
     </section>
   );
 }
 
-function ToolCard({ tool }: { tool: Tool }) {
+function ToolCard({ tool, index }: { tool: Tool; index: number }) {
   return (
     <Link
       href={toolPath(tool.slug)}
-      className="group flex h-full flex-col gap-3 rounded-xl border bg-card p-5 transition-colors hover:border-foreground/30 hover:bg-muted/40 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+      style={{ "--enter-i": Math.min(index, 8) } as CSSProperties}
+      className="tool-card group flex h-full flex-col gap-3 rounded-xl border bg-card p-5 transition-colors hover:border-foreground/30 hover:bg-muted/40 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
     >
       <div className="flex items-center justify-between">
-        <span className="grid size-10 place-items-center rounded-lg bg-primary text-primary-foreground">
+        <span className="grid size-10 place-items-center rounded-lg bg-primary text-primary-foreground transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none">
           <ToolIcon name={tool.icon} className="size-5" />
         </span>
         <Badge variant="secondary">{tool.category}</Badge>

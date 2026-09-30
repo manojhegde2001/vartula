@@ -15,7 +15,7 @@ test("manifest and icons are served", async ({ request }) => {
   const manifest = await request.get("/manifest.webmanifest");
   expect(manifest.ok()).toBe(true);
   expect((await manifest.json()).short_name).toBe("Vartula");
-  for (const icon of ["/icon.svg", "/apple-icon"]) expect((await request.get(icon)).ok()).toBe(true);
+  for (const icon of ["/icon.svg", "/favicon.ico", "/apple-icon.png", "/icon-192.png", "/icon-512.png"]) expect((await request.get(icon)).ok()).toBe(true);
 });
 
 test("unknown pages return a 404 with links to the tools", async ({ page }) => {
@@ -54,4 +54,24 @@ test("robots.txt welcomes AI crawlers and points at the sitemap", async ({ reque
   expect(robots).toContain("User-Agent: ClaudeBot");
   expect(robots).not.toMatch(/Disallow: \/\s*$/m);
   expect(robots).toMatch(/Sitemap: .+\/sitemap\.xml/);
+});
+
+test("about, contact, privacy and terms pages are linked from the footer and listed in the sitemap", async ({
+  page,
+  request,
+}) => {
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  for (const [path, heading] of [
+    ["/about", "About"],
+    ["/contact", "Contact"],
+    ["/privacy", "Privacy Policy"],
+    ["/terms", "Terms of Use"],
+  ]) {
+    expect(sitemap).toContain(`${path}</loc>`);
+    await page.goto("/");
+    await page.getByRole("contentinfo").getByRole("link", { name: heading, exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${path}$`));
+    await expect(page.getByRole("heading", { level: 1, name: heading })).toBeVisible();
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${path}$`));
+  }
 });

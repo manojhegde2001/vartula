@@ -21,7 +21,7 @@ export function homeJsonLd(tools: Tool[]) {
         "@id": organizationId,
         name: siteConfig.name,
         url: siteConfig.url,
-        logo: absoluteUrl("/apple-icon"),
+        logo: absoluteUrl("/icon-512.png"),
         sameAs: [siteConfig.repo],
       },
       {

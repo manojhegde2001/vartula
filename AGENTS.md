@@ -37,10 +37,11 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 
 ```
 src/
-  app/                    routes: home, /tools/[slug], sitemap, robots, manifest, icons, 404, OG images,
+  app/                    routes: home, /tools/[slug], about, contact, privacy, terms, sitemap, robots, manifest,
+                          icons, 404, error boundaries, OG images,
                           llms.txt, llms-full.txt, markdown/tools/[slug] (served at /tools/<slug>.md)
   components/             site chrome (header, footer, tool grid, theme) and components/ui (shadcn)
-  lib/                    site config and shared utilities
+  lib/                    site config, logo mark (logo.tsx; app icons come from the logo kit), info page list, utilities
   tools/
     registry.ts           tool metadata — the source of truth
     components.tsx        slug -> server component that renders the tool page
@@ -73,3 +74,6 @@ e2e/                      Playwright smoke and integration tests
 - `npm run test:e2e` — Playwright smoke tests (builds and starts the app)
 - `npm run size` — first-load JS budget check (run after `npm run build`)
 - `npm run lint`, `npm run typecheck`
+
+The privacy policy (`src/app/privacy`) describes exactly what data the site handles. Update it, and the
+`updated` date in `src/lib/pages.ts`, whenever you add analytics, third-party requests or storage.
