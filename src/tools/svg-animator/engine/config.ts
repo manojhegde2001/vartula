@@ -6,8 +6,8 @@ export const ANIMATION_TYPES: readonly AnimationType[] = ["transition", "animati
 
 export const defaultConfig: AnimatorConfig = {
   type: "transition",
-  stroke: { enabled: true, duration: 1500, delay: 0, stagger: 120, easing: "easeInOutCubic", direction: "normal" },
-  fill: { enabled: true, duration: 700, delay: 1200, stagger: 120, easing: "easeOutQuad", direction: "normal" },
+  stroke: { enabled: true, duration: 1500, delay: 0, stagger: 50, easing: "easeInOutCubic", direction: "normal" },
+  fill: { enabled: true, duration: 700, delay: 1200, stagger: 50, easing: "easeOutQuad", direction: "normal" },
   background: "#ffffff",
 };
 
