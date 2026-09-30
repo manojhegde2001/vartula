@@ -131,3 +131,13 @@ test("explains when the browser cannot export media", async ({ page }) => {
   await expect(dialog.getByRole("alert")).toContainText("can't render animation frames");
   await expect(dialog.getByRole("button", { name: "Export MP4" })).toBeDisabled();
 });
+
+test("responses carry security headers", async ({ request }) => {
+  for (const path of ["/", "/tools/svg-animator", "/tools/svg-animator.md"]) {
+    const headers = (await request.get(path)).headers();
+    expect(headers["content-security-policy"]).toContain("frame-ancestors 'none'");
+    expect(headers["x-content-type-options"]).toBe("nosniff");
+    expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+    expect(headers["x-powered-by"]).toBeUndefined();
+  }
+});
