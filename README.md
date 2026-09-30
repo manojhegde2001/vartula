@@ -26,9 +26,9 @@ npm run typecheck
 
 Before the first e2e run, install the browser once: `npx playwright install chromium`.
 
-The site is live at https://vartula.vercel.app (deployed by Vercel from `main`). Canonical URLs,
-the sitemap and Open Graph images use that domain by default; set `NEXT_PUBLIC_SITE_URL` to
-override it, for example after adding a custom domain.
+The site is live at https://www.vartula.net (deployed by Vercel from `main`). Canonical URLs,
+the sitemap, llms.txt and Open Graph images use that domain by default; set `NEXT_PUBLIC_SITE_URL`
+to override it. Requests to vartula.vercel.app and the bare vartula.net domain redirect there.
 
 ## How the SVG Animator works
 
