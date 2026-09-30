@@ -9,10 +9,10 @@ export const content: ToolContent = {
   ],
   howToTitle: "How to animate an SVG",
   howTo: [
-    "Upload an SVG, drag it onto the page, or paste the markup.",
-    "Adjust stroke drawing and fill fade timing: duration, delay, stagger, easing and direction.",
-    "Pick Transition to play once or Animation to loop, and set a background color.",
-    "Copy the generated CSS, SMIL, React, JavaScript or GSAP code, or export a video, GIF or PNG sequence.",
+    "Upload an SVG, drag it onto the preview, paste the markup, or start from a sample.",
+    "Pick a style preset such as Draw + fill, Handwritten or Pulse loop, then fine-tune the speed and each duration. The timing button beside each of them opens delay, stagger, easing and direction.",
+    "Choose Once to play a single time or Loop to repeat forever, and set a background color.",
+    "Use Export to copy CSS, SMIL, React, JavaScript or GSAP code, or to render a video, GIF or PNG sequence.",
   ],
   features: {
     title: "Export formats",
@@ -40,9 +40,9 @@ export const content: ToolContent = {
         "No. Parsing, previewing and every export — CSS, JavaScript, MP4, GIF and PNG — happen entirely in your browser. Your file never leaves your device.",
     },
     {
-      question: "What is the difference between Transition and Animation?",
+      question: "What is the difference between Once and Loop?",
       answer:
-        "Transition plays once and holds the final frame, which suits logos that draw in on page load or when scrolled into view. Animation loops forever; combine it with the Alternate direction to draw in and out continuously.",
+        "Once plays a single time and holds the final frame, which suits logos that draw in on page load or when scrolled into view. Loop repeats forever; combine it with the Alternate direction, as the Pulse loop preset does, to draw in and out continuously.",
     },
     {
       question: "Why doesn't my text animate?",

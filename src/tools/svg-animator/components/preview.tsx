@@ -109,10 +109,10 @@ export function Preview({ className }: { className?: string }) {
   const transparent = config.background === "transparent";
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={className}>
       <div
         className={cn(
-          "relative aspect-[4/3] w-full overflow-hidden rounded-xl border",
+          "relative aspect-[4/3] max-h-[60dvh] min-h-64 w-full overflow-hidden lg:aspect-auto lg:max-h-none lg:min-h-0 lg:flex-1",
           transparent && "bg-checkerboard",
         )}
         style={transparent ? undefined : { background: config.background }}
@@ -129,7 +129,7 @@ export function Preview({ className }: { className?: string }) {
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 border-t p-2">
         <Button
           size="icon"
           variant="outline"
@@ -152,7 +152,7 @@ export function Preview({ className }: { className?: string }) {
           disabled={!source}
           onValueChange={(v) => seek(v as number)}
         />
-        <span className="w-24 text-right font-mono text-xs text-muted-foreground tabular-nums">
+        <span className="pr-1 text-right font-mono text-xs whitespace-nowrap text-muted-foreground tabular-nums">
           {formatSeconds(Math.min(time, duration))} / {formatSeconds(duration)}
         </span>
       </div>

@@ -17,3 +17,4 @@ export {
   DASH_PAD_RATIO,
 } from "./timeline";
 export { applyFrame } from "./apply";
+export { presets, applyPreset, matchPreset, scaleTiming, type Preset } from "./presets";
