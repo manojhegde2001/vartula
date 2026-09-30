@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getTool, tools } from "./registry";
 import { toolComponents } from "./components";
-import { filterTools } from "@/components/tool-grid";
+import { filterTools } from "@/lib/filter-tools";
 import sitemap from "@/app/sitemap";
 
 describe("tool registry", () => {

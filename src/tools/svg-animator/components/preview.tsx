@@ -5,6 +5,7 @@ import { Pause, Play, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { applyFrame, collectDrawables, getFrameState, loopDuration } from "../engine";
+import { defaultSample } from "../samples";
 import { useAnimatorStore } from "../store";
 import { cn } from "@/lib/utils";
 
@@ -118,7 +119,13 @@ export function Preview({ className }: { className?: string }) {
       >
         <div ref={hostRef} data-testid="preview" className="absolute inset-4" />
         {!source && (
-          <div className="absolute inset-0 grid place-items-center text-sm text-muted-foreground">Loading preview…</div>
+          // Server-rendered poster (a trusted built-in sample) so the preview isn't empty before hydration.
+          <div
+            role="img"
+            aria-label={`${defaultSample.name} SVG line-drawing preview`}
+            className="absolute inset-4 [&>svg]:size-full"
+            dangerouslySetInnerHTML={{ __html: defaultSample.markup }}
+          />
         )}
       </div>
 

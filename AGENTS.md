@@ -25,7 +25,9 @@ Every tool runs fully client-side; nothing is uploaded to a server.
   so the initial tool bundle stays small.
 - SVG Animator: the engine is the single source of truth. The preview, code exporters and
   video export must all derive values from `getFrameState` / `buildPlan`; never re-implement timing.
-- Run `npm run build`, `npm run lint` and `npm test` before committing.
+- Run `npm run build`, `npm run size`, `npm run lint` and `npm test` before committing.
+- The home page must not load Base UI: use native elements (with `buttonVariants` from `ui/button-variants`)
+  in site chrome and render cards on the server. `npm run size` enforces the first-load JS budgets.
 
 ## Structure
 
@@ -63,4 +65,5 @@ e2e/                      Playwright smoke and integration tests
 - `npm run build` — production build
 - `npm test` — Vitest unit and snapshot tests
 - `npm run test:e2e` — Playwright smoke tests (builds and starts the app)
+- `npm run size` — first-load JS budget check (run after `npm run build`)
 - `npm run lint`, `npm run typecheck`

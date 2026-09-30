@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { Check, Copy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,7 @@ import { useAnimatorStore } from "../store";
 
 type Exporters = typeof import("../engine/exporters");
 
-/** Code output tabs. Exporters and the highlighter load on first use. */
+/** Code output tabs. Exporters load after hydration; the highlighter waits until the panel is near the viewport. */
 export function CodeExport() {
   const source = useAnimatorStore((s) => s.source);
   const config = useAnimatorStore((s) => s.config);
@@ -21,6 +21,8 @@ export function CodeExport() {
   const [minify, setMinify] = useState(false);
   const [copied, setCopied] = useState(false);
   const [html, setHtml] = useState<{ code: string; html: string | null } | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const nearViewport = useNearViewport(sectionRef);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,7 +46,7 @@ export function CodeExport() {
   }, [format, source, deferredConfig, minify]);
 
   useEffect(() => {
-    if (!code || !format) return;
+    if (!code || !format || !nearViewport) return;
     let cancelled = false;
     import("../lib/highlight")
       .then(({ highlight }) => highlight(code, format.lang))
@@ -53,7 +55,7 @@ export function CodeExport() {
     return () => {
       cancelled = true;
     };
-  }, [code, format]);
+  }, [code, format, nearViewport]);
 
   const copy = async () => {
     await navigator.clipboard.writeText(code);
@@ -64,7 +66,7 @@ export function CodeExport() {
   const highlighted = html?.code === code ? html.html : null;
 
   return (
-    <section aria-labelledby="code-heading" className="space-y-3 rounded-xl border bg-card p-4">
+    <section ref={sectionRef} aria-labelledby="code-heading" className="space-y-3 rounded-xl border bg-card p-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="code-heading" className="font-semibold">
           Export code
@@ -112,4 +114,22 @@ export function CodeExport() {
       </div>
     </section>
   );
+}
+
+/** True once the element comes within 300px of the viewport (stays true). */
+function useNearViewport(ref: RefObject<HTMLElement | null>) {
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || near) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setNear(true);
+      },
+      { rootMargin: "300px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref, near]);
+  return near;
 }
