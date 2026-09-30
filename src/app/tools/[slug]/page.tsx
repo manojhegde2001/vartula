@@ -25,10 +25,10 @@ export default async function ToolPage({ params }: PageProps<"/tools/[slug]">) {
   if (!tool || !ToolComponent) notFound();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 lg:py-4">
       <JsonLd data={toolJsonLd(tool)} />
       <JsonLd data={breadcrumbJsonLd(tool)} />
-      <nav aria-label="Breadcrumb" className="mb-4 text-sm text-muted-foreground">
+      <nav aria-label="Breadcrumb" className="mb-2 text-sm text-muted-foreground lg:mb-1 lg:text-xs">
         <ol className="flex items-center gap-1.5">
           <li>
             <Link href="/" className="hover:text-foreground">
@@ -45,9 +45,11 @@ export default async function ToolPage({ params }: PageProps<"/tools/[slug]">) {
           </li>
         </ol>
       </nav>
-      <header className="mb-6 space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">{tool.name}</h1>
-        <p className="max-w-3xl text-muted-foreground">{tool.description}</p>
+      <header className="mb-4 space-y-1 lg:flex lg:items-baseline lg:gap-4 lg:space-y-0">
+        <h1 className="shrink-0 text-2xl font-bold tracking-tight">{tool.name}</h1>
+        <p className="max-w-3xl text-sm text-muted-foreground lg:max-w-none lg:min-w-0 lg:truncate" title={tool.description}>
+          {tool.description}
+        </p>
       </header>
       <ToolComponent />
     </div>

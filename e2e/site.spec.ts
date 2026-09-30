@@ -31,7 +31,7 @@ test("tool page ships metadata, JSON-LD and an OG image", async ({ page, request
 test("settings round-trip through the share hash", async ({ page }) => {
   await page.goto("/tools/svg-animator");
   await expect(page.getByTestId("preview").locator("svg")).toBeVisible();
-  await page.getByRole("radio", { name: /Animation/ }).click();
+  await page.getByRole("radio", { name: /^Loop/ }).click();
   await page.getByRole("button", { name: "Samples" }).click();
   await page.getByRole("menuitem", { name: "Heart" }).click();
   await expect(page.getByText(/Editing\s*Heart/)).toBeVisible();
@@ -41,7 +41,7 @@ test("settings round-trip through the share hash", async ({ page }) => {
   const other = await page.context().newPage();
   await other.goto(shared);
   await expect(other.getByText(/Editing\s*Heart/)).toBeVisible();
-  await expect(other.getByRole("radio", { name: /Animation/ })).toHaveAttribute("aria-checked", "true");
+  await expect(other.getByRole("radio", { name: /^Loop/ })).toHaveAttribute("aria-checked", "true");
 });
 
 async function downloadCode(page: Page, tab: string) {
@@ -55,7 +55,7 @@ async function downloadCode(page: Page, tab: string) {
 test("exported CSS, JavaScript and SMIL animate identically in the browser", async ({ page, context }) => {
   await page.goto("/tools/svg-animator");
   await expect(page.getByTestId("preview").locator("svg")).toBeVisible();
-  await page.getByRole("radio", { name: /Animation/ }).click();
+  await page.getByRole("radio", { name: /^Loop/ }).click();
 
   const svg = await downloadCode(page, "SVG");
   const css = await downloadCode(page, "CSS");
@@ -104,7 +104,8 @@ test("exported CSS, JavaScript and SMIL animate identically in the browser", asy
 test("media export can be cancelled", async ({ page }) => {
   await page.goto("/tools/svg-animator");
   await expect(page.getByTestId("preview").locator("svg")).toBeVisible();
-  await page.getByRole("button", { name: "Export video / GIF" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await page.getByRole("menuitem", { name: /^Video \/ GIF/ }).click();
   const dialog = page.getByRole("dialog");
   await dialog.getByRole("radio", { name: /^PNG sequence/ }).click();
   await dialog.getByRole("radio", { name: /^1080p/ }).click();
@@ -126,7 +127,8 @@ test("explains when the browser cannot export media", async ({ page }) => {
   });
   await page.goto("/tools/svg-animator");
   await expect(page.getByTestId("preview").locator("svg")).toBeVisible();
-  await page.getByRole("button", { name: "Export video / GIF" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await page.getByRole("menuitem", { name: /^Video \/ GIF/ }).click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("alert")).toContainText("can't render animation frames");
   await expect(dialog.getByRole("button", { name: "Export MP4" })).toBeDisabled();

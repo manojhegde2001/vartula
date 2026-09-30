@@ -1,7 +1,7 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState, type RefObject } from "react";
-import { Check, Copy, Download } from "lucide-react";
+import { Check, CirclePlay, Copy, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -9,14 +9,26 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { downloadText } from "@/lib/download";
 import type { CodeFormat } from "../engine/exporters";
 import { useAnimatorStore } from "../store";
+import { CODE_SECTION_ID } from "./export-menu";
 
 type Exporters = typeof import("../engine/exporters");
+type FormatLogos = typeof import("../lib/format-logos").formatLogos;
+
+function FormatLogo({ id, logos }: { id: CodeFormat["id"]; logos: FormatLogos }) {
+  const logo = logos[id];
+  if (!logo) return <CirclePlay aria-hidden className="size-4 text-[#FFB13B]" />;
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className="size-4 shrink-0" fill={logo.color}>
+      <path d={logo.path} />
+    </svg>
+  );
+}
 
 /** Code output tabs. Exporters load after hydration; the highlighter waits until the panel is near the viewport. */
 export function CodeExport() {
   const source = useAnimatorStore((s) => s.source);
   const config = useAnimatorStore((s) => s.config);
-  const [exporters, setExporters] = useState<Exporters | null>(null);
+  const [exporters, setExporters] = useState<{ mod: Exporters; logos: FormatLogos } | null>(null);
   const [formatId, setFormatId] = useState<CodeFormat["id"]>("css");
   const [minify, setMinify] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -26,7 +38,9 @@ export function CodeExport() {
 
   useEffect(() => {
     let cancelled = false;
-    import("../engine/exporters").then((mod) => !cancelled && setExporters(mod));
+    Promise.all([import("../engine/exporters"), import("../lib/format-logos")]).then(
+      ([mod, { formatLogos }]) => !cancelled && setExporters({ mod, logos: formatLogos }),
+    );
     return () => {
       cancelled = true;
     };
@@ -34,7 +48,7 @@ export function CodeExport() {
 
   // Deferred so dragging a slider doesn't regenerate code on every tick.
   const deferredConfig = useDeferredValue(config);
-  const format = exporters?.codeFormats.find((f) => f.id === formatId);
+  const format = exporters?.mod.codeFormats.find((f) => f.id === formatId);
 
   const code = useMemo(() => {
     if (!format || !source) return "";
@@ -66,10 +80,15 @@ export function CodeExport() {
   const highlighted = html?.code === code ? html.html : null;
 
   return (
-    <section ref={sectionRef} aria-labelledby="code-heading" className="space-y-3 rounded-xl border bg-card p-4">
+    <section
+      ref={sectionRef}
+      id={CODE_SECTION_ID}
+      aria-labelledby="code-heading"
+      className="scroll-mt-20 space-y-3 rounded-xl border bg-card p-4"
+    >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 id="code-heading" className="font-semibold">
-          Export code
+          Get the code
         </h2>
         <div className="flex items-center gap-2">
           <Label className="flex items-center gap-2 text-sm font-normal">
@@ -91,9 +110,10 @@ export function CodeExport() {
       </div>
 
       <Tabs value={formatId} onValueChange={(v) => setFormatId(v as CodeFormat["id"])}>
-        <TabsList className="h-auto w-full flex-wrap justify-start">
-          {(exporters?.codeFormats ?? []).map((f) => (
-            <TabsTrigger key={f.id} value={f.id} className="flex-none px-3">
+        <TabsList className="w-full justify-start overflow-x-auto [scrollbar-width:none]">
+          {exporters?.mod.codeFormats.map((f) => (
+            <TabsTrigger key={f.id} value={f.id} className="flex-none gap-1.5 px-3">
+              <FormatLogo id={f.id} logos={exporters.logos} />
               {f.label}
             </TabsTrigger>
           ))}

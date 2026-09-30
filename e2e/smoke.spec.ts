@@ -38,7 +38,8 @@ test("upload an SVG, then export CSS and MP4", async ({ page }) => {
   expect(cssBytes.toString("utf8")).toContain(".vartula-svg .vt-2");
 
   // MP4 export
-  await page.getByRole("button", { name: "Export video / GIF" }).click();
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  await page.getByRole("menuitem", { name: /^Video \/ GIF/ }).click();
   const dialog = page.getByRole("dialog");
   await dialog.getByRole("radio", { name: /^MP4/ }).click();
   await dialog.getByRole("radio", { name: /^720p/ }).click();

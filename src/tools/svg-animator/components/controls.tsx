@@ -1,270 +1,253 @@
 "use client";
 
-import { useId, useState } from "react";
-import { Check, Link2, RotateCcw } from "lucide-react";
+import { lazy, Suspense, useId, type ReactNode } from "react";
+import { RotateCcw, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DIRECTIONS, easingLabel, easingNames, isSafeColor } from "../engine";
-import type { AnimationType, Direction, EasingName } from "../engine";
-import { encodeShareHash } from "../lib/share";
+import { easingLabel, isSafeColor, matchPreset, presets } from "../engine";
+import type { AnimationType } from "../engine";
 import { useAnimatorStore, type ChannelName } from "../store";
+import { TimeField } from "./time-field";
 import { cn } from "@/lib/utils";
 
-const directionLabels: Record<Direction, string> = {
-  normal: "Normal",
-  reverse: "Reverse",
-  alternate: "Alternate",
-  "alternate-reverse": "Alternate reverse",
-};
-const directionItems = DIRECTIONS.map((value) => ({ value, label: directionLabels[value] }));
-const easingItems = easingNames.map((value) => ({ value, label: easingLabel(value) }));
-const easingGroups: { label: string; names: EasingName[] }[] = [
-  { label: "Basic", names: ["linear", "ease"] },
-  ...["Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Back"].map((fam) => ({
-    label: fam,
-    names: easingNames.filter((n) => n.endsWith(fam)),
-  })),
-];
+const SPEEDS = [0.5, 1, 1.5, 2];
 
-function TimeField({
+const formatSeconds = (ms: number) => `${Number((ms / 1000).toFixed(2))}s`;
+
+// The timing popover (Popover + Select) is a separate chunk to keep the first load small.
+const LazyChannelDetails = lazy(() => import("./channel-details"));
+
+/** Summary button for a channel's advanced timing; it becomes the popover trigger once that loads. */
+function ChannelDetails({ channel, title }: { channel: ChannelName; title: string }) {
+  const cfg = useAnimatorStore((s) => s.config[channel]);
+  const trigger = (
+    <Button variant="ghost" size="xs" className="max-w-44 text-muted-foreground" aria-label={`More ${title.toLowerCase()} options`}>
+      <SlidersHorizontal />
+      <span className="truncate">
+        {easingLabel(cfg.easing)}
+        {cfg.delay > 0 && ` · ${formatSeconds(cfg.delay)}`}
+      </span>
+    </Button>
+  );
+  return (
+    <Suspense fallback={trigger}>
+      <LazyChannelDetails channel={channel} title={title} trigger={trigger} />
+    </Suspense>
+  );
+}
+
+function Section({ title, aside, children }: { title: string; aside?: ReactNode; children: ReactNode }) {
+  return (
+    <section className="space-y-2.5 px-4 py-3">
+      <div className="flex h-6 items-center justify-between gap-2">
+        <h3 className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{title}</h3>
+        {aside}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/** Pill-style radio group used for the small choices in the panel. */
+function Segmented<T extends string | number>({
   label,
   value,
-  max,
-  step = 50,
+  options,
   onChange,
-  disabled,
+  className,
 }: {
   label: string;
-  value: number;
-  max: number;
-  step?: number;
-  onChange: (ms: number) => void;
-  disabled?: boolean;
+  value: T | null;
+  options: { value: T; label: string; title?: string }[];
+  onChange: (value: T) => void;
+  className?: string;
 }) {
-  const id = useId();
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between gap-2">
-        <Label htmlFor={id}>{label}</Label>
-        <div className="flex items-center gap-1">
-          <Input
-            id={id}
-            type="number"
-            inputMode="decimal"
-            min={0}
-            step={step / 1000}
-            value={Number((value / 1000).toFixed(3))}
-            disabled={disabled}
-            onChange={(e) => {
-              const seconds = parseFloat(e.target.value);
-              if (Number.isFinite(seconds)) onChange(Math.max(0, Math.round(seconds * 1000)));
-            }}
-            className="h-7 w-20 text-right tabular-nums"
-          />
-          <span className="text-xs text-muted-foreground">s</span>
-        </div>
-      </div>
-      <Slider
-        aria-label={label}
-        min={0}
-        max={Math.max(max, value)}
-        step={step}
-        value={value}
-        disabled={disabled}
-        onValueChange={(v) => onChange(v as number)}
-      />
-    </div>
-  );
-}
-
-function ChannelControls({ channel }: { channel: ChannelName }) {
-  const cfg = useAnimatorStore((s) => s.config[channel]);
-  const update = useAnimatorStore((s) => s.updateChannel);
-  const set = (patch: Parameters<typeof update>[1]) => update(channel, patch);
-  const off = !cfg.enabled;
-  const switchId = useId();
-  const title = channel === "stroke" ? "Draw strokes" : "Fade in fills";
-
-  return (
-    <div className="space-y-5">
-      <div className="flex items-center justify-between">
-        <Label htmlFor={switchId}>{title}</Label>
-        <Switch id={switchId} checked={cfg.enabled} onCheckedChange={(enabled) => set({ enabled })} />
-      </div>
-      <TimeField label="Duration" value={cfg.duration} max={10_000} disabled={off} onChange={(duration) => set({ duration })} />
-      <TimeField label="Delay" value={cfg.delay} max={10_000} disabled={off} onChange={(delay) => set({ delay })} />
-      <TimeField
-        label="Stagger step"
-        value={cfg.stagger}
-        max={2_000}
-        step={10}
-        disabled={off}
-        onChange={(stagger) => set({ stagger })}
-      />
-      <div className="space-y-2">
-        <Label>Easing</Label>
-        <Select
-          items={easingItems}
-          value={cfg.easing}
-          disabled={off}
-          onValueChange={(v) => v && set({ easing: v as EasingName })}
-        >
-          <SelectTrigger className="w-full" aria-label={`${channel} easing`}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent alignItemWithTrigger={false} className="max-h-80">
-            {easingGroups.map((g) => (
-              <SelectGroup key={g.label}>
-                <SelectLabel>{g.label}</SelectLabel>
-                {g.names.map((n) => (
-                  <SelectItem key={n} value={n}>
-                    {easingLabel(n)}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2">
-        <Label>Direction</Label>
-        <Select
-          items={directionItems}
-          value={cfg.direction}
-          disabled={off}
-          onValueChange={(v) => v && set({ direction: v as Direction })}
-        >
-          <SelectTrigger className="w-full" aria-label={`${channel} direction`}>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {directionItems.map((d) => (
-              <SelectItem key={d.value} value={d.value}>
-                {d.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-  );
-}
-
-function TypeToggle() {
-  const type = useAnimatorStore((s) => s.config.type);
-  const setType = useAnimatorStore((s) => s.setType);
-  const options: { value: AnimationType; label: string; hint: string }[] = [
-    { value: "transition", label: "Transition", hint: "Plays once" },
-    { value: "animation", label: "Animation", hint: "Loops forever" },
-  ];
-  return (
-    <div role="radiogroup" aria-label="Animation type" className="grid grid-cols-2 gap-1 rounded-lg bg-muted p-1">
+    <div role="radiogroup" aria-label={label} className={cn("grid gap-1 rounded-lg bg-muted p-1", className)}>
       {options.map((o) => (
         <button
-          key={o.value}
+          key={String(o.value)}
           type="button"
           role="radio"
-          aria-checked={type === o.value}
-          onClick={() => setType(o.value)}
+          aria-checked={value === o.value}
+          title={o.title}
+          onClick={() => onChange(o.value)}
           className={cn(
-            "rounded-md px-2 py-1.5 text-left text-sm transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
-            type === o.value ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground",
+            "h-7 min-w-0 truncate rounded-md px-2 text-center text-sm transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+            value === o.value ? "bg-background font-medium shadow-sm" : "text-muted-foreground hover:text-foreground",
           )}
         >
-          <span className="block font-medium">{o.label}</span>
-          <span className="block text-xs text-muted-foreground">{o.hint}</span>
+          {o.label}
         </button>
       ))}
     </div>
   );
 }
 
-function BackgroundField() {
-  const background = useAnimatorStore((s) => s.config.background);
-  const setBackground = useAnimatorStore((s) => s.setBackground);
-  const transparent = background === "transparent";
-  const hex = /^#[0-9a-f]{6}$/i.test(background) ? background : "#ffffff";
-  const id = useId();
-
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>Background</Label>
-      <div className="flex items-center gap-2">
-        <input
-          id={id}
-          type="color"
-          aria-label="Background color"
-          value={hex}
-          disabled={transparent}
-          onChange={(e) => setBackground(e.target.value)}
-          className="h-8 w-10 cursor-pointer rounded-md border bg-transparent p-0.5 disabled:cursor-not-allowed disabled:opacity-50"
-        />
-        <Input
-          aria-label="Background color value"
-          defaultValue={background}
-          key={background}
-          disabled={transparent}
-          onBlur={(e) => isSafeColor(e.target.value) && setBackground(e.target.value.trim())}
-          onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
-          className="h-8 flex-1 font-mono"
-        />
-        <label className="flex items-center gap-2 text-sm">
-          <Switch checked={transparent} onCheckedChange={(on) => setBackground(on ? "transparent" : "#ffffff")} />
-          Transparent
-        </label>
-      </div>
-    </div>
-  );
-}
-
-function ShareButton() {
-  const [copied, setCopied] = useState(false);
-  const share = async () => {
-    const { config, source } = useAnimatorStore.getState();
-    const url = `${window.location.origin}${window.location.pathname}#${encodeShareHash(config, source?.sampleId)}`;
-    await navigator.clipboard.writeText(url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-  return (
-    <Button variant="ghost" size="sm" onClick={share} title="Copy a link to these settings">
-      {copied ? <Check /> : <Link2 />} {copied ? "Copied" : "Copy link"}
-    </Button>
-  );
-}
-
-export function Controls() {
+function PresetPicker() {
+  const config = useAnimatorStore((s) => s.config);
+  const apply = useAnimatorStore((s) => s.applyPreset);
   const resetConfig = useAnimatorStore((s) => s.resetConfig);
+  const active = matchPreset(config);
   return (
-    <div className="space-y-6 rounded-xl border bg-card p-4">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="font-semibold">Settings</h2>
-        <div className="flex gap-1">
-          <ShareButton />
-          <Button variant="ghost" size="sm" onClick={resetConfig}>
+    <Section
+      title="Style"
+      aside={
+        <div className="flex items-center gap-1">
+          {!active && <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">Custom</span>}
+          <Button variant="ghost" size="xs" onClick={resetConfig} title="Reset all settings">
             <RotateCcw /> Reset
           </Button>
         </div>
+      }
+    >
+      <Segmented
+        label="Style preset"
+        className="grid-cols-3"
+        value={active?.id ?? null}
+        onChange={(id) => {
+          const preset = presets.find((p) => p.id === id);
+          if (preset) apply(preset);
+        }}
+        options={presets.map((p) => ({ value: p.id, label: p.name, title: p.hint }))}
+      />
+    </Section>
+  );
+}
+
+function PlaybackFields() {
+  const type = useAnimatorStore((s) => s.config.type);
+  const setType = useAnimatorStore((s) => s.setType);
+  const speed = useAnimatorStore((s) => s.speed);
+  const setSpeed = useAnimatorStore((s) => s.setSpeed);
+  return (
+    <Section title="Playback">
+      <Segmented<AnimationType>
+        label="Animation type"
+        className="grid-cols-2"
+        value={type}
+        onChange={setType}
+        options={[
+          { value: "transition", label: "Once", title: "Plays once and holds the last frame" },
+          { value: "animation", label: "Loop", title: "Repeats forever" },
+        ]}
+      />
+      <div className="flex items-center gap-3">
+        <span className="w-20 shrink-0 text-sm" aria-hidden>
+          Speed
+        </span>
+        <Segmented
+          label="Speed"
+          className="flex-1 grid-cols-4"
+          value={speed}
+          onChange={setSpeed}
+          options={SPEEDS.map((s) => ({ value: s, label: `${s}×` }))}
+        />
       </div>
-      <TypeToggle />
-      <Tabs defaultValue="stroke">
-        <TabsList className="w-full">
-          <TabsTrigger value="stroke">Stroke</TabsTrigger>
-          <TabsTrigger value="fill">Fill</TabsTrigger>
-        </TabsList>
-        <TabsContent value="stroke" className="pt-3">
-          <ChannelControls channel="stroke" />
-        </TabsContent>
-        <TabsContent value="fill" className="pt-3">
-          <ChannelControls channel="fill" />
-        </TabsContent>
-      </Tabs>
-      <BackgroundField />
-    </div>
+    </Section>
+  );
+}
+
+function ChannelSection({ channel }: { channel: ChannelName }) {
+  const cfg = useAnimatorStore((s) => s.config[channel]);
+  const update = useAnimatorStore((s) => s.updateChannel);
+  const switchId = useId();
+  const title = channel === "stroke" ? "Draw strokes" : "Fade in fills";
+
+  return (
+    <section className="space-y-2.5 px-4 py-3">
+      <div className="flex h-6 items-center gap-2">
+        <Switch id={switchId} checked={cfg.enabled} onCheckedChange={(enabled) => update(channel, { enabled })} />
+        <Label htmlFor={switchId} className="flex-1 cursor-pointer">
+          {title}
+          {!cfg.enabled && <span className="font-normal text-muted-foreground"> · off</span>}
+        </Label>
+        {cfg.enabled && <ChannelDetails channel={channel} title={title} />}
+      </div>
+      {cfg.enabled && (
+        <TimeField inline label="Duration" value={cfg.duration} max={10_000} onChange={(duration) => update(channel, { duration })} />
+      )}
+    </section>
+  );
+}
+
+const swatches = [
+  { value: "#ffffff", label: "White", className: "bg-white" },
+  { value: "#0a0a0a", label: "Dark", className: "bg-neutral-950" },
+  { value: "transparent", label: "Transparent", className: "bg-checkerboard" },
+];
+
+function BackgroundField() {
+  const background = useAnimatorStore((s) => s.config.background);
+  const setBackground = useAnimatorStore((s) => s.setBackground);
+  const hex = /^#[0-9a-f]{6}$/i.test(background) ? background : "#ffffff";
+  const isSwatch = swatches.some((s) => s.value === background.toLowerCase());
+  const ring = "ring-2 ring-primary ring-offset-2 ring-offset-card";
+
+  return (
+    <section className="flex items-center gap-2 px-4 py-3">
+      <h3 className="w-20 shrink-0 text-sm">Background</h3>
+      <div role="radiogroup" aria-label="Background" className="flex gap-2">
+        {swatches.map((s) => {
+          const checked = background.toLowerCase() === s.value;
+          return (
+            <button
+              key={s.value}
+              type="button"
+              role="radio"
+              aria-checked={checked}
+              aria-label={s.label}
+              title={s.label}
+              onClick={() => setBackground(s.value)}
+              className={cn(
+                "size-6 rounded-full border focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                s.className,
+                checked && ring,
+              )}
+            />
+          );
+        })}
+      </div>
+      <label
+        title="Custom color"
+        className={cn("relative size-6 shrink-0 cursor-pointer overflow-hidden rounded-full border", !isSwatch && ring)}
+        style={{ background: isSwatch ? "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)" : background }}
+      >
+        <input
+          type="color"
+          aria-label="Background color"
+          value={hex}
+          onChange={(e) => setBackground(e.target.value)}
+          className="absolute inset-0 cursor-pointer opacity-0"
+        />
+      </label>
+      <Input
+        aria-label="Background color value"
+        defaultValue={background}
+        key={background}
+        onBlur={(e) => isSafeColor(e.target.value) && setBackground(e.target.value.trim())}
+        onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+        className="h-7 min-w-0 flex-1 font-mono text-xs"
+      />
+    </section>
+  );
+}
+
+export function Controls({ className }: { className?: string }) {
+  return (
+    // One column on phones and beside the preview (lg+); two columns on tablets, where the panel is full width.
+    <aside aria-label="Animation settings" className={cn("grid content-start rounded-xl border bg-card md:max-lg:grid-cols-2", className)}>
+      <div className="divide-y">
+        <PresetPicker />
+        <PlaybackFields />
+      </div>
+      <div className="divide-y border-t md:max-lg:border-t-0 md:max-lg:border-l">
+        <ChannelSection channel="stroke" />
+        <ChannelSection channel="fill" />
+        <BackgroundField />
+      </div>
+    </aside>
   );
 }
