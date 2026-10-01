@@ -187,3 +187,83 @@
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+
+/* Category accent colours. Set --tone-h (an OKLCH hue from categoryInfo) on an element with .tone. */
+.tone {
+  --tone: oklch(0.6 0.19 var(--tone-h, 280));
+  --tone-fg: oklch(0.47 0.17 var(--tone-h, 280));
+  --tone-soft: oklch(0.965 0.025 var(--tone-h, 280));
+  --tone-muted: oklch(0.88 0.07 var(--tone-h, 280));
+}
+.dark .tone {
+  --tone: oklch(0.72 0.16 var(--tone-h, 280));
+  --tone-fg: oklch(0.83 0.11 var(--tone-h, 280));
+  --tone-soft: oklch(0.26 0.045 var(--tone-h, 280));
+  --tone-muted: oklch(0.42 0.09 var(--tone-h, 280));
+}
+
+/*
+ * Line drawing, CSS-only. Strokes use pathLength="1" so one dash covers any shape.
+ * The static state is the finished drawing; motion only plays when the user allows it.
+ * .draw-loop repeats forever (home hero); .draw-hover replays when its .group is hovered (tool cards).
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-loop .draw {
+    stroke-dasharray: 1;
+    animation: draw-loop 7s ease-in-out infinite both;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+  .draw-loop .draw-fill {
+    animation: fill-loop 7s ease-in-out infinite both;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+  .draw-loop .playhead {
+    animation: playhead 7s linear infinite both;
+  }
+  .group:hover .draw-hover .draw,
+  .group:focus-visible .draw-hover .draw {
+    stroke-dasharray: 1;
+    animation: draw-once 1.2s ease-in-out both;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+  .group:hover .draw-hover .draw-fill,
+  .group:focus-visible .draw-hover .draw-fill {
+    animation: fill-once 1.6s ease-in-out both;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+  .group:hover .draw-hover .playhead,
+  .group:focus-visible .draw-hover .playhead {
+    animation: playhead 1.8s linear both;
+  }
+  .hero-float {
+    animation: hero-float 6s ease-in-out infinite;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+}
+@keyframes draw-loop {
+  0%, 4% { stroke-dashoffset: 1; opacity: 1; }
+  40%, 88% { stroke-dashoffset: 0; opacity: 1; }
+  96%, 100% { stroke-dashoffset: 0; opacity: 0; }
+}
+@keyframes fill-loop {
+  0%, 38% { fill-opacity: 0; opacity: 1; }
+  55%, 88% { fill-opacity: 1; opacity: 1; }
+  96%, 100% { fill-opacity: 1; opacity: 0; }
+}
+@keyframes draw-once {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fill-once {
+  0%, 55% { fill-opacity: 0; }
+  100% { fill-opacity: 1; }
+}
+/* The playhead is drawn at the end of its track; it travels there from the start. */
+@keyframes playhead {
+  from { transform: translateX(calc(-1 * var(--track, 100px))); }
+  to { transform: translateX(0); }
+}
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}

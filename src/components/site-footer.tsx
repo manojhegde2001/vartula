@@ -7,7 +7,7 @@ import { tools, toolPath } from "@/tools/registry";
 export function SiteFooter() {
   return (
     <footer className="mt-16 border-t">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-muted-foreground sm:grid-cols-[2fr_1fr_1fr]">
+      <div className="grid gap-8 px-4 py-10 sm:px-6 lg:px-8 text-sm text-muted-foreground sm:grid-cols-[2fr_1fr_1fr]">
         <div>
           <p className="text-foreground">
             <Logo className="text-xl" />

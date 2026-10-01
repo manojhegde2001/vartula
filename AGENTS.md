@@ -16,11 +16,13 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 ## Rules
 
 - **Every tool lives in `src/tools/<slug>/`.** Nothing tool-specific goes anywhere else
-  except its one-line entries in `src/tools/registry.ts`, `src/tools/components.tsx` and `src/tools/content.ts`.
+  except its one-line entries in `src/tools/registry.ts`, `src/tools/components.tsx`, `src/tools/content.ts`
+  and (optionally) `src/tools/thumbnails.tsx`.
 - Each tool's long-form copy (how-to, features, FAQ) lives in its `content.ts` as a `ToolContent`.
   The tool page renders it as HTML and `/llms.txt`, `/llms-full.txt` and `/tools/<slug>.md` serve it as Markdown,
   so edit copy there rather than hard-coding it in JSX.
-- `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, category, icon, updated, seoTitle? }`).
+- `src/tools/registry.ts` is the single list of tools (`{ slug, name, description, tagline, category, icon, updated, seoTitle? }`).
+  `categoryInfo` there holds each category's icon, blurb and accent hue (used via the `.tone` class in globals.css).
   Bump a tool's `updated` date when it changes meaningfully (it feeds the sitemap and JSON-LD).
   The home page, `/tools/[slug]`, `sitemap.ts`, `robots.ts` and per-tool metadata all read from it.
   Keep it free of React and browser imports.
@@ -46,9 +48,11 @@ src/
     registry.ts           tool metadata — the source of truth
     components.tsx        slug -> server component that renders the tool page
     content.ts            slug -> long-form copy (ToolContent) for Markdown and llms.txt
+    thumbnails.tsx        slug -> server-rendered SVG preview for home cards (kept apart so home never imports editors)
     svg-animator/
       tool-page.tsx       server component: editor + SEO copy + FAQ (+ FAQPage JSON-LD)
       content.ts          ToolContent: summary, how-to, export formats, FAQ
+      thumbnail.tsx       home card preview (pure SVG, redraws on hover)
       samples.ts          built-in sample SVGs
       store.ts            Zustand store (config + loaded SVG)
       engine/             pure TS animation engine: parseSvg, getFrameState, totalDuration, easing
@@ -64,6 +68,7 @@ e2e/                      Playwright smoke and integration tests
 1. Create `src/tools/<slug>/tool-page.tsx` (plus `engine/`, `components/` as needed).
 2. Add an entry to `tools` in `src/tools/registry.ts` (add an icon to `src/components/tool-icon.tsx` if new).
 3. Map the slug in `src/tools/components.tsx`, and its `content.ts` in `src/tools/content.ts`.
+   Optionally add a `thumbnail.tsx` and map it in `src/tools/thumbnails.tsx` (cards fall back to the icon).
 4. The home grid, route, sitemap, robots, metadata, llms.txt and Markdown twin pick it up automatically.
 
 ## Commands
