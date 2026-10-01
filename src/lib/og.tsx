@@ -1,8 +1,11 @@
 import { ImageResponse } from "next/og";
-import { LogoMark, petals } from "@/lib/logo";
+import { LogoMark } from "@/lib/logo";
 import { siteConfig } from "@/lib/site";
 
 export const ogSize = { width: 1200, height: 630 };
+
+/** Accent colours for the motif line under the card. */
+const accents = ["#ff5d73", "#ffc145", "#2de2a6", "#7b61ff"];
 
 /** Shared Open Graph card: brand mark, title, subtitle and a line-drawing motif. */
 export function ogImage({ title, subtitle, eyebrow }: { title: string; subtitle: string; eyebrow?: string }) {
@@ -22,7 +25,7 @@ export function ogImage({ title, subtitle, eyebrow }: { title: string; subtitle:
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34, fontWeight: 700 }}>
-          <LogoMark size={64} />
+          <LogoMark size={64} color="#fafafa" />
           {siteConfig.name}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 900 }}>
@@ -33,8 +36,8 @@ export function ogImage({ title, subtitle, eyebrow }: { title: string; subtitle:
         <svg width="1056" height="40" viewBox="0 0 1056 40" style={{ display: "flex" }}>
           <defs>
             <linearGradient id="og-line" x1="0" y1="0" x2="1" y2="0">
-              {petals.map((p, i) => (
-                <stop key={p.fill} offset={i / (petals.length - 1)} stopColor={p.fill} />
+              {accents.map((color, i) => (
+                <stop key={color} offset={i / (accents.length - 1)} stopColor={color} />
               ))}
             </linearGradient>
           </defs>

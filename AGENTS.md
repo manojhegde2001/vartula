@@ -41,7 +41,7 @@ src/
                           icons, 404, error boundaries, OG images,
                           llms.txt, llms-full.txt, markdown/tools/[slug] (served at /tools/<slug>.md)
   components/             site chrome (header, footer, tool grid, theme) and components/ui (shadcn)
-  lib/                    site config, logo mark (logo.tsx; app icons come from the logo kit), info page list, utilities
+  lib/                    site config, logo (logo.tsx: mark + horizontal/vertical wordmark; `node scripts/generate-icons.mjs` rebuilds favicon and app icons from it), info page list, utilities
   tools/
     registry.ts           tool metadata — the source of truth
     components.tsx        slug -> server component that renders the tool page
