@@ -1,22 +1,33 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Search } from "lucide-react";
 import { ToolIcon } from "@/components/tool-icon";
-import { ToolSearch } from "@/components/tool-search";
-import { toolPath, type Tool } from "@/tools/registry";
+import { ToolBrowser, type CategoryTab } from "@/components/tool-browser";
+import { toolThumbnails } from "@/tools/thumbnails";
+import { categoryInfo, toolCategories, toolPath, toolsInCategory, type Tool, type ToolCategory } from "@/tools/registry";
+
+const toneStyle = (category: ToolCategory) => ({ "--tone-h": categoryInfo[category].hue }) as CSSProperties;
 
 /**
- * Tool cards render on the server; only the search box and filtering run on the client,
- * so icons and badges add no JavaScript to the home page.
+ * Every tool in one grid with category filters and search. Cards, icons and thumbnails render on the server;
+ * only the filtering runs on the client, so the artwork adds no JavaScript.
  */
 export function ToolGrid({ tools }: { tools: Tool[] }) {
+  const categories: CategoryTab[] = toolCategories.map((name) => ({
+    name,
+    count: toolsInCategory(tools, name).length,
+    hue: categoryInfo[name].hue,
+    icon: <ToolIcon name={categoryInfo[name].icon} className="size-4" />,
+    comingSoon: <ComingSoonCard category={name} hasTools={toolsInCategory(tools, name).length > 0} />,
+  }));
+
   return (
-    <section aria-labelledby="tools-heading" className="space-y-6">
-      <ToolSearch
+    <section id="tools" aria-labelledby="tools-heading" className="scroll-mt-20 space-y-6">
+      <ToolBrowser
         tools={tools}
+        categories={categories}
         heading={
-          <h2 id="tools-heading" className="text-xl font-semibold tracking-tight">
+          <h2 id="tools-heading" className="text-2xl font-semibold tracking-tight">
             All tools
           </h2>
         }
@@ -29,21 +40,69 @@ export function ToolGrid({ tools }: { tools: Tool[] }) {
   );
 }
 
+function CategoryBadge({ category }: { category: ToolCategory }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-card/90 px-2.5 py-1 text-xs font-medium text-(--tone-fg) shadow-sm backdrop-blur">
+      <ToolIcon name={categoryInfo[category].icon} className="size-3.5" />
+      {category}
+    </span>
+  );
+}
+
 function ToolCard({ tool, index }: { tool: Tool; index: number }) {
+  const Thumbnail = toolThumbnails[tool.slug];
   return (
     <Link
       href={toolPath(tool.slug)}
-      style={{ "--enter-i": Math.min(index, 8) } as CSSProperties}
-      className="tool-card group flex h-full flex-col gap-3 rounded-xl border bg-card p-5 transition-colors hover:border-foreground/30 hover:bg-muted/40 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+      style={{ ...toneStyle(tool.category), "--enter-i": Math.min(index, 8) } as CSSProperties}
+      className="tone tool-card group flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-colors hover:border-(--tone)/60 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
     >
-      <div className="flex items-center justify-between">
-        <span className="grid size-10 place-items-center rounded-lg bg-primary text-primary-foreground transition-transform duration-200 group-hover:scale-105 motion-reduce:transition-none">
-          <ToolIcon name={tool.icon} className="size-5" />
+      <div className="relative aspect-[16/10] border-b bg-(--tone-soft)">
+        {Thumbnail ? (
+          <Thumbnail />
+        ) : (
+          <div className="grid size-full place-items-center text-(--tone-fg)">
+            <ToolIcon name={tool.icon} className="size-14" strokeWidth={1.5} />
+          </div>
+        )}
+        <span className="absolute top-3 left-3">
+          <CategoryBadge category={tool.category} />
         </span>
-        <Badge variant="secondary">{tool.category}</Badge>
       </div>
-      <h3 className="font-semibold">{tool.name}</h3>
-      <p className="text-sm text-muted-foreground">{tool.description}</p>
+      <div className="flex flex-1 items-start gap-3 p-4">
+        <div className="min-w-0 flex-1">
+          <h3 className="font-semibold">{tool.name}</h3>
+          <p className="text-sm text-muted-foreground">{tool.tagline}</p>
+        </div>
+        <ArrowRight
+          aria-hidden
+          className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground motion-reduce:transition-none"
+        />
+      </div>
     </Link>
+  );
+}
+
+function ComingSoonCard({ category, hasTools }: { category: ToolCategory; hasTools: boolean }) {
+  return (
+    <div style={toneStyle(category)} className="tone flex h-full flex-col overflow-hidden rounded-2xl border border-dashed">
+      <div className="relative grid h-24 place-items-center border-b border-dashed sm:h-auto sm:aspect-[16/10] bg-(--tone-soft)/50 text-(--tone-fg)">
+        <ToolIcon name={categoryInfo[category].icon} className="size-12 opacity-60" strokeWidth={1.5} />
+        <span className="absolute top-3 left-3">
+          <CategoryBadge category={category} />
+        </span>
+      </div>
+      <div className="flex-1 space-y-1 p-4">
+        <h3 className="font-semibold text-muted-foreground">
+          {hasTools ? "More" : "New"} {category.toLowerCase()} tools soon
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          {categoryInfo[category].blurb}{" "}
+          <Link href="/contact" className="font-medium text-foreground underline-offset-4 hover:underline">
+            Suggest a tool
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }

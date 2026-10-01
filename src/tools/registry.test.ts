@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getTool, tools } from "./registry";
+import { categoryInfo, getTool, toolCategories, tools, toolsInCategory } from "./registry";
 import { toolComponents } from "./components";
 import { toolContents } from "./content";
 import { filterTools } from "@/lib/filter-tools";
@@ -35,6 +35,22 @@ describe("tool registry", () => {
       expect(Number.isNaN(Date.parse(tool.updated))).toBe(false);
       expect(`${tool.seoTitle ?? tool.name} | Vartula`.length).toBeLessThanOrEqual(60);
     }
+  });
+
+  it("has a short tagline for cards and menus", () => {
+    for (const tool of tools) {
+      expect(tool.tagline.length, tool.slug).toBeGreaterThan(0);
+      expect(tool.tagline.length, tool.slug).toBeLessThanOrEqual(50);
+    }
+  });
+
+  it("has display metadata for every category", () => {
+    for (const category of toolCategories) {
+      expect(categoryInfo[category].blurb.length).toBeGreaterThan(0);
+      expect(categoryInfo[category].hue).toBeGreaterThanOrEqual(0);
+      expect(categoryInfo[category].hue).toBeLessThan(360);
+    }
+    expect(toolsInCategory(tools, "Animation").map((t) => t.slug)).toContain("svg-animator");
   });
 
   it("lists every tool in the sitemap", () => {

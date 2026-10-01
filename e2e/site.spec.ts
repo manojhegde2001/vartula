@@ -12,6 +12,28 @@ test("home page search leads to the tool", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1, name: "SVG Animator" })).toBeVisible();
 });
 
+test("home page filters tools by category", async ({ page }) => {
+  await page.goto("/");
+  const tools = page.getByRole("region", { name: "All tools" });
+  const filters = page.getByRole("group", { name: "Filter by category" });
+  await filters.getByRole("button", { name: /^Image/ }).click();
+  await expect(filters.getByRole("button", { name: /^Image/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(tools.getByText("New image tools soon")).toBeVisible();
+  await expect(tools.getByRole("link", { name: /SVG Animator/ })).toHaveCount(0);
+  await filters.getByRole("button", { name: /^All/ }).click();
+  await expect(tools.getByRole("link", { name: /SVG Animator/ })).toBeVisible();
+});
+
+test("header tools menu lists tools by category", async ({ page }) => {
+  await page.goto("/about");
+  await page.getByRole("banner").getByText("Tools", { exact: true }).click();
+  const menu = page.getByRole("navigation", { name: "Tools", exact: true });
+  await expect(menu).toContainText("Animation");
+  await menu.getByRole("link", { name: /SVG Animator/ }).click();
+  await expect(page).toHaveURL(/\/tools\/svg-animator/);
+  await expect(menu).toBeHidden();
+});
+
 test("tool page ships metadata, JSON-LD and an OG image", async ({ page, request }) => {
   await page.goto("/tools/svg-animator");
   await expect(page).toHaveTitle("SVG Animator — Free Line-Drawing Animation Maker | Vartula");

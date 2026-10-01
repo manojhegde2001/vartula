@@ -8,12 +8,30 @@ export const toolCategories = ["Animation", "Image", "Code", "Color"] as const;
 export type ToolCategory = (typeof toolCategories)[number];
 
 /** Name of an icon in src/components/tool-icon.tsx. */
-export type ToolIconName = "PenTool" | "Image" | "Code" | "Palette";
+export type ToolIconName = "PenTool" | "Image" | "Code" | "Palette" | "Clapperboard";
+
+export interface CategoryInfo {
+  icon: ToolIconName;
+  /** One line shown under the category heading on the home page. */
+  blurb: string;
+  /** OKLCH hue of the category's accent colour (see `.tone` in globals.css). */
+  hue: number;
+}
+
+/** Display metadata for each category, in the order they appear on the home page. */
+export const categoryInfo: Record<ToolCategory, CategoryInfo> = {
+  Animation: { icon: "Clapperboard", blurb: "Bring vector art to life and export it anywhere.", hue: 295 },
+  Image: { icon: "Image", blurb: "Edit and convert images without uploading them.", hue: 165 },
+  Code: { icon: "Code", blurb: "Format, convert and generate code snippets.", hue: 250 },
+  Color: { icon: "Palette", blurb: "Build palettes, check contrast and convert colors.", hue: 35 },
+};
 
 export interface Tool {
   slug: string;
   name: string;
   description: string;
+  /** Short line for cards and menus; keep it under 50 characters. */
+  tagline: string;
   category: ToolCategory;
   icon: ToolIconName;
   /** Search-only synonyms, not displayed. */
@@ -30,6 +48,7 @@ export const tools: Tool[] = [
     name: "SVG Animator",
     description:
       "Turn any SVG into a line-drawing animation. Tweak stroke and fill timing, then export CSS, SMIL, React, GSAP, MP4, GIF or PNG frames.",
+    tagline: "Line-drawing animations as code or video",
     category: "Animation",
     icon: "PenTool",
     keywords: ["svg", "animation", "line drawing", "stroke", "dashoffset", "css", "gif", "mp4", "video"],
@@ -37,6 +56,10 @@ export const tools: Tool[] = [
     updated: "2026-09-30",
   },
 ];
+
+export function toolsInCategory(tools: Tool[], category: ToolCategory) {
+  return tools.filter((t) => t.category === category);
+}
 
 export function getTool(slug: string): Tool | undefined {
   return tools.find((t) => t.slug === slug);
