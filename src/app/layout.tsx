@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -10,6 +10,8 @@ import "./globals.css";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 // Only code panels use the mono font, so it isn't preloaded on every page.
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], preload: false });
+// Wordmark only (Logo in lib/logo.tsx): a bold serif standing in for the logo file's GT Alpina.
+const wordmark = Fraunces({ variable: "--font-wordmark", subsets: ["latin"], weight: "700" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -51,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${wordmark.variable} h-full antialiased`}
     >
       {/* Extensions such as ColorZilla add attributes to <body> before hydration; this ignores those (one level deep only). */}
       <body className="flex min-h-full flex-col" suppressHydrationWarning>

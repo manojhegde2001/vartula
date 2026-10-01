@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "@/lib/logo";
+import { Logo } from "@/lib/logo";
 import { infoPages } from "@/lib/pages";
 import { siteConfig } from "@/lib/site";
 import { tools, toolPath } from "@/tools/registry";
@@ -9,9 +9,8 @@ export function SiteFooter() {
     <footer className="mt-16 border-t">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm text-muted-foreground sm:grid-cols-[2fr_1fr_1fr]">
         <div>
-          <p className="flex items-center gap-2 font-semibold text-foreground">
-            <LogoMark className="size-6" />
-            {siteConfig.name}
+          <p className="text-foreground">
+            <Logo className="text-xl" />
           </p>
           <p className="mt-2 max-w-sm">
             {siteConfig.tagline}. Everything runs locally — your files never leave your device.

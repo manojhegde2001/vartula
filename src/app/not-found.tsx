@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Logo } from "@/lib/logo";
 import { toolPath, tools } from "@/tools/registry";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <div className="mx-auto max-w-2xl space-y-6 px-4 py-20">
+      <Logo orientation="vertical" className="text-2xl" />
       <h1 className="text-3xl font-bold tracking-tight">Page not found</h1>
       <p className="text-muted-foreground">
         That page doesn’t exist. It may have moved, or the link may be mistyped. Try one of the tools instead:
