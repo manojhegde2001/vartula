@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { infoMetadata } from "@/lib/seo";
 import { InfoPage, MailLink } from "@/components/info-page";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: `${siteConfig.name} processes your files in your browser and never uploads them. Read what little data we do handle.`,
-  alternates: { canonical: "/privacy" },
-};
+export const metadata: Metadata = infoMetadata("/privacy");
 
 export default function PrivacyPage() {
   return (

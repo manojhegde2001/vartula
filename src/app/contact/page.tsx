@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
+import { infoMetadata } from "@/lib/seo";
 import { InfoPage, MailLink } from "@/components/info-page";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: `How to reach ${siteConfig.name}: email, bug reports and tool requests.`,
-  alternates: { canonical: "/contact" },
-};
+export const metadata: Metadata = infoMetadata("/contact");
 
 export default function ContactPage() {
   return (

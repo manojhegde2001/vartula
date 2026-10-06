@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { getTool, tools } from "@/tools/registry";
-import { breadcrumbJsonLd, homeJsonLd, serializeJsonLd, toolJsonLd, toolMetadata } from "./seo";
+import { toolOgArt } from "@/tools/og-art";
+import { oklchHex } from "./og";
+import { infoPages } from "./pages";
+import { breadcrumbJsonLd, homeJsonLd, infoMetadata, serializeJsonLd, toolJsonLd, toolMetadata } from "./seo";
 
 const tool = getTool("svg-animator")!;
 
@@ -43,5 +46,24 @@ describe("seo", () => {
     expect(meta.alternates?.canonical).toBe("/tools/svg-animator");
     expect(meta.openGraph).toMatchObject({ url: "/tools/svg-animator", description: tool.description });
     expect(meta.twitter).toMatchObject({ card: "summary_large_image" });
+  });
+
+  it("gives each info page its own URL and description for link previews", () => {
+    for (const page of infoPages) {
+      const meta = infoMetadata(page.path);
+      expect(meta.alternates?.canonical).toBe(page.path);
+      expect(meta.openGraph).toMatchObject({ url: page.path, title: `${page.name} | Vartula`, description: page.description });
+      expect(meta.twitter).toMatchObject({ card: "summary_large_image", description: page.description });
+    }
+  });
+
+  it("only has share-card art for registered tools", () => {
+    for (const slug of Object.keys(toolOgArt)) expect(getTool(slug), slug).toBeDefined();
+  });
+
+  it("converts OKLCH accents to hex for share cards", () => {
+    expect(oklchHex(0, 1, 0)).toBe("#ffffff");
+    expect(oklchHex(0, 0, 0)).toBe("#000000");
+    expect(oklchHex(29.23, 0.628, 0.2577)).toBe("#ff0000");
   });
 });
