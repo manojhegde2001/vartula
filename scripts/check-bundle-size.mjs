@@ -11,6 +11,7 @@ const budgets = {
   "tools/chart-maker.html": 265 * KB,
   "tools/image-converter.html": 225 * KB,
   "tools/pdf-toolkit.html": 255 * KB,
+  "tools/test-data-generator.html": 235 * KB,
 };
 
 const nextDir = path.resolve(".next");

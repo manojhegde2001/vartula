@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import ChartMakerOgArt from "@/tools/chart-maker/og-art";
 import ImageConverterOgArt from "@/tools/image-converter/og-art";
 import PdfToolkitOgArt from "@/tools/pdf-toolkit/og-art";
+import TestDataGeneratorOgArt from "@/tools/test-data-generator/og-art";
 import SvgAnimatorOgArt from "@/tools/svg-animator/og-art";
 
 /**
@@ -14,4 +15,5 @@ export const toolOgArt: Record<string, ComponentType<{ accent: string }>> = {
   "chart-maker": ChartMakerOgArt,
   "image-converter": ImageConverterOgArt,
   "pdf-toolkit": PdfToolkitOgArt,
+  "test-data-generator": TestDataGeneratorOgArt,
 };

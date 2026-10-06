@@ -28,6 +28,11 @@ describe("tool registry", () => {
     expect(filterTools(tools, "merge pdf").map((t) => t.slug)).toEqual(["pdf-toolkit"]);
   });
 
+  it("registers the Test Data Generator", () => {
+    expect(getTool("test-data-generator")?.category).toBe("Testing");
+    expect(filterTools(tools, "mock data").map((t) => t.slug)).toEqual(["test-data-generator"]);
+  });
+
   it("has a component for every tool", () => {
     for (const tool of tools) expect(toolComponents[tool.slug]).toBeTypeOf("function");
   });

@@ -4,7 +4,7 @@
  * Keep this file free of React/browser imports so it is safe everywhere.
  */
 
-export const toolCategories = ["Animation", "Data", "Image", "Document", "Code", "Color"] as const;
+export const toolCategories = ["Animation", "Data", "Image", "Document", "Testing", "Code", "Color"] as const;
 export type ToolCategory = (typeof toolCategories)[number];
 
 /** Name of an icon in src/components/tool-icon.tsx. */
@@ -18,7 +18,9 @@ export type ToolIconName =
   | "ChartPie"
   | "Images"
   | "FileStack"
-  | "FileText";
+  | "FileText"
+  | "FlaskConical"
+  | "DatabaseZap";
 
 export interface CategoryInfo {
   icon: ToolIconName;
@@ -34,6 +36,7 @@ export const categoryInfo: Record<ToolCategory, CategoryInfo> = {
   Data: { icon: "ChartPie", blurb: "Turn spreadsheets into charts and visualizations.", hue: 345 },
   Image: { icon: "Image", blurb: "Edit and convert images without uploading them.", hue: 165 },
   Document: { icon: "FileText", blurb: "Merge, split, compress and sign PDFs privately.", hue: 210 },
+  Testing: { icon: "FlaskConical", blurb: "Fake data, test files and edge cases for QA.", hue: 125 },
   Code: { icon: "Code", blurb: "Format, convert and generate code snippets.", hue: 250 },
   Color: { icon: "Palette", blurb: "Build palettes, check contrast and convert colors.", hue: 35 },
 };
@@ -101,6 +104,38 @@ export const tools: Tool[] = [
     icon: "FileStack",
     keywords: ["pdf", "merge pdf", "combine pdf", "split pdf", "extract pages", "reorder pages", "rotate pdf", "delete pages", "compress pdf", "reduce pdf size", "sign pdf", "e-signature", "ilovepdf", "smallpdf"],
     seoTitle: "PDF Toolkit — Merge, Split, Compress & Sign PDF",
+    updated: "2026-10-06",
+  },
+  {
+    slug: "test-data-generator",
+    name: "Test Data Generator",
+    description:
+      "Generate fake data as JSON, CSV or SQL, test files of any type at an exact size, edge-case strings and valid test card numbers, IBANs and IDs.",
+    tagline: "Fake data, test files and edge cases",
+    category: "Testing",
+    icon: "DatabaseZap",
+    keywords: [
+      "fake data",
+      "mock data",
+      "mockaroo",
+      "faker",
+      "dummy data",
+      "sql insert",
+      "test file",
+      "sample file",
+      "dummy pdf",
+      "large file",
+      "file of size",
+      "counterstring",
+      "naughty strings",
+      "test credit card",
+      "iban generator",
+      "pan generator",
+      "gstin",
+      "uuid",
+      "qa",
+    ],
+    seoTitle: "Test Data Generator — Fake Data & Test Files",
     updated: "2026-10-06",
   },
 ];
