@@ -21,6 +21,13 @@ describe("tool registry", () => {
     expect(filterTools(tools, "sankey").map((t) => t.slug)).toEqual(["chart-maker"]);
   });
 
+  it("registers the Image Converter and PDF Toolkit", () => {
+    expect(getTool("image-converter")?.category).toBe("Image");
+    expect(getTool("pdf-toolkit")?.category).toBe("Document");
+    expect(filterTools(tools, "heic").map((t) => t.slug)).toEqual(["image-converter"]);
+    expect(filterTools(tools, "merge pdf").map((t) => t.slug)).toEqual(["pdf-toolkit"]);
+  });
+
   it("has a component for every tool", () => {
     for (const tool of tools) expect(toolComponents[tool.slug]).toBeTypeOf("function");
   });

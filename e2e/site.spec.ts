@@ -18,8 +18,10 @@ test("home page filters tools by category", async ({ page }) => {
   const filters = page.getByRole("group", { name: "Filter by category" });
   await filters.getByRole("button", { name: /^Image/ }).click();
   await expect(filters.getByRole("button", { name: /^Image/ })).toHaveAttribute("aria-pressed", "true");
-  await expect(tools.getByText("New image tools soon")).toBeVisible();
+  await expect(tools.getByRole("link", { name: /Image Converter/ })).toBeVisible();
   await expect(tools.getByRole("link", { name: /SVG Animator/ })).toHaveCount(0);
+  await filters.getByRole("button", { name: /^Code/ }).click();
+  await expect(tools.getByText("New code tools soon")).toBeVisible();
   await filters.getByRole("button", { name: /^All/ }).click();
   await expect(tools.getByRole("link", { name: /SVG Animator/ })).toBeVisible();
 });

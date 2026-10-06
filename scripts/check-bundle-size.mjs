@@ -9,6 +9,8 @@ const budgets = {
   "index.html": 190 * KB,
   "tools/svg-animator.html": 315 * KB,
   "tools/chart-maker.html": 265 * KB,
+  "tools/image-converter.html": 225 * KB,
+  "tools/pdf-toolkit.html": 255 * KB,
 };
 
 const nextDir = path.resolve(".next");
