@@ -1,17 +1,58 @@
 "use client";
 
-import { useDeferredValue, useId, useMemo, useState } from "react";
-import { Check, Copy, Download, RotateCcw } from "lucide-react";
+import { useId, useState } from "react";
+import { ChartColumn, Check, Copy, Download, Frame, Palette, RotateCcw, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { getChart, optionDefs, renderChart, resolveOptions, type OptionDef, type OptionGroup } from "../engine";
+import { palettes, ramps } from "../engine/colors";
+import { getChart, optionDefs, resolveOptions, type OptionDef, type OptionGroup } from "../engine";
 import type { ExportFormat } from "../lib/export";
 import { useChartStore } from "../store";
-import { selectClassName, Step } from "./parts";
+import { Panel, Segmented, selectClassName } from "./parts";
+import { ChartPreview, useRenderedChart } from "./preview";
 import { cn } from "@/lib/utils";
 
-const GROUPS: OptionGroup[] = ["Chart", "Labels", "Colors", "Artboard"];
-const SCALES = [1, 2, 3];
+const GROUPS: { id: OptionGroup; label: string; icon: typeof ChartColumn }[] = [
+  { id: "Chart", label: "Chart", icon: ChartColumn },
+  { id: "Colors", label: "Colors", icon: Palette },
+  { id: "Labels", label: "Text", icon: Type },
+  { id: "Artboard", label: "Size", icon: Frame },
+];
+const SCALES = ["1", "2", "3"];
+
+/** Picture-based pickers for the two color options. */
+function SwatchPicker({ id, value, onChange }: { id: "palette" | "ramp"; value: string; onChange: (v: string) => void }) {
+  const entries =
+    id === "palette"
+      ? Object.entries(palettes).map(([k, p]) => [k, p.name, p.colors.slice(0, 6)] as const)
+      : Object.entries(ramps).map(([k, p]) => [k, p.name, p.stops] as const);
+  return (
+    <div role="radiogroup" aria-label={id === "palette" ? "Palette" : "Number ramp"} className="grid grid-cols-5 gap-1.5">
+      {entries.map(([key, name, colors]) => (
+        <button
+          key={key}
+          type="button"
+          role="radio"
+          aria-checked={value === key}
+          aria-label={name}
+          title={name}
+          onClick={() => onChange(key)}
+          className={cn(
+            "h-7 overflow-hidden rounded-md border-2 outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+            value === key ? "border-(--tone)" : "border-transparent hover:border-muted-foreground/40",
+          )}
+          style={{
+            // Ramps blend; palettes show hard-edged stripes of their first colors.
+            background:
+              id === "ramp"
+                ? `linear-gradient(90deg, ${colors.join(",")})`
+                : `linear-gradient(90deg, ${colors.map((c, i) => `${c} ${(i / colors.length) * 100}% ${((i + 1) / colors.length) * 100}%`).join(",")})`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 function OptionField({ def }: { def: OptionDef }) {
   const chart = getChart(useChartStore((s) => s.chartId))!;
@@ -27,6 +68,42 @@ function OptionField({ def }: { def: OptionDef }) {
           {def.label}
         </label>
         <Switch id={id} checked={value === true} onCheckedChange={(checked) => setOption(def.id, checked)} />
+      </div>
+    );
+  }
+  if (def.id === "palette" || def.id === "ramp") {
+    return (
+      <div className="space-y-1.5">
+        <span className="text-sm">{def.label}</span>
+        <SwatchPicker id={def.id} value={String(value)} onChange={(v) => setOption(def.id, v)} />
+      </div>
+    );
+  }
+  if (def.type === "select" && def.choices.length <= 4) {
+    return (
+      <div className="space-y-1.5">
+        <span className="text-sm">{def.label}</span>
+        <Segmented label={def.label} value={String(value)} onChange={(v) => setOption(def.id, v)} options={def.choices} />
+      </div>
+    );
+  }
+  if (def.type === "number" && def.group !== "Artboard") {
+    return (
+      <div className="space-y-1">
+        <div className="flex items-center justify-between text-sm">
+          <label htmlFor={id}>{def.label}</label>
+          <span className="text-xs text-muted-foreground tabular-nums">{Number(value)}</span>
+        </div>
+        <input
+          id={id}
+          type="range"
+          min={def.min}
+          max={def.max}
+          step={def.step ?? 1}
+          value={Number(value)}
+          onChange={(e) => setOption(def.id, e.target.valueAsNumber)}
+          className="w-full accent-(--tone)"
+        />
       </div>
     );
   }
@@ -77,42 +154,50 @@ function OptionField({ def }: { def: OptionDef }) {
 function OptionsPanel() {
   const chart = getChart(useChartStore((s) => s.chartId))!;
   const resetOptions = useChartStore((s) => s.resetOptions);
+  const [tab, setTab] = useState<OptionGroup>("Chart");
   const defs = optionDefs(chart);
+  const groups = GROUPS.filter((g) => defs.some((d) => d.group === g.id));
+
   return (
-    <div className="divide-y rounded-lg border">
-      <div className="flex items-center justify-between px-3 py-2">
-        <h3 className="text-sm font-medium">Options</h3>
-        <Button variant="ghost" size="xs" onClick={resetOptions}>
-          <RotateCcw /> Reset
+    <div className="rounded-xl border">
+      <div className="flex items-center gap-1 border-b p-1.5">
+        <div role="tablist" aria-label="Option groups" className="flex flex-1 gap-1">
+          {groups.map((g) => (
+            <button
+              key={g.id}
+              type="button"
+              role="tab"
+              aria-selected={tab === g.id}
+              onClick={() => setTab(g.id)}
+              className={cn(
+                "flex flex-1 flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 text-xs transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                tab === g.id ? "bg-(--tone-soft) font-medium text-(--tone-fg)" : "text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              <g.icon className="size-4" aria-hidden />
+              {g.label}
+            </button>
+          ))}
+        </div>
+        <Button variant="ghost" size="icon-sm" onClick={resetOptions} aria-label="Reset options" title="Reset options">
+          <RotateCcw />
         </Button>
       </div>
-      {GROUPS.map((group) => {
-        const items = defs.filter((d) => d.group === group);
-        if (items.length === 0) return null;
-        return (
-          <details key={group} open className="group px-3 py-2 [&_summary::-webkit-details-marker]:hidden">
-            <summary className="cursor-pointer list-none text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              {group}
-              <span className="ml-1 inline-block transition-transform group-open:rotate-90" aria-hidden>
-                ›
-              </span>
-            </summary>
-            <div className="mt-2 space-y-2.5">
-              {items.map((d) => (
-                <OptionField key={d.id} def={d} />
-              ))}
-            </div>
-          </details>
-        );
-      })}
+      <div role="tabpanel" className="space-y-4 p-3">
+        {defs
+          .filter((d) => d.group === tab)
+          .map((d) => (
+            <OptionField key={d.id} def={d} />
+          ))}
+      </div>
     </div>
   );
 }
 
-function ExportBar({ svg, width, height }: { svg: string; width: number; height: number }) {
+function ExportPanel({ svg, width, height }: { svg: string; width: number; height: number }) {
   const source = useChartStore((s) => s.source);
   const chart = getChart(useChartStore((s) => s.chartId))!;
-  const [scale, setScale] = useState(2);
+  const [scale, setScale] = useState("2");
   const [busy, setBusy] = useState<ExportFormat | null>(null);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -123,7 +208,7 @@ function ExportBar({ svg, width, height }: { svg: string; width: number; height:
     setError(null);
     try {
       const { exportChart } = await import("../lib/export");
-      await exportChart(svg, { format, name, width, height, scale });
+      await exportChart(svg, { format, name, width, height, scale: Number(scale) });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Export failed.");
     } finally {
@@ -132,26 +217,31 @@ function ExportBar({ svg, width, height }: { svg: string; width: number; height:
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <Button size="sm" onClick={() => run("svg")} disabled={busy !== null}>
-        <Download /> SVG
-      </Button>
-      <Button size="sm" variant="outline" onClick={() => run("png")} disabled={busy !== null}>
-        <Download /> PNG
-      </Button>
-      <Button size="sm" variant="outline" onClick={() => run("jpg")} disabled={busy !== null}>
-        <Download /> JPG
-      </Button>
-      <select aria-label="Image scale" value={scale} onChange={(e) => setScale(Number(e.target.value))} className={cn(selectClassName, "h-7 w-auto text-xs")}>
-        {SCALES.map((s) => (
-          <option key={s} value={s}>
-            {s}× · {width * s}×{height * s}px
-          </option>
+    <div className="space-y-3 rounded-xl border p-3">
+      <h3 className="flex items-center gap-1.5 text-sm font-medium">
+        <Download className="size-4" aria-hidden /> Download
+      </h3>
+      <div className="grid grid-cols-3 gap-2">
+        {(["svg", "png", "jpg"] as const).map((f) => (
+          <Button key={f} variant={f === "svg" ? "default" : "outline"} onClick={() => run(f)} disabled={busy !== null}>
+            {f.toUpperCase()}
+          </Button>
         ))}
-      </select>
+      </div>
+      <div className="flex items-center gap-2">
+        <span className="shrink-0 text-xs text-muted-foreground">Image scale</span>
+        <Segmented
+          label="Image scale"
+          className="flex-1"
+          value={scale}
+          onChange={setScale}
+          options={SCALES.map((s) => ({ value: s, label: `${s}×`, title: `${width * Number(s)} × ${height * Number(s)} px` }))}
+        />
+      </div>
       <Button
-        size="sm"
         variant="ghost"
+        size="sm"
+        className="w-full"
         onClick={async () => {
           await navigator.clipboard.writeText(svg);
           setCopied(true);
@@ -161,7 +251,7 @@ function ExportBar({ svg, width, height }: { svg: string; width: number; height:
         {copied ? <Check /> : <Copy />} {copied ? "Copied" : "Copy SVG code"}
       </Button>
       {error && (
-        <p role="alert" className="w-full text-sm text-destructive">
+        <p role="alert" className="text-sm text-destructive">
           {error}
         </p>
       )}
@@ -170,47 +260,18 @@ function ExportBar({ svg, width, height }: { svg: string; width: number; height:
 }
 
 export function CustomizeStep() {
-  const dataset = useChartStore((s) => s.dataset)!;
   const chart = getChart(useChartStore((s) => s.chartId))!;
-  const mapping = useChartStore((s) => s.mapping);
-  const options = useChartStore((s) => s.options);
-  // Typing in a field stays responsive while large charts re-render.
-  const deferred = useDeferredValue(options);
-  const result = useMemo(() => renderChart(chart, dataset, mapping, deferred), [chart, dataset, mapping, deferred]);
-  const transparent = resolveOptions(chart, deferred).transparent === true;
+  const result = useRenderedChart();
 
   return (
-    <Step
-      number={4}
-      title="Customize and export"
-      description="The preview is exactly what you download."
-      aside={result.ok && <ExportBar svg={result.svg} width={result.width} height={result.height} />}
-    >
-      <div className="grid gap-4 lg:grid-cols-[20rem_minmax(0,1fr)] xl:grid-cols-[22rem_minmax(0,1fr)]">
-        <div className="lg:order-2">
-          <div className={cn("rounded-lg border p-2 lg:sticky lg:top-20", transparent ? "bg-checkerboard" : "bg-muted/40")}>
-            {result.ok ? (
-              <div
-                data-testid="chart-preview"
-                role="img"
-                aria-label={`${chart.name} preview`}
-                className="mx-auto [&>svg]:mx-auto [&>svg]:block [&>svg]:h-auto [&>svg]:max-h-[75vh] [&>svg]:w-auto [&>svg]:max-w-full"
-                dangerouslySetInnerHTML={{ __html: result.svg }}
-              />
-            ) : (
-              <div className="flex min-h-64 flex-col items-center justify-center gap-1 p-6 text-center text-sm text-muted-foreground">
-                <p className="font-medium text-foreground">Almost there</p>
-                {result.issues.map((issue) => (
-                  <p key={issue}>{issue}</p>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="lg:order-1">
+    <Panel title={`Style & export · ${chart.name}`}>
+      <div className="grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)] xl:grid-cols-[20rem_minmax(0,1fr)]">
+        <ChartPreview result={result} className="lg:sticky lg:top-20 lg:order-2 lg:self-start" />
+        <div className="space-y-4 lg:order-1">
+          {result?.ok && <ExportPanel svg={result.svg} width={result.width} height={result.height} />}
           <OptionsPanel />
         </div>
       </div>
-    </Step>
+    </Panel>
   );
 }
