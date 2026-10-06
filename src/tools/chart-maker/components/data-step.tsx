@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { FileUp, Pencil, TriangleAlert, X } from "lucide-react";
+import { ClipboardPaste, RefreshCw, TriangleAlert, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { MAX_DATA_BYTES, type ColumnType } from "../engine";
 import { samples } from "../samples";
 import { useChartStore } from "../store";
-import { selectClassName, Step, TypeIcon, typeNames } from "./parts";
+import { ChartThumb } from "./chart-thumbs";
+import { Panel, selectClassName, TypeIcon, typeNames } from "./parts";
 import { cn } from "@/lib/utils";
 
 const PREVIEW_ROWS = 100;
@@ -27,7 +28,8 @@ function DataInput() {
   const loadText = useChartStore((s) => s.loadText);
   const loadSample = useChartStore((s) => s.loadSample);
   const source = useChartStore((s) => s.source);
-  const [text, setText] = useState(source?.text ?? "");
+  const [text, setText] = useState(source?.sampleId ? "" : (source?.text ?? ""));
+  const [pasting, setPasting] = useState(false);
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,13 +44,12 @@ function DataInput() {
   }, []);
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
-      <div className="space-y-2">
-        <label htmlFor="data-paste" className="text-sm font-medium">
-          Paste data
-        </label>
-        <div
-          className="relative"
+    <div className="space-y-6">
+      <div className="grid gap-3 md:grid-cols-2">
+        {/* Drop zone: the whole card is a button that opens the file picker. */}
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
           onDragOver={(e) => {
             e.preventDefault();
             setDragging(true);
@@ -59,59 +60,81 @@ function DataInput() {
             setDragging(false);
             void loadFile(e.dataTransfer.files[0]);
           }}
-        >
-          <Textarea
-            id="data-paste"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            spellCheck={false}
-            placeholder={"Paste CSV, TSV or JSON, or cells copied from a spreadsheet\n\ncountry,year,value\nNorway,2024,12.5\n…"}
-            className="h-56 resize-y font-mono text-xs"
-          />
-          {dragging && (
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center rounded-lg border-2 border-dashed border-primary bg-background/80">
-              <p className="flex items-center gap-2 font-medium">
-                <FileUp className="size-5" aria-hidden /> Drop the file to load it
-              </p>
-            </div>
+          className={cn(
+            "flex min-h-40 flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center transition-colors outline-none hover:border-(--tone) hover:bg-(--tone-soft) focus-visible:ring-3 focus-visible:ring-ring/50",
+            dragging && "border-(--tone) bg-(--tone-soft)",
           )}
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button onClick={() => loadText(text, "Pasted data")} disabled={!text.trim()}>
-            Use this data
-          </Button>
-          <span className="text-sm text-muted-foreground">or</span>
-          <Button variant="outline" onClick={() => inputRef.current?.click()}>
-            <FileUp /> Upload a file
-          </Button>
-          <input
-            ref={inputRef}
-            data-testid="data-file-input"
-            type="file"
-            accept={ACCEPT}
-            className="sr-only"
-            tabIndex={-1}
-            aria-hidden
-            onChange={(e) => {
-              void loadFile(e.target.files?.[0]);
-              e.target.value = "";
-            }}
-          />
-        </div>
+        >
+          <span className="flex size-12 items-center justify-center rounded-full bg-(--tone-soft) text-(--tone-fg)">
+            <Upload className="size-6" aria-hidden />
+          </span>
+          <span>
+            <span className="block font-medium">{dragging ? "Drop it!" : "Upload a file"}</span>
+            <span className="block text-xs text-muted-foreground">CSV · TSV · JSON</span>
+          </span>
+        </button>
+        <input
+          ref={inputRef}
+          data-testid="data-file-input"
+          type="file"
+          accept={ACCEPT}
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden
+          onChange={(e) => {
+            void loadFile(e.target.files?.[0]);
+            e.target.value = "";
+          }}
+        />
+
+        {pasting ? (
+          <div className="flex min-h-40 flex-col gap-2">
+            <label htmlFor="data-paste" className="sr-only">
+              Paste data
+            </label>
+            <Textarea
+              id="data-paste"
+              autoFocus
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              spellCheck={false}
+              placeholder={"name,value\nApples,12\nPears,7"}
+              className="min-h-28 flex-1 resize-y font-mono text-xs"
+            />
+            <Button onClick={() => loadText(text, "Pasted data")} disabled={!text.trim()}>
+              Use this data
+            </Button>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setPasting(true)}
+            className="flex min-h-40 flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed p-6 text-center transition-colors outline-none hover:border-(--tone) hover:bg-(--tone-soft) focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <span className="flex size-12 items-center justify-center rounded-full bg-(--tone-soft) text-(--tone-fg)">
+              <ClipboardPaste className="size-6" aria-hidden />
+            </span>
+            <span>
+              <span className="block font-medium">Paste data</span>
+              <span className="block text-xs text-muted-foreground">From Excel, Sheets or text</span>
+            </span>
+          </button>
+        )}
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-sm font-medium">Or try a sample</h3>
-        <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+        <h3 className="text-sm font-medium text-muted-foreground">Or start from a sample</h3>
+        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {samples.map((s) => (
             <li key={s.id}>
               <button
                 type="button"
                 onClick={() => loadSample(s.id)}
-                className="w-full rounded-lg border px-3 py-2 text-left transition-colors outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50"
+                title={s.description}
+                className="flex w-full flex-col items-center gap-2 rounded-lg border p-3 text-center transition-colors outline-none hover:border-(--tone) hover:bg-(--tone-soft) focus-visible:ring-3 focus-visible:ring-ring/50"
               >
-                <span className="block text-sm font-medium">{s.name}</span>
-                <span className="block text-xs text-muted-foreground">{s.description}</span>
+                <ChartThumb id={s.chart} className="text-(--tone-fg)" />
+                <span className="text-xs font-medium">{s.name}</span>
               </button>
             </li>
           ))}
@@ -135,13 +158,14 @@ function DataTable() {
             {dataset.columns.map((c) => (
               <th key={c.name} scope="col" className="min-w-32 border-b px-2 py-1.5 text-left align-top font-medium">
                 <div className="flex items-center gap-1.5">
-                  <TypeIcon type={c.type} className="text-muted-foreground" />
+                  <TypeIcon type={c.type} />
                   <span className="truncate" title={c.name}>
                     {c.name}
                   </span>
                 </div>
                 <select
                   aria-label={`Type of ${c.name}`}
+                  title="Detected automatically; change it if it looks wrong"
                   value={c.type}
                   onChange={(e) => setColumnType(c.name, e.target.value as ColumnType)}
                   className={cn(selectClassName, "mt-1 h-7 text-xs font-normal")}
@@ -190,44 +214,44 @@ export function DataStep() {
   const error = useChartStore((s) => s.error);
   const setError = useChartStore((s) => s.setError);
   const clearData = useChartStore((s) => s.clearData);
-  const [editing, setEditing] = useState(false);
-  const showInput = !dataset || editing;
+  const [replacing, setReplacing] = useState(false);
+  const showInput = !dataset || replacing;
 
-  // Leave edit mode once new data loads.
+  // Leave replace mode once new data loads.
   const loadedText = source?.text;
   const [seenText, setSeenText] = useState(loadedText);
   if (loadedText !== seenText) {
     setSeenText(loadedText);
-    setEditing(false);
+    setReplacing(false);
   }
 
   return (
-    <Step
-      number={1}
-      title="Load your data"
-      description={
-        dataset && !editing
-          ? `${source?.name} · ${dataset.rows.length.toLocaleString()} rows · ${dataset.columns.length} columns`
-          : "CSV, TSV, JSON or spreadsheet cells. Your data stays in your browser."
-      }
+    <Panel
+      title={dataset && !replacing ? (source?.name ?? "Your data") : "Add your data"}
       aside={
         dataset && (
-          <div className="flex gap-1">
-            {editing ? (
-              <Button variant="ghost" size="sm" onClick={() => setEditing(false)}>
-                Cancel
-              </Button>
-            ) : (
-              <Button variant="ghost" size="sm" onClick={() => setEditing(true)}>
-                <Pencil /> Change data
-              </Button>
+          <div className="flex items-center gap-1">
+            {!replacing && (
+              <span className="mr-1 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground tabular-nums">
+                {dataset.rows.length.toLocaleString()} × {dataset.columns.length}
+              </span>
             )}
-            <Button variant="ghost" size="sm" onClick={clearData} aria-label="Remove data">
-              <X /> <span className="max-sm:hidden">Clear</span>
+            <Button variant="ghost" size="sm" onClick={() => setReplacing(!replacing)}>
+              {replacing ? (
+                "Cancel"
+              ) : (
+                <>
+                  <RefreshCw /> Replace
+                </>
+              )}
+            </Button>
+            <Button variant="ghost" size="icon-sm" onClick={clearData} aria-label="Remove data" title="Remove data">
+              <X />
             </Button>
           </div>
         )
       }
+      next={dataset && !replacing ? { label: "Choose a chart" } : undefined}
     >
       {error && (
         <div role="alert" className="mb-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -238,17 +262,8 @@ export function DataStep() {
           </button>
         </div>
       )}
-      {showInput ? (
-        <DataInput key={source?.text ?? ""} />
-      ) : (
-        <div className="space-y-2">
-          <DataTable />
-          <p className="text-xs text-muted-foreground">
-            {dataset.rows.length > PREVIEW_ROWS && `Showing the first ${PREVIEW_ROWS} rows. `}
-            Column types were detected automatically; change one if it looks wrong.
-          </p>
-        </div>
-      )}
-    </Step>
+      {showInput ? <DataInput /> : <DataTable />}
+    </Panel>
   );
 }
+

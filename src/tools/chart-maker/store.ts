@@ -24,7 +24,12 @@ export interface DataSource {
   sampleId: string | null;
 }
 
+/** Editor steps, in order. */
+export const STEPS = ["data", "chart", "map", "style"] as const;
+export type StepId = (typeof STEPS)[number];
+
 interface ChartMakerState {
+  step: StepId;
   source: DataSource | null;
   raw: RawTable | null;
   dataset: Dataset | null;
@@ -33,6 +38,7 @@ interface ChartMakerState {
   mapping: Mapping;
   options: Options;
 
+  goTo: (step: StepId) => void;
   /** Parse pasted or uploaded text. Returns false and sets `error` on failure. */
   loadText: (text: string, name: string) => boolean;
   loadSample: (id: string) => void;
@@ -54,6 +60,7 @@ function withChart(chartId: string | null, dataset: Dataset | null, previous: Ma
 }
 
 export const useChartStore = create<ChartMakerState>()((set, get) => ({
+  step: "data",
   source: null,
   raw: null,
   dataset: null,
@@ -61,6 +68,8 @@ export const useChartStore = create<ChartMakerState>()((set, get) => ({
   chartId: null,
   mapping: {},
   options: {},
+
+  goTo: (step) => set({ step }),
 
   loadText: (text, name) => {
     try {
@@ -72,6 +81,7 @@ export const useChartStore = create<ChartMakerState>()((set, get) => ({
         dataset,
         error: null,
         mapping: withChart(s.chartId, dataset, s.mapping),
+        step: "chart",
       }));
       return true;
     } catch (err) {
@@ -93,10 +103,11 @@ export const useChartStore = create<ChartMakerState>()((set, get) => ({
       chartId: chart.id,
       mapping: sample.mapping,
       options: carryOptions(s.options, defaultOptions(chart)),
+      step: "map",
     }));
   },
 
-  clearData: () => set({ source: null, raw: null, dataset: null, error: null, mapping: {} }),
+  clearData: () => set({ source: null, raw: null, dataset: null, error: null, mapping: {}, step: "data" }),
 
   setColumnType: (column, type) => {
     const { raw, dataset, chartId, mapping } = get();
@@ -113,6 +124,7 @@ export const useChartStore = create<ChartMakerState>()((set, get) => ({
       chartId: id,
       mapping: s.dataset ? suggestMapping(chart, s.dataset, s.mapping) : {},
       options: carryOptions(s.options, defaultOptions(chart)),
+      step: "map",
     }));
   },
 

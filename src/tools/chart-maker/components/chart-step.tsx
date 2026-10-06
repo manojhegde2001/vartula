@@ -1,8 +1,10 @@
 "use client";
 
+import { Check } from "lucide-react";
 import { charts } from "../engine";
 import { useChartStore } from "../store";
-import { chartIcons, Step } from "./parts";
+import { ChartThumb } from "./chart-thumbs";
+import { Panel } from "./parts";
 import { cn } from "@/lib/utils";
 
 export function ChartStep() {
@@ -10,10 +12,9 @@ export function ChartStep() {
   const selectChart = useChartStore((s) => s.selectChart);
 
   return (
-    <Step number={2} title="Choose a chart" description="Each chart asks for different columns in the next step.">
-      <div role="radiogroup" aria-label="Chart type" className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+    <Panel title="Pick a chart" next={{ label: "Map columns", disabled: !chartId }}>
+      <div role="radiogroup" aria-label="Chart type" className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-6">
         {charts.map((c) => {
-          const Icon = chartIcons[c.id];
           const checked = c.id === chartId;
           return (
             <button
@@ -24,19 +25,21 @@ export function ChartStep() {
               title={c.description}
               onClick={() => selectChart(c.id)}
               className={cn(
-                "flex flex-col items-start gap-2 rounded-lg border p-3 text-left transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-                checked ? "border-primary bg-primary/5 ring-1 ring-primary" : "hover:bg-muted",
+                "group relative flex flex-col items-center gap-2 rounded-xl border p-3 pt-4 text-center transition-all outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                checked ? "border-(--tone) bg-(--tone-soft) ring-1 ring-(--tone)" : "hover:-translate-y-0.5 hover:border-(--tone-muted) hover:shadow-sm",
               )}
             >
-              <Icon className={cn("size-6", checked ? "text-primary" : "text-muted-foreground")} aria-hidden />
-              <span>
-                <span className="block text-sm font-medium">{c.name}</span>
-                <span className="block text-xs text-muted-foreground">{c.family}</span>
-              </span>
+              {checked && (
+                <span className="absolute top-2 right-2 flex size-5 items-center justify-center rounded-full bg-(--tone) text-white">
+                  <Check className="size-3" aria-hidden />
+                </span>
+              )}
+              <ChartThumb id={c.id} className={cn("h-14 w-20 transition-colors", checked ? "text-(--tone-fg)" : "text-muted-foreground group-hover:text-(--tone-fg)")} />
+              <span className="text-sm font-medium">{c.name}</span>
             </button>
           );
         })}
       </div>
-    </Step>
+    </Panel>
   );
 }
