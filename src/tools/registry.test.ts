@@ -16,6 +16,11 @@ describe("tool registry", () => {
     expect(getTool("svg-animator")?.name).toBe("SVG Animator");
   });
 
+  it("registers the Chart Maker", () => {
+    expect(getTool("chart-maker")?.category).toBe("Data");
+    expect(filterTools(tools, "sankey").map((t) => t.slug)).toEqual(["chart-maker"]);
+  });
+
   it("has a component for every tool", () => {
     for (const tool of tools) expect(toolComponents[tool.slug]).toBeTypeOf("function");
   });

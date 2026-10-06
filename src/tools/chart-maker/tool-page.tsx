@@ -1,7 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { InlineCode } from "@/components/inline-code";
 import { JsonLd } from "@/components/json-ld";
-import { SvgAnimatorEditorLoader } from "./components/editor-loader";
+import { ChartMakerEditorLoader } from "./components/editor-loader";
 import { content } from "./content";
 
 const faqJsonLd = {
@@ -14,11 +14,11 @@ const faqJsonLd = {
   })),
 };
 
-export default function SvgAnimatorToolPage() {
+export default function ChartMakerToolPage() {
   return (
     <>
       <JsonLd data={faqJsonLd} />
-      <SvgAnimatorEditorLoader />
+      <ChartMakerEditorLoader />
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2">
         <div className="space-y-10">
@@ -39,14 +39,14 @@ export default function SvgAnimatorToolPage() {
             ))}
           </section>
 
-          <section aria-labelledby="formats-heading" className="space-y-4">
-            <h2 id="formats-heading" className="text-2xl font-semibold tracking-tight">
+          <section aria-labelledby="charts-heading" className="space-y-4">
+            <h2 id="charts-heading" className="text-2xl font-semibold tracking-tight">
               {content.features.title}
             </h2>
             <table className="w-full text-sm">
               <thead className="sr-only">
                 <tr>
-                  <th scope="col">Format</th>
+                  <th scope="col">Chart</th>
                   <th scope="col">Best for</th>
                 </tr>
               </thead>

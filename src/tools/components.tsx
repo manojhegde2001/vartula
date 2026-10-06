@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import ChartMakerToolPage from "@/tools/chart-maker/tool-page";
 import SvgAnimatorToolPage from "@/tools/svg-animator/tool-page";
 
 /**
@@ -7,4 +8,5 @@ import SvgAnimatorToolPage from "@/tools/svg-animator/tool-page";
  */
 export const toolComponents: Record<string, ComponentType> = {
   "svg-animator": SvgAnimatorToolPage,
+  "chart-maker": ChartMakerToolPage,
 };

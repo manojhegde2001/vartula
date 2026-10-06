@@ -8,6 +8,7 @@ const KB = 1024;
 const budgets = {
   "index.html": 190 * KB,
   "tools/svg-animator.html": 315 * KB,
+  "tools/chart-maker.html": 265 * KB,
 };
 
 const nextDir = path.resolve(".next");

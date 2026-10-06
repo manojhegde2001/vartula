@@ -1,4 +1,5 @@
 import type { ToolContent } from "@/lib/tool-content";
+import { content as chartMaker } from "@/tools/chart-maker/content";
 import { content as svgAnimator } from "@/tools/svg-animator/content";
 
 /**
@@ -7,4 +8,5 @@ import { content as svgAnimator } from "@/tools/svg-animator/content";
  */
 export const toolContents: Record<string, ToolContent> = {
   "svg-animator": svgAnimator,
+  "chart-maker": chartMaker,
 };
