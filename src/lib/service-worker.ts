@@ -122,16 +122,26 @@ async function networkFirst(request) {
   }
 }
 
+/**
+ * A worker's location comes from the URL of the response that served it, and Response URLs drop the
+ * #fragment, where Turbopack passes each worker its chunk list (#params=…). A constructed Response has
+ * no URL, so the worker keeps the one it was created with, fragment included.
+ */
+const forWorker = (request, res) =>
+  request.destination === "worker" || request.destination === "sharedworker"
+    ? new Response(res.body, { status: res.status, statusText: res.statusText, headers: res.headers })
+    : res;
+
 async function cacheFirst(request) {
   const statics = await caches.open(STATIC);
   const hit = await statics.match(request, { ignoreVary: true });
-  if (hit) return hit;
+  if (hit) return forWorker(request, hit);
   const res = await fetch(request);
   if (res.ok && res.type === "basic") {
     await statics.put(request, res.clone());
     trim(statics);
   }
-  return res;
+  return forWorker(request, res);
 }
 
 async function staleWhileRevalidate(event) {

@@ -18,6 +18,11 @@ test("tools open offline after the first visit", async ({ page, context }) => {
     if (!navigator.serviceWorker.controller) await new Promise((r) => navigator.serviceWorker.addEventListener("controllerchange", r, { once: true }));
   });
 
+  // Lazily loaded code is saved the first time it runs: use the data generator once while online,
+  // with its web worker served through the service worker.
+  await page.goto("/tools/test-data-generator");
+  await expect(page.getByTestId("preview-table").locator("tbody tr")).toHaveCount(20);
+
   await context.setOffline(true);
 
   // A tool that was never visited, served from the precache, and it still works.
@@ -28,6 +33,13 @@ test("tools open offline after the first visit", async ({ page, context }) => {
   await page.getByRole("button", { name: "Use this data" }).click();
   await page.getByRole("radio", { name: /Bar chart/ }).click();
   await expect(page.getByTestId("chart-preview").locator("svg")).toBeVisible();
+
+  // Offline, its worker comes from the cache and must keep its #params (Turbopack's chunk list).
+  await page.goto("/tools/test-data-generator");
+  await expect(page.getByTestId("preview-table").locator("tbody tr")).toHaveCount(20);
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: /Download 100 rows as JSON/ }).click();
+  expect((await download).suggestedFilename()).toBe("users.json");
 
   // A page that isn't cached falls back to the offline page.
   await page.goto("/terms");
