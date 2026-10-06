@@ -127,6 +127,21 @@
   }
   html {
     @apply font-sans;
+    color-scheme: light;
+  }
+  /* Native controls (select popups, date pickers, scrollbars) follow the theme, not the OS. */
+  html.dark {
+    color-scheme: dark;
+  }
+  /*
+   * An open <select> list is drawn by the browser, not the page: on Windows it ignores the select's
+   * translucent dark background but keeps its light text, leaving options invisible. Give options
+   * solid theme colours.
+   */
+  option,
+  optgroup {
+    background-color: var(--popover);
+    color: var(--popover-foreground);
   }
 }
 /* Transparency grid for previews with a transparent background. */

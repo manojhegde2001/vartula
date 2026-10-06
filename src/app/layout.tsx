@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { Analytics } from "@/components/analytics";
+import { ServiceWorker } from "@/components/service-worker";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <SiteFooter />
         </ThemeProvider>
         <Analytics />
+        <ServiceWorker />
       </body>
     </html>
   );

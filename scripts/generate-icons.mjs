@@ -43,6 +43,20 @@ function ico(images) {
   return Buffer.concat([header, ...images.map((img) => img.data)]);
 }
 
+/** Maskable icon: full-bleed background (the OS applies its own shape) with the mark inside the 80% safe zone. */
+function maskable() {
+  const size = 96;
+  const w = size * 0.5;
+  const h = (w * markH) / markW;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
+  <rect width="${size}" height="${size}" fill="#0c0d12"/>
+  <svg x="${(size - w) / 2}" y="${(size - h) / 2}" width="${w}" height="${h}" viewBox="${viewBox}">
+    <path fill="#ffffff" fill-rule="evenodd" d="${path}"/>
+  </svg>
+</svg>
+`;
+}
+
 const large = tile(0.72);
 const small = tile(0.84);
 
@@ -50,6 +64,7 @@ await writeFile("src/app/icon.svg", large);
 await writeFile("src/app/apple-icon.png", await png(large, 180));
 await writeFile("public/icon-192.png", await png(large, 192));
 await writeFile("public/icon-512.png", await png(large, 512));
+await writeFile("public/icon-maskable-512.png", await png(maskable(), 512));
 const favicon = await Promise.all([16, 32, 48].map(async (px) => ({ px, data: await png(small, px) })));
 await writeFile("src/app/favicon.ico", ico(favicon));
-console.log("Wrote icon.svg, favicon.ico, apple-icon.png, icon-192.png, icon-512.png");
+console.log("Wrote icon.svg, favicon.ico, apple-icon.png, icon-192.png, icon-512.png, icon-maskable-512.png");

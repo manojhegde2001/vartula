@@ -18,7 +18,7 @@ export const infoPages = [
     path: "/privacy",
     name: "Privacy Policy",
     description: `${siteConfig.name} processes your files in your browser and never uploads them. Read what little data we do handle.`,
-    updated: "2026-09-30",
+    updated: "2026-10-06",
   },
   {
     path: "/terms",
