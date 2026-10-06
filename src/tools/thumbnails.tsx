@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import ChartMakerThumbnail from "@/tools/chart-maker/thumbnail";
 import ImageConverterThumbnail from "@/tools/image-converter/thumbnail";
 import PdfToolkitThumbnail from "@/tools/pdf-toolkit/thumbnail";
+import TestDataGeneratorThumbnail from "@/tools/test-data-generator/thumbnail";
 import SvgAnimatorThumbnail from "@/tools/svg-animator/thumbnail";
 
 /**
@@ -14,4 +15,5 @@ export const toolThumbnails: Record<string, ComponentType> = {
   "chart-maker": ChartMakerThumbnail,
   "image-converter": ImageConverterThumbnail,
   "pdf-toolkit": PdfToolkitThumbnail,
+  "test-data-generator": TestDataGeneratorThumbnail,
 };

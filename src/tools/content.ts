@@ -2,6 +2,7 @@ import type { ToolContent } from "@/lib/tool-content";
 import { content as chartMaker } from "@/tools/chart-maker/content";
 import { content as imageConverter } from "@/tools/image-converter/content";
 import { content as pdfToolkit } from "@/tools/pdf-toolkit/content";
+import { content as testDataGenerator } from "@/tools/test-data-generator/content";
 import { content as svgAnimator } from "@/tools/svg-animator/content";
 
 /**
@@ -13,4 +14,5 @@ export const toolContents: Record<string, ToolContent> = {
   "chart-maker": chartMaker,
   "image-converter": imageConverter,
   "pdf-toolkit": pdfToolkit,
+  "test-data-generator": testDataGenerator,
 };
