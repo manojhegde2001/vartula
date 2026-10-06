@@ -169,7 +169,8 @@ export function SignatureDialog({ open, onOpenChange }: { open: boolean; onOpenC
     } else if (tab === "type") {
       const f = signatureFonts.find((x) => x.id === font)!;
       const css = `${f.weight} 120px ${f.family}`;
-      await document.fonts.load(css, text);
+      // Wait for the web font so the canvas doesn't draw a fallback. If it can't load, draw anyway.
+      if (f.primary) await document.fonts.load(`${f.weight} 120px ${f.primary}`, text).catch(() => {});
       ctx.font = css;
       canvas.width = Math.ceil(ctx.measureText(text).width + 80);
       canvas.height = 220;
@@ -307,7 +308,10 @@ export function SignatureDialog({ open, onOpenChange }: { open: boolean; onOpenC
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel
           </Button>
-          <Button onClick={() => void create()} disabled={!ready}>
+          <Button
+            onClick={() => void create().catch((err: unknown) => setError(err instanceof Error ? err.message : "Could not create the signature."))}
+            disabled={!ready}
+          >
             Add signature
           </Button>
         </DialogFooter>
