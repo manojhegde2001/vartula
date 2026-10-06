@@ -1,23 +1,28 @@
 import { readFile } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 
+const steps = (page: import("@playwright/test").Page) => page.getByRole("navigation", { name: "Steps" });
+
 test("paste data, pick a chart, map columns and export SVG and PNG", async ({ page }) => {
   await page.goto("/tools/chart-maker");
 
+  await page.getByRole("button", { name: /Paste data/ }).click();
   await page.getByLabel("Paste data").fill("fruit,season,sold\nApple,Spring,10\nApple,Summer,14\nPear,Spring,7\nPear,Summer,3\nPlum,Summer,9");
   await page.getByRole("button", { name: "Use this data" }).click();
-  await expect(page.getByText(/Pasted data · 5 rows · 3 columns/)).toBeVisible();
 
+  // Loading data moves on to the chart picker; picking a chart moves on to mapping.
   await page.getByRole("radio", { name: /Bar chart/ }).click();
+  await expect(page.getByRole("heading", { name: "Map columns · Bar chart" })).toBeVisible();
   // Required dimensions are filled automatically; add the series by hand.
   await page.getByLabel("Add a column to Group by").selectOption("season");
 
   const preview = page.getByTestId("chart-preview");
-  await expect(preview.locator("svg")).toBeVisible();
   await expect(preview.locator("rect title", { hasText: "Apple · Summer: 14" })).toHaveCount(1);
   await expect(preview.locator(".legend")).toContainText("Summer");
 
-  await page.getByLabel("Orientation").selectOption("horizontal");
+  await page.getByRole("button", { name: /Style & export/ }).click();
+  await page.getByRole("radio", { name: "Horizontal" }).click();
+  await page.getByRole("tab", { name: "Size" }).click();
   await page.getByLabel("Width", { exact: true }).fill("640");
   await page.getByLabel("Width", { exact: true }).blur();
   await expect(preview.locator("svg")).toHaveAttribute("width", "640");
@@ -40,17 +45,20 @@ test("paste data, pick a chart, map columns and export SVG and PNG", async ({ pa
 test("samples load with their chart, and switching charts remaps columns", async ({ page }) => {
   await page.goto("/tools/chart-maker");
   await page.getByRole("button", { name: /Customer journeys/ }).click();
-  await expect(page.getByRole("radio", { name: /Alluvial diagram/ })).toHaveAttribute("aria-checked", "true");
+  await expect(page.getByRole("heading", { name: "Map columns · Alluvial diagram" })).toBeVisible();
   const preview = page.getByTestId("chart-preview");
   await expect(preview).toContainText("Referral");
 
+  await steps(page).getByRole("button", { name: "Chart" }).click();
   await page.getByRole("radio", { name: /Treemap/ }).click();
   await expect(page.getByTestId("dimension-levels")).toContainText("channel");
   await expect(preview.locator("svg")).toBeVisible();
 
   // Forcing a wrong type flags the cells and drops the column from Size (rows are counted instead).
+  await steps(page).getByRole("button", { name: "Data" }).click();
   await page.getByLabel("Type of customers").selectOption("date");
   await expect(page.locator("td[title^='Not a valid date']").first()).toBeVisible();
+  await steps(page).getByRole("button", { name: "Map" }).click();
   await expect(page.getByTestId("dimension-size")).not.toContainText("customers");
   await expect(preview.locator("svg")).toBeVisible();
 });
