@@ -12,6 +12,14 @@ export function downloadBlob(blob: Blob, filename: string) {
   setTimeout(() => URL.revokeObjectURL(url), 10_000);
 }
 
+/** Bundle files into a .zip (stored, not deflated: images and PDFs are already compressed) and download it. */
+export async function downloadZip(files: { name: string; blob: Blob }[], filename: string) {
+  const { zipSync } = await import("fflate");
+  const entries: Record<string, [Uint8Array, { level: 0 }]> = {};
+  for (const f of files) entries[f.name] = [new Uint8Array(await f.blob.arrayBuffer()), { level: 0 }];
+  downloadBlob(new Blob([zipSync(entries) as Uint8Array<ArrayBuffer>], { type: "application/zip" }), filename);
+}
+
 export function downloadText(text: string, filename: string, mime = "text/plain") {
   downloadBlob(new Blob([text], { type: `${mime};charset=utf-8` }), filename);
 }
