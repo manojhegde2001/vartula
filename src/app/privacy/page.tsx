@@ -62,6 +62,12 @@ export default function PrivacyPage() {
           on your device. When you copy a share link, the tool settings are placed in the link after “#”. Browsers
           don’t send that part of an address to any server, so only the people you share the link with see it.
         </p>
+        <p>
+          So the tools open and work without an internet connection, your browser also keeps a copy of{" "}
+          {siteConfig.name}’s own pages and code in its cache (a “service worker” cache). It holds only files from
+          this website, never your files, settings or results, and it never leaves your device. You can remove it at
+          any time by clearing this site’s data in your browser settings.
+        </p>
       </section>
 
       <section>
