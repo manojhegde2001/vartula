@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { infoMetadata } from "@/lib/seo";
 import { InfoPage, MailLink } from "@/components/info-page";
 import { siteConfig } from "@/lib/site";
 import { toolPath, tools } from "@/tools/registry";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: `What ${siteConfig.name} is, why every tool runs in your browser, and who it's for.`,
-  alternates: { canonical: "/about" },
-};
+export const metadata: Metadata = infoMetadata("/about");
 
 export default function AboutPage() {
   return (

@@ -17,7 +17,7 @@ Every tool runs fully client-side; nothing is uploaded to a server.
 
 - **Every tool lives in `src/tools/<slug>/`.** Nothing tool-specific goes anywhere else
   except its one-line entries in `src/tools/registry.ts`, `src/tools/components.tsx`, `src/tools/content.ts`
-  and (optionally) `src/tools/thumbnails.tsx`.
+  and (optionally) `src/tools/thumbnails.tsx` and `src/tools/og-art.tsx`.
 - Each tool's long-form copy (how-to, features, FAQ) lives in its `content.ts` as a `ToolContent`.
   The tool page renders it as HTML and `/llms.txt`, `/llms-full.txt` and `/tools/<slug>.md` serve it as Markdown,
   so edit copy there rather than hard-coding it in JSX.
@@ -49,6 +49,7 @@ src/
     components.tsx        slug -> server component that renders the tool page
     content.ts            slug -> long-form copy (ToolContent) for Markdown and llms.txt
     thumbnails.tsx        slug -> server-rendered SVG preview for home cards (kept apart so home never imports editors)
+    og-art.tsx            slug -> artwork on the tool's link-preview card (app/tools/[slug]/opengraph-image.tsx)
     svg-animator/
       tool-page.tsx       server component: editor + SEO copy + FAQ (+ FAQPage JSON-LD)
       content.ts          ToolContent: summary, how-to, export formats, FAQ
@@ -68,7 +69,8 @@ e2e/                      Playwright smoke and integration tests
 1. Create `src/tools/<slug>/tool-page.tsx` (plus `engine/`, `components/` as needed).
 2. Add an entry to `tools` in `src/tools/registry.ts` (add an icon to `src/components/tool-icon.tsx` if new).
 3. Map the slug in `src/tools/components.tsx`, and its `content.ts` in `src/tools/content.ts`.
-   Optionally add a `thumbnail.tsx` and map it in `src/tools/thumbnails.tsx` (cards fall back to the icon).
+   Optionally add a `thumbnail.tsx` and map it in `src/tools/thumbnails.tsx` (cards fall back to the icon),
+   and an `og-art.tsx` mapped in `src/tools/og-art.tsx` for the share card (plain SVG colours: Satori has no CSS variables).
 4. The home grid, route, sitemap, robots, metadata, llms.txt and Markdown twin pick it up automatically.
 
 ## Commands

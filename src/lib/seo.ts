@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { infoPage, type InfoPath } from "@/lib/pages";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { toolMarkdownPath } from "@/lib/tool-content";
 import { toolPath, type Tool } from "@/tools/registry";
@@ -76,6 +77,19 @@ export function breadcrumbJsonLd(tool: Tool) {
       { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
       { "@type": "ListItem", position: 2, name: tool.name, item: absoluteUrl(toolPath(tool.slug)) },
     ],
+  };
+}
+
+/** Metadata for an info page; its share card is the opengraph-image file in the page folder. */
+export function infoMetadata(path: InfoPath): Metadata {
+  const { name, description } = infoPage(path);
+  const title = `${name} | ${siteConfig.name}`;
+  return {
+    title: name,
+    description,
+    alternates: { canonical: path },
+    openGraph: { type: "website", url: path, title, description, siteName: siteConfig.name, locale: "en_US" },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

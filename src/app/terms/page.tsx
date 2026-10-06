@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { infoMetadata } from "@/lib/seo";
 import { InfoPage, MailLink } from "@/components/info-page";
 import { siteConfig } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Terms of Use",
-  description: `The terms for using ${siteConfig.name}'s free in-browser design tools, and who owns what you create.`,
-  alternates: { canonical: "/terms" },
-};
+export const metadata: Metadata = infoMetadata("/terms");
 
 export default function TermsPage() {
   return (
